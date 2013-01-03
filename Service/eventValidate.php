@@ -1,6 +1,8 @@
 <?php
 
-class eventValidateService
+namespace FabBackend\Service;
+
+class eventValidate
 {
     public function __construct()
     {

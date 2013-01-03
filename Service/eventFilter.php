@@ -1,6 +1,8 @@
 <?php
 
-class eventFilterService
+namespace FabBackend\Service;
+
+class eventFilter
 {
     public function __construct()
     {
@@ -9,14 +11,14 @@ class eventFilterService
     
     public function getInstance()
     {
-        return new eventFilterService();
+        return new \FabBackend\Service\eventFilter();
     }
     
-    public function filter(lw_ddd_valueObject $valueObject)
+    public function filter(\lw_ddd_valueObject $valueObject)
     {
         $values = $valueObject->getValues();
         $filteredValues['id'] = intval($values['id']);
         $filteredValues['name'] = substr(trim($values['name']), 0, 255);
-        return new lw_ddd_valueObject($filteredValues);
+        return new \lw_ddd_valueObject($filteredValues);
     }
 }

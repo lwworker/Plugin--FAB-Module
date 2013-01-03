@@ -19,22 +19,23 @@ class BackendController extends \lw_ddd_controller
     
     public function showAddFormAction()
     {
-        $formView = new eventFormView($this->domainEvent);
+        $formView = new \FabBackend\View\eventForm($this->domainEvent);
         $this->response->addOutputByName('FabBackend', $formView->render());
     }
     
-    public function addEntityAction()
+    public function addEventAction()
     {
-        $filteredValueObject = eventFilterService::getInstance()->filter($this->domainEvent->getValueObject());
-        $entity = new eventObject($filteredValueObject);
-        $entity->setValidateService(new eventValidateService());
+        $filteredValueObject = \FabBackend\Service\eventFilter::getInstance()->filter($this->domainEvent->getValueObject());
+        $entity = new \FabBackend\Object\event($filteredValueObject);
+        $entity->setValidateService(new \FabBackend\Service\eventValidate());
         $entity->validate();
         $this->domainEvent->setEntity($entity);
         if ($entity->isValid())
         {
             try {
-                $this->commandBus->register('addEntityAction', new eventCommandHandlerModel());
-                $this->commandBus->handle($this->domainEvent);
+                $this->commandBus->register('addEventAction', new \FabBackend\Model\eventCommandHandler());
+                $entity = $this->commandBus->handle($this->domainEvent);
+                die("saved");
             }
             catch (Exception $e)
             {

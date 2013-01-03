@@ -1,6 +1,8 @@
 <?php
 
-class eventObject extends lw_ddd_entity
+namespace FabBackend\Object;
+
+class event extends \lw_ddd_entity
 {
     public function __construct($data)
     {

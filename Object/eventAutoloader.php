@@ -4,7 +4,7 @@ namespace FabBackend\Object;
 
 class eventAutoloader
 {
-    public function __construct() 
+    public function __construct()
     {
         spl_autoload_register(array($this, 'loader'));
     }
