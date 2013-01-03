@@ -1,0 +1,11 @@
+<h1>Entities</h1>
+<div>
+    <a href="<?php echo $this->addUrl; ?>">add entity</a>
+</div>
+<ul>
+    <?php foreach ($this->entities as $entity): ?>
+    <li>
+        <?php echo $entity->getValueByKey('name'); ?> (<?php echo $entity->getValueByKey('id'); ?>) 
+    </li>
+    <?php endforeach; ?>
+</ul>

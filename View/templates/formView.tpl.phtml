@@ -1,0 +1,14 @@
+<form action="<?php echo $this->actionUrl; ?>" method="post">
+    <?php if(is_array($this->errors)): ?>
+    <div style="color:red">Es gibt Fehler!</div>
+    <?php endif; ?>
+    <div class="formFieldWrapper">
+        <div class="formFieldLabel">
+            name:
+        </div>
+        <div class="formFieldInput">
+            <input type="text" name="name" value="<?php if($this->entity): echo $this->entity['name']; endif; ?>" />
+        </div>
+    </div>
+    <input type="submit" value="add" />
+</form>
