@@ -12,7 +12,7 @@ class eventAggregateFactory
             $items = $queryHandler->getAllEvents();
         }
         foreach($items as $item) {
-            $entities[] = new eventObject($item);
+            $entities[] = new FabBackend\Object\event($item);
         }
         return new \lw_ddd_entityAggregate($entities);
     }

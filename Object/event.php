@@ -6,7 +6,7 @@ class event extends \lw_ddd_entity
 {
     public function __construct($data)
     {
-        $this->allowedKeys = array("id", "name");
+        $this->allowedKeys = array("id", "buchungskreis", "bezeichnung");
         parent::__construct($data);
     }
 

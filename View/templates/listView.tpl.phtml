@@ -2,6 +2,45 @@
 <div>
     <a href="<?php echo $this->addUrl; ?>">add entity</a>
 </div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tagung</th>
+            <th>Anmeldezeitraum</th>
+            <th>Tagungsschl&uuml;ssel</th>
+            <th>Kontierungsobjekt</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td><a href="<?php echo $this->editUrl; ?>">Tagung 1</a></td>
+            <td>12.09.2012 - 15.09.2012</td>
+            <td>924569546</td>
+            <td>270</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><a href="">Tagung 2</a></td>
+            <td>12.09.2012 - 15.09.2012</td>
+            <td>924569546</td>
+            <td>270</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><a href="">Tagung 3</a></td>
+            <td>12.09.2012 - 15.09.2012</td>
+            <td>924569546</td>
+            <td>270</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<?php if (1==2): ?>
 <ul>
     <?php foreach ($this->entities as $entity): ?>
     <li>
@@ -9,3 +48,4 @@
     </li>
     <?php endforeach; ?>
 </ul>
+<?php endif; ?>

@@ -23,6 +23,44 @@ class BackendController extends \lw_ddd_controller
         $this->response->addOutputByName('FabBackend', $formView->render());
     }
     
+    public function showEditFormAction()
+    {
+        if (!$this->domainEvent->hasEntity()) {
+            $queryHandler = new \FabBackend\Model\eventQueryHandler();
+            $data = $queryHandler->getEventById($this->domainEvent->getId());
+            $event = new \FabBackend\Object\event($data);
+            $this->domainEvent->setEntity($event);
+        }
+        $formView = new \FabBackend\View\eventForm($this->domainEvent);
+        $this->response->addOutputByName('FabBackend', $formView->render());
+    }
+    
+    public function saveEventAction()
+    {
+        $filteredValueObject = \FabBackend\Service\eventFilter::getInstance()->filter($this->domainEvent->getValueObject());
+        $entity = new \FabBackend\Object\event($filteredValueObject);
+        $entity->setId($this->domainEvent->getId());
+        $entity->setValidateService(new \FabBackend\Service\eventValidate());
+        $entity->validate();
+        $this->domainEvent->setEntity($entity);
+        if ($entity->isValid())
+        {
+            try {
+                $this->commandBus->register('saveEventAction', new \FabBackend\Model\eventCommandHandler());
+                $entity = $this->commandBus->handle($this->domainEvent);
+                die("saved");
+            }
+            catch (Exception $e)
+            {
+                die($e->getMessage());
+            }
+        }
+        else {
+            $this->showEditFormAction();
+        }
+    }
+    
+    
     public function addEventAction()
     {
         $filteredValueObject = \FabBackend\Service\eventFilter::getInstance()->filter($this->domainEvent->getValueObject());

@@ -1,14 +1,154 @@
-<form action="<?php echo $this->actionUrl; ?>" method="post">
+<h2>Tagung</h2>
+<div class="well well-small">
+    Einleitungstext...
+</div>
+<form action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal">
     <?php if(is_array($this->errors)): ?>
     <div style="color:red">Es gibt Fehler!</div>
     <?php endif; ?>
-    <div class="formFieldWrapper">
-        <div class="formFieldLabel">
-            name:
-        </div>
-        <div class="formFieldInput">
-            <input type="text" name="name" value="<?php if($this->entity): echo $this->entity['name']; endif; ?>" />
+    
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="buchungskreis">Buchungskreis</label>
+        <div class="controls">
+            <input class="input-mini" type="text" id="buchungskreis" name="buchungskreis" placeholder="0100" value="<?php if($this->entity): echo $this->entity['buchungskreis']; endif; ?>" />
         </div>
     </div>
-    <input type="submit" value="add" />
+
+    <div class="control-group">
+        <label class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;ssel</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="v_schluessel" name="v_schluessel" placeholder="Veranstaltungsschl&uuml;ssel" value="<?php if($this->entity): echo $this->entity['v_schluessel']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="auftragsnr">Auftrags-/Projektnummer</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="auftragsnr" name="auftragsnr" placeholder="Auftrags-/Projektnummer" value="<?php if($this->entity): echo $this->entity['auftragsnr']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="bezeichnung">Bezeichnung</label>
+        <div class="controls">
+            <input class="input-xxlarge" type="text" id="bezeichnung" name="bezeichnung" placeholder="Bezeichnung" value="<?php if($this->entity): echo $this->entity['bezeichnung']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="v_land">Veranstaltungsland</label>
+        <div class="controls">
+            <input class="input-mini" type="text" id="v_land" name="v_land" placeholder="Veranstaltungsland" value="<?php if($this->entity): echo $this->entity['v_land']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="v_ort">Veranstaltungsort</label>
+        <div class="controls">
+            <input class="input-xlarge" type="text" id="v_ort" name="v_ort" placeholder="Veranstaltungsort" value="<?php if($this->entity): echo $this->entity['v_ort']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="anmeldefrist_beginn">Beginn der Anmeldefrist</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="anmeldefrist_beginn" name="anmeldefrist_beginn" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['anmeldefrist_beginn']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="anmeldefrist_ende">Ende der Anmeldefrist</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="anmeldefrist_ende" name="anmeldefrist_ende" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['anmeldefrist_ende']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="v_beginn">Beginn der Veranstaltung</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="v_beginn" name="v_beginn" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['v_beginn']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="v_ende">Ende der Veranstaltung</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="v_ende" name="v_ende" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['v_ende']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="cpd_konto">CPD Debitorkonto</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="cpd_konto" name="cpd_konto" placeholder="CPD Debitorkonto" value="<?php if($this->entity): echo $this->entity['cpd_konto']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="erloeskonto">Erl&ouml;skonto</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="erloeskonto" name="erloeskonto" placeholder="Erl&ouml;skonto" value="<?php if($this->entity): echo $this->entity['erloeskonto']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="steuerkennzeichen">Steuerkennzeichen</label>
+        <div class="controls">
+            <input class="input-mini" type="text" id="steuerkennzeichen" name="steuerkennzeichen" placeholder="Steuerkennzeichen" value="<?php if($this->entity): echo $this->entity['steuerkennzeichen']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="steuersatz">Steuersatz</label>
+        <div class="controls">
+            <input class="input-mini" type="text" id="steuersatz" name="steuersatz" placeholder="Steuersatz" value="<?php if($this->entity): echo $this->entity['steuersatz']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="ansprechpartner">Ansprechpartner im Institut</label>
+        <div class="controls">
+            <input class="input-xlarge" type="text" id="ansprechpartner" name="ansprechpartner" placeholder="Vorname Nachname" value="<?php if($this->entity): echo $this->entity['ansprechpartner']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="ansprechpartner_tel">Telefon des AP</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on">02461 61 - </span>
+                <input class="input-xlarge" type="text" id="ansprechpartner_tel" name="ansprechpartner_tel" placeholder="nnnn" value="<?php if($this->entity): echo $this->entity['ansprechpartner_tel']; endif; ?>" />
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="organisationseinheit">Organisationseinheit des veranstaltenden Instituts</label>
+        <div class="controls">
+            <input class="input-large" type="text" id="organisationseinheit" name="organisationseinheit" placeholder="Institut XY" value="<?php if($this->entity): echo $this->entity['organisationseinheit']; endif; ?>" />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="ansprechpartner_mail">Email des AP</label>
+        <div class="controls">
+            <div class="input-append">
+                <input class="input-large" type="text" id="ansprechpartner_mail" name="ansprechpartner_mail" placeholder="a.name" value="<?php if($this->entity): echo $this->entity['ansprechpartner_mail']; endif; ?>" />
+                <span class="add-on">@fz-juelich.de</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="standardbetrag">Standardbetrag</label>
+        <div class="controls">
+            <div class="input-append">
+                <input class="input-medium" type="text" id="standardbetrag" name="standardbetrag" placeholder="nn.nn" value="<?php if($this->entity): echo $this->entity['standardbetrag']; endif; ?>" />
+                <span class="add-on">&euro;</span>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn">Submit</button>
+
 </form>
