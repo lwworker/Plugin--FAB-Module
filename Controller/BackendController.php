@@ -52,6 +52,18 @@ class BackendController extends \lw_ddd_controller
         $this->saveEvent();
     }
     
+    public function deleteEventAction()
+    {
+        if (!$this->domainEvent->hasEntity()) {
+            $this->setEntityById($this->domainEvent->getId());
+        }
+        $entity = $this->domainEvent->getEntity();
+        if ($entity->isDeleteable()) {
+            $entity->delete();
+            die("deleted");
+        }
+    }
+    
     protected function saveEvent($id=false)
     {
         $PostValueObjectFiltered = \FabBackend\Service\eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());

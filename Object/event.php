@@ -14,6 +14,12 @@ class event extends \lw_ddd_entity
         return true;
     }
     
+    public function delete()
+    {
+        $commandHandler = new \FabBackend\Model\eventCommandHandler();
+        return $commandHandler->deleteEvent($this);
+    }
+
     public function save()
     {
         $commandHandler = new \FabBackend\Model\eventCommandHandler();
@@ -36,8 +42,7 @@ class event extends \lw_ddd_entity
     
     public function renderView($view)
     {
-        $ValueObjectDecorated = \FabBackend\Service\eventDecorator::getInstance()->decorate($this->valueObject->getValues());
+        $ValueObjectDecorated = \FabBackend\Service\eventDecorator::getInstance()->decorate($this->valueObject);
         $view->entity = $ValueObjectDecorated->getValues();
     }    
-    
 }

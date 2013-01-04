@@ -17,7 +17,7 @@
     Tagung
     <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
     <div class="pull-right">
-        <p><a href="<?php echo $this->deleteUrl; ?>" class="btn btn-small btn-warning">l&ouml;schen</a></p>
+        <p><a href="<?php echo $this->deleteUrl; ?>" class="btn btn-small btn-warning" onClick="return confirm('wirklich entfernen?');">l&ouml;schen</a></p>
     </div>
     <?php endif; ?>
 </h2>

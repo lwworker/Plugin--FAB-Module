@@ -54,47 +54,43 @@ class eventCommandHandler
         }
     }
     
-    public function saveEvent(\lw_ddd_entity $entity)
+    public function saveEvent($id, \lw_ddd_valueObject $entity)
     {
-        if ($entity->isValid() && $entity->getId() > 0) {
-            $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :ansprechpartner_tel, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :ansprechpartner_mail, stellvertreter_mail = :stellvertreter_mail, standardbetrag = :standardbetrag, first_date = :first_date, last_date = :last_date WHERE id = :id ");
-            $this->db->bindParameter("id", "i", $entity->getId());
-            $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
-            $this->db->bindParameter("v_schluessel", "s", $entity->getValueByKey('v_schluessel'));
-            $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
-            $this->db->bindParameter("bezeichnung", "s", $entity->getValueByKey('bezeichnung'));
-            $this->db->bindParameter("v_land", "s", $entity->getValueByKey('v_land'));
-            $this->db->bindParameter("v_ort", "s", $entity->getValueByKey('v_ort'));
-            $this->db->bindParameter("anmeldefrist_beginn", "i", $entity->getValueByKey('anmeldefrist_beginn'));
-            $this->db->bindParameter("anmeldefrist_ende", "i", $entity->getValueByKey('anmeldefrist_ende'));
-            $this->db->bindParameter("v_beginn", "i", $entity->getValueByKey('v_beginn'));
-            $this->db->bindParameter("v_ende", "i", $entity->getValueByKey('v_ende'));
-            $this->db->bindParameter("cpd_konto", "s", $entity->getValueByKey('cpd_konto'));
-            $this->db->bindParameter("erloeskonto", "s", $entity->getValueByKey('erloeskonto'));
-            $this->db->bindParameter("steuerkennzeichen", "s", $entity->getValueByKey('steuerkennzeichen'));
-            $this->db->bindParameter("steuersatz", "s", $entity->getValueByKey('steuersatz'));
-            $this->db->bindParameter("ansprechpartner", "s", $entity->getValueByKey('ansprechpartner'));
-            $this->db->bindParameter("ansprechpartner_tel", "i", $entity->getValueByKey('ansprechpartner_tel'));
-            $this->db->bindParameter("organisationseinheit", "s", $entity->getValueByKey('organisationseinheit'));
-            $this->db->bindParameter("ansprechpartner_mail", "s", $entity->getValueByKey('ansprechpartner_mail'));
-            $this->db->bindParameter("stellvertreter_mail", "s", $entity->getValueByKey('stellvertreter_mail'));
-            $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
-            $this->db->bindParameter("first_date", "i", $entity->getValueByKey('first_date'));
-            $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
-            if($this->debug == true){
-                die($this->db->prepare());
-            }else{
-                $ok = $this->db->pdbquery();
-                if ($ok) {
-                    return $entity;
-                }
-                else {
-                    throw new \Exception('...'); 
-                }
+        $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, stellvertreter_mail = :stellvertreter_mail, standardbetrag = :standardbetrag, first_date = :first_date, last_date = :last_date WHERE id = :id ");
+        $this->db->bindParameter("id", "i", $id);
+        $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
+        $this->db->bindParameter("v_schluessel", "s", $entity->getValueByKey('v_schluessel'));
+        $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
+        $this->db->bindParameter("bezeichnung", "s", $entity->getValueByKey('bezeichnung'));
+        $this->db->bindParameter("v_land", "s", $entity->getValueByKey('v_land'));
+        $this->db->bindParameter("v_ort", "s", $entity->getValueByKey('v_ort'));
+        $this->db->bindParameter("anmeldefrist_beginn", "i", $entity->getValueByKey('anmeldefrist_beginn'));
+        $this->db->bindParameter("anmeldefrist_ende", "i", $entity->getValueByKey('anmeldefrist_ende'));
+        $this->db->bindParameter("v_beginn", "i", $entity->getValueByKey('v_beginn'));
+        $this->db->bindParameter("v_ende", "i", $entity->getValueByKey('v_ende'));
+        $this->db->bindParameter("cpd_konto", "s", $entity->getValueByKey('cpd_konto'));
+        $this->db->bindParameter("erloeskonto", "s", $entity->getValueByKey('erloeskonto'));
+        $this->db->bindParameter("steuerkennzeichen", "s", $entity->getValueByKey('steuerkennzeichen'));
+        $this->db->bindParameter("steuersatz", "s", $entity->getValueByKey('steuersatz'));
+        $this->db->bindParameter("ansprechpartner", "s", $entity->getValueByKey('ansprechpartner'));
+        $this->db->bindParameter("tel_ansprechpartner", "i", $entity->getValueByKey('ansprechpartner_tel'));
+        $this->db->bindParameter("organisationseinheit", "s", $entity->getValueByKey('organisationseinheit'));
+        $this->db->bindParameter("mail_ansprechpartner", "s", $entity->getValueByKey('ansprechpartner_mail'));
+        $this->db->bindParameter("stellvertreter_mail", "s", $entity->getValueByKey('stellvertreter_mail'));
+        $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
+        $this->db->bindParameter("first_date", "i", $entity->getValueByKey('first_date'));
+        $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
+        if($this->debug == true) {
+            die($this->db->prepare());
+        }
+        else {
+            $ok = $this->db->pdbquery();
+            if ($ok) {
+                return $entity;
             }
-        } 
-        else { 
-            throw new \Exception('...'); 
+            else {
+                throw new \Exception('...'); 
+            }
         }
     }
     
