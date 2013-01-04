@@ -15,7 +15,7 @@ class eventCommandHandler
         $this->$command($domainEvent->getEntity());
     }
     
-    public function addEventAction(\lw_ddd_entity $entity)
+    public function saveEvent(\lw_ddd_entity $entity)
     {
         if ($entity->isValid()) {
             $this->db->setStatement("INSERT INTO t:tablename ( name ) VALUES ( :name )");
