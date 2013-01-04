@@ -6,8 +6,31 @@ class eventValidate
 {
     public function __construct()
     {
+        $this->allowedKeys = array(
+                "id",
+                "buchungskreis",
+                "v_schluessel",
+                "auftragsnr",
+                "bezeichnung",
+                "v_land",
+                "v_ort",
+                "anmeldefrist_beginn",
+                "anmeldefrist_ende",
+                "v_beginn",
+                "v_ende",
+                "cpd_konto",
+                "erloeskonto",
+                "steuerkennzeichen",
+                "steuersatz",
+                "ansprechpartner",
+                "ansprechpartner_tel",
+                "organisationseinheit",
+                "ansprechpartner_mail",
+                "stellvertreter_mail",
+                "standardbetrag",
+                "first_date",
+                "last_date");
     }
-            // if ($entity->isValid()) {...}
 
     public function setValues($array) 
     {
@@ -15,11 +38,11 @@ class eventValidate
     }
     
     public function validate()
-    {
+    {                   
         $valid = true;
-        foreach($this->array as $key => $value){
+        foreach($this->allowedKeys as $key){
             $function = $key."Validate";
-            $result = $this->$function($value);
+            $result = $this->$function($this->array[$key]);
             if($result == false){
                 $valid = false;
             }
@@ -42,6 +65,19 @@ class eventValidate
     public function getErrorsByKey($key)
     {
         return $this->errors[$key];
+    }
+    
+    function idValidate($value){
+        if(empty($value)){
+            return true;
+        }else{
+            if(ctype_digit($value)){
+                return true;
+            }else{
+                $this->addError("id", 1, array("errormsg" => "id darf nur aus Zahlen bestehen."));
+                return false;
+            }
+        }
     }
     
     function buchungskreisValidate($value){

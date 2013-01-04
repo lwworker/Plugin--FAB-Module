@@ -35,6 +35,7 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
     public function testValidate() {
 
         $array = array(
+            "id" => "1",
             "buchungskreis" => "15",
             "v_schluessel" => "65038462",
             "auftragsnr" => "45135060",
@@ -58,7 +59,8 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
             "first_date" => "20130103124315",
             "last_date" => "20130103125519"
         );
-
+        
+        $this->assertTrue($this->eventValidate->idValidate($array["id"]));
         $this->assertTrue($this->eventValidate->buchungskreisValidate($array["buchungskreis"]));
         $this->assertTrue($this->eventValidate->v_schluesselValidate($array["v_schluessel"]));
         $this->assertTrue($this->eventValidate->auftragsnrValidate($array["auftragsnr"]));
@@ -87,6 +89,7 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
 
 
         $array2 = array(
+            "id" => "aa11aa",
             "buchungskreis" => "", #leer
             "v_schluessel" => "12345678", #genaue länge
             "auftragsnr" => "45135060eqw1rf", #zu lang
@@ -118,6 +121,8 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
         $error = $this->eventValidate->getErrors();
         $this->assertTrue(is_array($error));
 
+        $this->assertEquals($error["id"][1]["error"],1);#idValidate fehler #1 [buchstaben gefunden]
+        
         $this->assertEquals($error["buchungskreis"][1]["error"], 1); #defaultValidation fehler #1 [leer]
         $this->assertFalse(array_key_exists(2, $error["buchungskreis"])); #defaultValidation fehler #2 [max zeichen ueberschritten] 
         $this->assertTrue($this->eventValidate->v_schluesselValidate($array2["v_schluessel"])); #defaultValidation exakte max length
