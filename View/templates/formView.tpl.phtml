@@ -13,7 +13,14 @@
 
 ?>
 
-<h2>Tagung</h2>
+<h2>
+    Tagung
+    <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
+    <div class="pull-right">
+        <p><a href="<?php echo $this->deleteUrl; ?>" class="btn btn-small btn-warning">l&ouml;schen</a></p>
+    </div>
+    <?php endif; ?>
+</h2>
 <div class="well well-small">
     Einleitungstext...
 </div>

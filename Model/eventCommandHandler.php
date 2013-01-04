@@ -115,41 +115,40 @@ class eventCommandHandler
     
     public function createTable()
     {
-        if(!$this->db->tableExits("fab_tagungen")){
-            $this->db->setStatement("CREATE TABLE IF NOT EXISTS `fab_tagungen` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `buchungskreis` varchar(4) NOT NULL,
-                  `v_schluessel` varchar(8) NOT NULL,
-                  `auftragsnr` varchar(12) NOT NULL,
-                  `bezeichnung` varchar(50) NOT NULL,
-                  `v_land` varchar(2) NOT NULL,
-                  `v_ort` varchar(35) NOT NULL,
-                  `anmeldefrist_beginn` int(8) NOT NULL,
-                  `anmeldefrist_ende` int(8) NOT NULL,
-                  `v_beginn` int(8) NOT NULL,
-                  `v_ende` int(8) NOT NULL,
-                  `cpd_konto` varchar(10) NOT NULL,
-                  `erloeskonto` varchar(10) NOT NULL,
-                  `steuerkennzeichen` varchar(2) NOT NULL,
-                  `steuersatz` varchar(5) NOT NULL,
-                  `ansprechpartner` varchar(30) NOT NULL,
-                  `ansprechpartner_tel` varchar(20) NOT NULL,
-                  `organisationseinheit` varchar(12) NOT NULL,
-                  `ansprechpartner_mail` varchar(241) NOT NULL,
-                  `stellvertreter_mail` varchar(241) NOT NULL,
-                  `standardbetrag` varchar(16) NOT NULL,
-                  `first_date` int(14) NOT NULL,
-                  `last_date` int(14) NOT NULL,
-                  PRIMARY KEY (`id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+        if(!$this->db->tableExists($this->db->gt('fab_tagungen'))){
+            $this->db->setStatement("CREATE TABLE IF NOT EXISTS ".$this->db->gt('fab_tagungen')." (
+                  id int(11) NOT NULL AUTO_INCREMENT,
+                  buchungskreis varchar(4) NOT NULL,
+                  v_schluessel varchar(8) NOT NULL,
+                  auftragsnr varchar(12) NOT NULL,
+                  bezeichnung varchar(50) NOT NULL,
+                  v_land varchar(2) NOT NULL,
+                  v_ort varchar(35) NOT NULL,
+                  anmeldefrist_beginn int(8) NOT NULL,
+                  anmeldefrist_ende int(8) NOT NULL,
+                  v_beginn int(8) NOT NULL,
+                  v_ende int(8) NOT NULL,
+                  cpd_konto varchar(10) NOT NULL,
+                  erloeskonto varchar(10) NOT NULL,
+                  steuerkennzeichen varchar(2) NOT NULL,
+                  steuersatz varchar(5) NOT NULL,
+                  ansprechpartner varchar(30) NOT NULL,
+                  ansprechpartner_tel varchar(20) NOT NULL,
+                  organisationseinheit varchar(12) NOT NULL,
+                  ansprechpartner_mail varchar(241) NOT NULL,
+                  stellvertreter_mail varchar(241) NOT NULL,
+                  standardbetrag varchar(16) NOT NULL,
+                  first_date int(14) NOT NULL,
+                  last_date int(14) NOT NULL,
+                  PRIMARY KEY (id)
+                );
             ");
             $ok = $this->db->pdbquery();
             if(!$ok){
-                throw new \Exception('...'); 
+                throw new \Exception("Table fab_tagungen couldn't be created."); 
             }
         }
         $this->updateTable();
-        
     }
     
     public function updateTable()

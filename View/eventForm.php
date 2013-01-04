@@ -19,9 +19,15 @@ class eventForm
     {
         if ($this->domainEvent->getEventName() == "showAddFormAction" || $this->domainEvent->getEventName() == "addEventAction") {
             $this->view->actionUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"addEvent"));
+            $this->view->type = "add";
         }
         else {
             $this->view->actionUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"saveEvent", "id" => $this->domainEvent->getId()));
+            $this->view->type = "edit";
+            if ($this->domainEvent->getEntity()->deleteAllowed()) {
+                $this->view->deleteAllowed = true;
+                $this->view->deleteUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"deleteEvent","id"=>$this->domainEvent->getId()));
+            }
         }
         if ($this->domainEvent->hasEntity() && !$this->view->errors) {
             $this->domainEvent->getEntity()->renderView($this->view);
