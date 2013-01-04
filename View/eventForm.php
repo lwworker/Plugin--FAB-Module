@@ -10,6 +10,11 @@ class eventForm
         $this->view = new \lw_view(dirname(__FILE__).'/templates/formView.tpl.phtml');
     }
     
+    public function setErrors($errors)
+    {
+        $this->view->errors = $errors;
+    }
+    
     public function render()
     {
         if ($this->domainEvent->getEventName() == "showAddFormAction" || $this->domainEvent->getEventName() == "addEventAction") {
@@ -18,7 +23,7 @@ class eventForm
         else {
             $this->view->actionUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"saveEvent", "id" => $this->domainEvent->getId()));
         }
-        if ($this->domainEvent->hasEntity()) {
+        if ($this->domainEvent->hasEntity() && !$this->view->errors) {
             $this->domainEvent->getEntity()->renderView($this->view);
         }
         else {

@@ -18,9 +18,11 @@ class eventValidate
         $valid = true;
         foreach($this->array as $key => $value){
             $function = $key."Validate";
-            $result = $this->$function($value);
-            if($result == false){
-                $valid = false;
+            if (method_exists($this, $function)) {
+                $result = $this->$function($value);
+                if($result == false){
+                    $valid = false;
+                }
             }
         }
         return $valid;

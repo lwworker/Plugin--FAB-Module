@@ -17,9 +17,12 @@ class BackendController extends \lw_ddd_controller
         $this->response->addOutputByName('FabBackend', $listView->render());
     }
     
-    public function showAddFormAction()
+    public function showAddFormAction($errors=false)
     {
         $formView = new \FabBackend\View\eventForm($this->domainEvent);
+        if ($errors) {
+            $formView->setErrors($errors);
+        }
         $this->response->addOutputByName('FabBackend', $formView->render());
     }
     
@@ -75,7 +78,7 @@ class BackendController extends \lw_ddd_controller
             }
         }
         else {
-            $this->showAddFormAction();
+            $this->showAddFormAction($EventValidationSevice->getErrors());
         }
     }
 }
