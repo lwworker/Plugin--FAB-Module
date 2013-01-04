@@ -80,112 +80,136 @@ class eventValidate
         }
     }
     
-    function buchungskreisValidate($value){
+    function buchungskreisValidate($value)
+    {
         return $this->defaultValidation("buchungskreis", $value, 4);
     }
     
-    function v_schluesselValidate($value){
+    function v_schluesselValidate($value)
+    {
         return $this->defaultValidation("v_schluessel", $value, 8);
     }
     
-    function auftragsnrValidate($value){
+    function auftragsnrValidate($value)
+    {
         return $this->defaultValidation("auftragsnr", $value, 12);
     }
     
-    function bezeichnungValidate($value){
+    function bezeichnungValidate($value)
+    {
         return $this->defaultValidation("bezeichnung", $value, 50);
     }
     
-    function v_landValidate($value){
+    function v_landValidate($value)
+    {
         return $this->defaultValidation("v_land", $value, 2);
     }
     
-    function v_ortValidate($value){
+    function v_ortValidate($value)
+    {
         return $this->defaultValidation("v_ort", $value, 35);
     }
     
-    function anmeldefrist_beginnValidate($value){
-        return $this->dateValidation("anmeldefrist_beginn", $value);
+    function anmeldefrist_beginnValidate($value)
+    {
+        return $this->requiredDateValidation("anmeldefrist_beginn", $value);
     }
     
-    function anmeldefrist_endeValidate($value){
-        return $this->dateValidation("anmeldefrist_ende", $value);
+    function anmeldefrist_endeValidate($value)
+    {
+        return $this->requiredDateValidation("anmeldefrist_ende", $value);
     }
     
-    function v_beginnValidate($value){
-        return $this->dateValidation("v_beginn", $value);
+    function v_beginnValidate($value)
+    {
+        return $this->requiredDateValidation("v_beginn", $value);
     }
     
-    function v_endeValidate($value){
-        return $this->dateValidation("v_ende", $value);
+    function v_endeValidate($value)
+    {
+        return $this->requiredDateValidation("v_ende", $value);
     }
     
-    function cpd_kontoValidate($value){
+    function cpd_kontoValidate($value)
+    {
         return $this->defaultValidation("cpd_konto", $value, 10);
     }
     
-    function erloeskontoValidate($value){
+    function erloeskontoValidate($value)
+    {
         return $this->defaultValidation("erloeskonto", $value, 10);
     }
     
-    function steuerkennzeichenValidate($value){
+    function steuerkennzeichenValidate($value)
+    {
         return $this->defaultValidation("steuerkennzeichen", $value, 2);
     }
     
-    function steuersatzValidate($value){
+    function steuersatzValidate($value)
+    {
         return $this->defaultValidation("steuersatz", $value, 5);
     }
     
-    function ansprechpartnerValidate($value){
+    function ansprechpartnerValidate($value)
+    {
         return $this->defaultValidation("ansprechpartner", $value, 30);
     }
     
-    function ansprechpartner_telValidate($value){
-        $bool = true;
-        if($value != ""){
-            if(!ctype_digit($value)){
-                $this->addError("ansprechpartner_tel", 3, array("errormsg" => "Buchstaben in der Tel-Nr. gefunden."));
-                $bool = false;
-            }
-        }
-        $bool =  $this->defaultValidation("ansprechpartner_tel", $value, 20);
-        
-        if($bool == false){
-            return false;
-        }
-        return true;
+    function ansprechpartner_telValidate($value)
+    {
+        return $this->defaultValidation("ansprechpartner_tel", $value, 20);
     }
     
-    function organisationseinheitValidate($value){
+    function organisationseinheitValidate($value)
+    {
         return $this->defaultValidation("organisationseinheit", $value, 12);
     }
     
-    function ansprechpartner_mailValidate($value){
-        return $this->emailValidation("ansprechpartner_mail", $value);
+    function ansprechpartner_mailValidate($value)
+    {
+        $bool = $this->requiredValidation("ansprechpartner_mail", $value);
+        if($bool){
+            return $this->emailValidation("ansprechpartner_mail", $value);
+        }
+        return false;
     }
     
-    function stellvertreter_mailValidate($value){
-        return $this->emailValidation("stellvertreter_mail", $value);
+    function stellvertreter_mailValidate($value)
+    {
+        if(empty($value)){
+            return true;
+        }else{
+            return $this->emailValidation("stellvertreter_mail", $value);
+        }
     }
     
-    function standardbetragValidate($value){
+    function standardbetragValidate($value)
+    {
         return $this->defaultValidation("standardbetrag", $value, 16);
     }
     
-    function first_dateValidate($value){
-        return $this->dateValidation("first_date", $value, true);
-    }
-    
-    function last_dateValidate($value){
-        return $this->dateValidation("last_date", $value, true);
-    }
-    
-    function defaultValidation($key,$value,$length){
-        $bool = true;
-        if($value == ""){
-            $this->addError($key, 1, array("errormsg" => "Pflichtfeld ist auszufuellen."));
-            $bool = false;
+    function first_dateValidate($value)
+    {
+        if(empty($value)){
+            return true;
+        }else{
+            return $this->dateValidation("first_date", $value, true);
         }
+    }
+    
+    function last_dateValidate($value)
+    {
+        if(empty($value)){
+            return true;
+        }else{
+            return $this->dateValidation("last_date", $value, true);
+        }
+    }
+    
+    function defaultValidation($key,$value,$length)
+    {
+        $bool = $this->requiredValidation($key, $value);
+        
         if(strlen($value) > $length){
             $this->addError($key, 2, array("errormsg" => "Die maximale Zeichenlaenge von ".$length." Zeichen ist einzuhalten."));
             $bool = false;
@@ -197,11 +221,30 @@ class eventValidate
         return true;
     }
     
-    function dateValidation($key, $value, $opt_timecheck = false){
-        $bool = true;
+    public function requiredValidation($key, $value)
+    {
         if($value == ""){
             $this->addError($key, 1, array("errormsg" => "Pflichtfeld ist auszufuellen."));
+            return false;
         }
+        return true;
+    }
+    
+    public function requiredDateValidation($key, $value)
+    {
+        $bool = true;
+        $bool = $this->requiredValidation($key, $value);
+        $bool = $this->dateValidation($key, $value);
+        
+        if($bool == false){
+            return false;
+        }
+        return true;
+    }
+    
+    function dateValidation($key, $value, $opt_timecheck = false)
+    {
+        $bool = true;
         if($opt_timecheck == true){
             if(strlen($value) != 14){
                 $this->addError($key, 2, array("errormsg" => "Datums- + Zeiteingabe nicht korrekt."));
@@ -258,14 +301,10 @@ class eventValidate
         return true;
     }
     
-    function emailValidation($key,$value){
+    function emailValidation($key,$value)
+    {
         $bool = true;
-        
-        if($value == ""){
-            $this->addError($key, 1,array("errormsg" => "Pflichtfeld ist auszufuellen."));
-            $bool = false;
-        }
-        
+
         if(filter_var($value, FILTER_VALIDATE_EMAIL) == false){
             $this->addError($key, 2, array("errormsg" => "Es wurde keine korrekte EMail-Adresse eingegeben."));
             $bool = false;
