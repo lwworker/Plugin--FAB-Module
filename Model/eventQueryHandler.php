@@ -17,6 +17,9 @@ class eventQueryHandler
     
     public function getEventById($id)
     {
+        return array("buchungskreis"=>"0100", "bezeichnung"=>"Tagung 1");
+        
+        
         $this->db->setStatement("SELECT * FROM t:tablename WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
         return $this->db->pselect1();
