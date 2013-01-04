@@ -35,7 +35,7 @@ class BackendController extends \lw_ddd_controller
         $this->response->addOutputByName('FabBackend', $formView->render());
     }
     
-    protected function setEntity($id)
+    protected function setEntityById($id)
     {
         $event = new \FabBackend\Object\event($id);
         $event->load();

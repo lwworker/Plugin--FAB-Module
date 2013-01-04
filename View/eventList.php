@@ -14,7 +14,6 @@ class eventList
     {
         $this->aggregate->renderView($this->view);
         $this->view->addUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"showAddForm"));
-        $this->view->editUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"showEditForm", "id"=>1));
         return $this->view->render();
     }
 }

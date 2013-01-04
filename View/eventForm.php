@@ -24,7 +24,7 @@ class eventForm
         else {
             $this->view->actionUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"saveEvent", "id" => $this->domainEvent->getId()));
             $this->view->type = "edit";
-            if ($this->domainEvent->getEntity()->deleteAllowed()) {
+            if ($this->domainEvent->getEntity()->isDeleteable()) {
                 $this->view->deleteAllowed = true;
                 $this->view->deleteUrl = \lw_page::getInstance()->getUrl(array("cmd"=>"deleteEvent","id"=>$this->domainEvent->getId()));
             }

@@ -33,4 +33,11 @@ class event extends \lw_ddd_entity
             throw new Exception('Event cannot be loaded, because no ID is present');
         }
     }
+    
+    public function renderView($view)
+    {
+        $ValueObjectDecorated = \FabBackend\Service\eventDecorator::getInstance()->decorate($this->valueObject->getValues());
+        $view->entity = $ValueObjectDecorated->getValues();
+    }    
+    
 }

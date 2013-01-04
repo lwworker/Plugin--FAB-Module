@@ -14,38 +14,14 @@
         </tr>
     </thead>
     <tbody>
+        <?php foreach ($this->entities as $entity): ?>
         <tr>
-            <td>1</td>
-            <td><a href="<?php echo $this->editUrl; ?>">Tagung 1</a></td>
-            <td>12.09.2012 - 15.09.2012</td>
-            <td>924569546</td>
-            <td>270</td>
+            <td><?php echo $entity->getValueByKey('id'); ?></td>
+            <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditForm", "id"=>$entity->getValueByKey('id'))); ?>"><?php echo $entity->getValueByKey('bezeichnung'); ?></a></td>
+            <td><?php echo $entity->getValueByKey('v_beginn'); ?> - <?php echo $entity->getValueByKey('v_ende'); ?></td>
+            <td><?php echo $entity->getValueByKey('v_schluessel'); ?></td>
+            <td><?php echo $entity->getValueByKey('cpd_konto'); ?></td>
         </tr>
-        <tr>
-            <td>2</td>
-            <td><a href="">Tagung 2</a></td>
-            <td>12.09.2012 - 15.09.2012</td>
-            <td>924569546</td>
-            <td>270</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td><a href="">Tagung 3</a></td>
-            <td>12.09.2012 - 15.09.2012</td>
-            <td>924569546</td>
-            <td>270</td>
-        </tr>
+    <?php endforeach; ?>
     </tbody>
 </table>
-
-
-
-<?php if (1==2): ?>
-<ul>
-    <?php foreach ($this->entities as $entity): ?>
-    <li>
-        <?php echo $entity->getValueByKey('name'); ?> (<?php echo $entity->getValueByKey('id'); ?>) 
-    </li>
-    <?php endforeach; ?>
-</ul>
-<?php endif; ?>

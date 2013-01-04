@@ -12,7 +12,7 @@ class eventAggregateFactory
             $items = $queryHandler->getAllEvents();
         }
         foreach($items as $item) {
-             $dummy = new FabBackend\Object\event($item['id']);
+             $dummy = new \FabBackend\Object\event($item['id']);
              $dummy->setDataValueObject(new \FabBackend\Object\eventData($item));
              $dummy->setLoaded();
              $dummy->unsetDirty();
