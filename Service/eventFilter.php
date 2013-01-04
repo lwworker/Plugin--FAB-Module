@@ -18,8 +18,8 @@ class eventFilter
     {
         $values = $valueObject->getValues();
         $filteredValues['id'] = intval($values['id']);
-        $filteredValues['buchungskreis'] = substr(trim($values['buchungskreis']), 0, 255);
-        $filteredValues['bezeichnung'] = substr(trim($values['bezeichnung']), 0, 255);
+        $filteredValues['buchungskreis'] = trim($values['buchungskreis']);
+        $filteredValues['bezeichnung'] = trim($values['bezeichnung']);
         return new \lw_ddd_valueObject($filteredValues);
     }
 }

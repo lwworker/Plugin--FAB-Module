@@ -22,7 +22,7 @@ class eventForm
             $this->domainEvent->getEntity()->renderView($this->view);
         }
         else {
-            $this->domainEvent->getValueObject()->renderView($this->view);
+            $this->domainEvent->getPostValueObject()->renderView($this->view);
         }
         return $this->view->render();
     }

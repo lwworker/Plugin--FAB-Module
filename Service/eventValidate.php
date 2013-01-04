@@ -7,7 +7,6 @@ class eventValidate
     public function __construct()
     {
     }
-            // if ($entity->isValid()) {...}
 
     public function setValues($array) 
     {
@@ -24,7 +23,6 @@ class eventValidate
                 $valid = false;
             }
         }
-        
         return $valid;
     }
     

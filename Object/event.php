@@ -4,22 +4,33 @@ namespace FabBackend\Object;
 
 class event extends \lw_ddd_entity
 {
-    public function __construct($data)
+    public function __construct($id=false)
     {
-        $this->allowedKeys = array("id", "buchungskreis", "bezeichnung");
-        parent::__construct($data);
+        parent::__construct($id);
     }
 
-    public function setValueByKey($key, $value)
-    {
-        if (in_array($key, $this->allowedKeys)) {
-            $this->data[$key] = $value;
-        }
-    }
-    
     public function isDeleteable()
     {
         return true;
     }
     
+    public function save()
+    {
+        $commandHandler = new \FabBackend\Model\eventCommandHandler();
+        return $this->saveEntity($commandHandler);
+    }
+    
+    public function load()
+    {
+        if ($this->id > 0) {
+            $queryHandler = new \FabBackend\Model\eventQueryHandler();
+            $data = $queryHandler->getEventById($this->id);
+            $this->setDataValueObject(new \FabBackend\Object\eventData($data));
+            $this->setLoaded();
+            $this->unsetDirty();
+        }
+        else {
+            throw new Exception('Event cannot be loaded, because no ID is present');
+        }
+    }
 }
