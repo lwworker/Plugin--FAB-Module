@@ -60,7 +60,12 @@ class BackendController extends \lw_ddd_controller
         $valid = $EventValidationSevice->validate();
         if ($valid)
         {
-            $EventDataValueObject = new \FabBackend\Object\eventData($PostValueObjectFiltered->getValues());
+            try {
+                $EventDataValueObject = new \FabBackend\Object\eventData($PostValueObjectFiltered->getValues());
+            }
+            catch (Exception $e) {
+                die("error: ".$e->getMessage());
+            }
             $entity = new \FabBackend\Object\event($id);
             $entity->setDataValueObject($EventDataValueObject);
             try {

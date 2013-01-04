@@ -109,11 +109,11 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
             "organisationseinheit" => "GB-F5678901234", #zu lang
             #php email validierungsfunktion:
             #[max 64 zeichen]@[max 63 zeichen].[max 63 zeichen]
-            "ansprechpartner_mail" => "m.mustermann@fz-juelichde", #keine geultige mail
+            "ansprechpartner_mail" => "", #keine geultige mail
             "stellvertreter_mail" => "",
             "standardbetrag" => "1004567890123456789", #zu lang
             "first_date" => "20130103004361", #sekunden auf 61 gesetzt
-            "last_date" => "201301031219", #skeunden wegfallen lassen
+            "last_date" => "", #skeunden wegfallen lassen
         );
 
         $this->eventValidate->setValues($array2);
@@ -127,12 +127,9 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse(array_key_exists(2, $error["buchungskreis"])); #defaultValidation fehler #2 [max zeichen ueberschritten] 
         $this->assertTrue($this->eventValidate->v_schluesselValidate($array2["v_schluessel"])); #defaultValidation exakte max length
         $this->assertEquals($error["auftragsnr"][2]["error"], 1); #defaultValidation fehler #2 [max zeichen ueberschritten]
-        
-        $this->assertEquals($error["ansprechpartner_tel"][3]["error"], 1); #tel sonderpruefung auf buchstaben
-        
-        $this->assertFalse(array_key_exists(1, $error["ansprechpartner_mail"])); #emailValidation fehler #1 [leer]
-        $this->assertEquals($error["ansprechpartner_mail"][2]["error"], 1); #emailValidation fehler #2 [nicht korrekte mail]        
-        $this->assertEquals($error["stellvertreter_mail"][1]["error"], 1); #emailValidation fehler #1 [leer]
+       
+        $this->assertEquals($error["ansprechpartner_mail"][1]["error"], 1); #emailValidation fehler #1 [leer]        
+        $this->assertFalse(array_key_exists("stellvertreter_mail", $error));
 
         $this->assertEquals($error["v_ende"][1]["error"],1); #dateValidation fehler #1 [leer] 
         $this->assertFalse(array_key_exists(1, $error["anmeldefrist_beginn"])); #dateValidation fehler #1 [leer] 
@@ -145,7 +142,7 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($error["anmeldefrist_ende"][4]["error"],1); #dateValidation fehler #4 [falsches datum] 
         $this->assertEquals($error["v_beginn"][4]["error"],1); #dateValidation fehler #4 [falsches datum] 
         $this->assertEquals($error["first_date"][7]["error"],1); #dateValidation fehler #7 [sekunde]
-        $this->assertEquals($error["last_date"][2]["error"],1); #dateValidation fehler #2 [zeichenlaenge passt nicht] 
+        $this->assertFalse(array_key_exists("last_date", $error)); 
     }
 
 }
