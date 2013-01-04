@@ -41,13 +41,17 @@ class eventCommandHandler
             $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
             $this->db->bindParameter("first_date", "i", $entity->getValueByKey('first_date'));
             $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
-            $newId = $this->db->pdbinsert($this->db->gt('fab_tagungen'));
-            if ($newId > 0) {
-                $entity->setId($newId);
-                return $entity;
-            }
-            else {
-                throw new \Exception('...'); 
+            if($this->debug == true){
+                die($this->db->prepare());
+            }else{
+                $newId = $this->db->pdbinsert($this->db->gt('fab_tagungen'));
+                if ($newId > 0) {
+                    $entity->setId($newId);
+                    return $entity;
+                }
+                else {
+                    throw new \Exception('...'); 
+                }
             }
         } 
         else { 
@@ -82,12 +86,16 @@ class eventCommandHandler
             $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
             $this->db->bindParameter("first_date", "i", $entity->getValueByKey('first_date'));
             $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
-            $ok = $this->db->pdbquery();
-            if ($ok) {
-                return $entity;
-            }
-            else {
-                throw new \Exception('...'); 
+            if($this->debug == true){
+                die($this->db->prepare());
+            }else{
+                $ok = $this->db->pdbquery();
+                if ($ok) {
+                    return $entity;
+                }
+                else {
+                    throw new \Exception('...'); 
+                }
             }
         } 
         else { 
@@ -100,12 +108,16 @@ class eventCommandHandler
         if ($entity->isDeleteable() && $entity->getId() > 0) {
             $this->db->setStatement("DELETE FROM t:fab_tagungen WHERE id = :id ");
             $this->db->bindParameter("id", "i", $entity->getId());
-            $ok = $this->db->pdbquery();
-            if ($ok) {
-                return $entity;
-            }
-            else {
-                throw new \Exception('...'); 
+            if($this->debug == true){
+                die($this->db->prepare());
+            }else{
+                $ok = $this->db->pdbquery();
+                if ($ok) {
+                    return $entity;
+                }
+                else {
+                    throw new \Exception('...'); 
+                }
             }
         }
         else { 
@@ -143,9 +155,13 @@ class eventCommandHandler
                   PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
             ");
-            $ok = $this->db->pdbquery();
-            if(!$ok){
-                throw new \Exception('...'); 
+            if($this->debug == true){
+                die($this->db->prepare());
+            }else{
+                $ok = $this->db->pdbquery();
+                if(!$ok){
+                    throw new \Exception('...'); 
+                }
             }
         }
         $this->updateTable();
@@ -161,6 +177,15 @@ class eventCommandHandler
          * und wenn nicht, dann die Spalte mit "ALTER TABLE tablename ADD COLUMN ..." erstellen.
          * 
          */
+    }
+    
+    public function setDebug($bool = true)
+    {
+        if($bool === true){
+            $this->debug = true;
+        }else{
+            $this->debug = false;
+        }
     }
     
 }
