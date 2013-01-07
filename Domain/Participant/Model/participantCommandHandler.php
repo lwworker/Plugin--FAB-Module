@@ -14,21 +14,6 @@ class participantCommandHandler
         $command = $domainEvent->getEventName();
         $this->$command($domainEvent->getEntity());
     }
-
-    public function saveReplacement($id, $stellvertreter_mail)
-    {
-        $this->db->setStatement("UPDATE t:fab_tagungen SET stellvertreter_mail = :stellvertreter_mail WHERE id = :id ");
-        $this->db->bindParameter("id", "i", $id);
-        $this->db->bindParameter("stellvertreter_mail", "s", $stellvertreter_mail);
-        if($this->debug == true){
-            die($this->db->prepare());
-        }else{
-            $ok = $this->db->pdbquery();
-            if (!$ok) {
-                throw new \Exception('...'); 
-            }    
-        }
-    }
     
     public function createTable()
     {
