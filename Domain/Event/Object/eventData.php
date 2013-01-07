@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\Object;
+namespace Fab\Domain\Event\Object;
 
 class eventData extends \lw_ddd_valueObject
 {
@@ -31,7 +31,7 @@ class eventData extends \lw_ddd_valueObject
                 "first_date", 
                 "last_date");
         
-        parent::__construct($values, $allowedKeys, new \FabBackend\Service\eventValidate());
+        parent::__construct($values, $allowedKeys, new \Fab\Domain\Event\Service\eventValidate());
     }
     
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\View;
+namespace Fab\Domain\Event\View;
 
 class eventForm
 {

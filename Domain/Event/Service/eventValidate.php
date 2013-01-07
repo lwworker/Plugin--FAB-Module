@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\Service;
+namespace Fab\Domain\Event\Service;
 
 class eventValidate
 {

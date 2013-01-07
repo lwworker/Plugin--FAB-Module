@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\Object;
+namespace Fab\Domain\Event\Object;
 
 class event extends \lw_ddd_entity
 {
@@ -16,22 +16,22 @@ class event extends \lw_ddd_entity
     
     public function delete()
     {
-        $commandHandler = new \FabBackend\Model\eventCommandHandler();
+        $commandHandler = new \Fab\Domain\Event\Model\eventCommandHandler();
         return $commandHandler->deleteEvent($this);
     }
 
     public function save()
     {
-        $commandHandler = new \FabBackend\Model\eventCommandHandler();
+        $commandHandler = new \Fab\Domain\Event\Model\eventCommandHandler();
         return $this->saveEntity($commandHandler);
     }
     
     public function load()
     {
         if ($this->id > 0) {
-            $queryHandler = new \FabBackend\Model\eventQueryHandler();
+            $queryHandler = new \Fab\Domain\Event\Model\eventQueryHandler();
             $data = $queryHandler->getEventById($this->id);
-            $this->setDataValueObject(new \FabBackend\Object\eventData($data));
+            $this->setDataValueObject(new \Fab\Domain\Event\Object\eventData($data));
             $this->setLoaded();
             $this->unsetDirty();
         }
@@ -42,7 +42,7 @@ class event extends \lw_ddd_entity
     
     public function renderView($view)
     {
-        $ValueObjectDecorated = \FabBackend\Service\eventDecorator::getInstance()->decorate($this->valueObject);
+        $ValueObjectDecorated = \Fab\Domain\Event\Service\eventDecorator::getInstance()->decorate($this->valueObject);
         $view->entity = $ValueObjectDecorated->getValues();
     }    
 }

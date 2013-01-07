@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\Service;
+namespace Fab\Domain\Event\Service;
 
 class eventDecorator
 {
@@ -11,7 +11,7 @@ class eventDecorator
     
     public function getInstance()
     {
-        return new \FabBackend\Service\eventDecorator();
+        return new \Fab\Domain\Event\Service\eventDecorator();
     }
     
     public function decorate(\lw_ddd_valueObject $valueObject)

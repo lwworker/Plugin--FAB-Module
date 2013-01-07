@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\Service;
+namespace Fab\Domain\Event\Service;
 
 class eventFilter
 {
@@ -10,7 +10,7 @@ class eventFilter
     
     public function getInstance()
     {
-        return new \FabBackend\Service\eventFilter();
+        return new \Fab\Domain\Event\Service\eventFilter();
     }
     
     public function filter(\lw_ddd_valueObject $valueObject)

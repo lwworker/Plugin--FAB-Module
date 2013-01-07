@@ -1,8 +1,8 @@
 <?php
 
-namespace FabBackend\Controller;
+namespace Fab\Domain\Event\Controller;
 
-class BackendController extends \lw_ddd_controller
+class Controller extends \lw_ddd_controller
 {
     public function __construct()
     {
@@ -12,14 +12,14 @@ class BackendController extends \lw_ddd_controller
     
     public function showListAction()
     {
-        $aggregate = \FabBackend\Object\eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new \FabBackend\Model\eventQueryHandler());
-        $listView = new \FabBackend\View\eventList($aggregate);        
+        $aggregate = \Fab\Domain\Event\Object\eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new \Fab\Domain\Event\Model\eventQueryHandler());
+        $listView = new \Fab\Domain\Event\View\eventList($aggregate);        
         $this->response->addOutputByName('FabBackend', $listView->render());
     }
     
     public function showAddFormAction($errors=false)
     {
-        $formView = new \FabBackend\View\eventForm($this->domainEvent);
+        $formView = new \Fab\Domain\Event\View\eventForm($this->domainEvent);
         if ($errors) {
             $formView->setErrors($errors);
         }
@@ -31,13 +31,13 @@ class BackendController extends \lw_ddd_controller
         if (!$this->domainEvent->hasEntity()) {
             $this->setEntityById($this->domainEvent->getId());
         }
-        $formView = new \FabBackend\View\eventForm($this->domainEvent);
+        $formView = new \Fab\Domain\Event\View\eventForm($this->domainEvent);
         $this->response->addOutputByName('FabBackend', $formView->render());
     }
     
     protected function setEntityById($id)
     {
-        $event = new \FabBackend\Object\event($id);
+        $event = new \Fab\Domain\Event\Object\event($id);
         $event->load();
         $this->domainEvent->setEntity($event);
     }
@@ -66,19 +66,19 @@ class BackendController extends \lw_ddd_controller
     
     protected function saveEvent($id=false)
     {
-        $PostValueObjectFiltered = \FabBackend\Service\eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());
-        $EventValidationSevice = new \FabBackend\Service\eventValidate();
+        $PostValueObjectFiltered = \Fab\Domain\Event\Service\eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());
+        $EventValidationSevice = new \Fab\Domain\Event\Service\eventValidate();
         $EventValidationSevice->setValues($PostValueObjectFiltered->getValues());
         $valid = $EventValidationSevice->validate();
         if ($valid)
         {
             try {
-                $EventDataValueObject = new \FabBackend\Object\eventData($PostValueObjectFiltered->getValues());
+                $EventDataValueObject = new \Fab\Domain\Event\Object\eventData($PostValueObjectFiltered->getValues());
             }
             catch (Exception $e) {
                 die("error: ".$e->getMessage());
             }
-            $entity = new \FabBackend\Object\event($id);
+            $entity = new \Fab\Domain\Event\Object\event($id);
             $entity->setDataValueObject($EventDataValueObject);
             try {
                 $result = $entity->save();

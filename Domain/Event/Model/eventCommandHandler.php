@@ -1,6 +1,6 @@
 <?php
 
-namespace FabBackend\Model;
+namespace Fab\Domain\Event\Model;
 
 class eventCommandHandler
 {

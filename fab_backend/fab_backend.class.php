@@ -14,9 +14,9 @@ class fab_backend extends lw_plugin
     
     public function buildPageOutput()
     {
-        include_once(dirname(__FILE__).'/Object/eventAutoloader.php');
-        $autoloader = new FabBackend\Object\eventAutoloader();
-        $controller = new FabBackend\Controller\BackendController();
+        include_once(dirname(__FILE__).'/../Services/Autoloader/fabAutoloader.php');
+        $autoloader = new Fab\Service\Autoloader\fabAutoloader();
+        $controller = new Fab\Domain\Event\Controller\Controller();
         $response = $controller->execute($this->request);
         return $response->getOutputByName('FabBackend');
     }
