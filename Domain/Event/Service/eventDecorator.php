@@ -14,7 +14,7 @@ class eventDecorator
         return new \Fab\Domain\Event\Service\eventDecorator();
     }
     
-    public function decorate(\lw_ddd_valueObject $valueObject)
+    public function decorate(\LWddd\ValueObject $valueObject)
     {
         $values = $valueObject->getValues();
         foreach($values as $key => $value){
@@ -25,7 +25,7 @@ class eventDecorator
             }
             $decoratedValues[$key] = $value;
         }
-        return new \lw_ddd_valueObject($decoratedValues);
+        return new \LWddd\ValueObject($decoratedValues);
     }
     
     public function ansprechpartner_mailDecorate($value)

@@ -2,7 +2,7 @@
 
 namespace Fab\Domain\Event\Controller;
 
-class Controller extends \lw_ddd_controller
+class Controller extends \LWddd\Controller
 {
     public function __construct()
     {

@@ -2,7 +2,7 @@
 
 namespace Fab\Domain\Event\Object;
 
-class eventData extends \lw_ddd_valueObject
+class eventData extends \LWddd\ValueObject
 {
     public function __construct($values)
     {

@@ -18,6 +18,6 @@ class eventAggregateFactory
              $dummy->unsetDirty();
              $entities[] = $dummy;
         }
-        return new \lw_ddd_entityAggregate($entities);
+        return new \LWddd\EntityAggregate($entities);
     }
 }

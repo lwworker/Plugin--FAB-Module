@@ -2,7 +2,7 @@
 
 namespace Fab\Domain\Event\Object;
 
-class event extends \lw_ddd_entity
+class event extends \LWddd\Entity
 {
     public function __construct($id=false)
     {

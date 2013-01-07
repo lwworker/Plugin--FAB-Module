@@ -13,7 +13,7 @@ class eventFilter
         return new \Fab\Domain\Event\Service\eventFilter();
     }
     
-    public function filter(\lw_ddd_valueObject $valueObject)
+    public function filter(\LWddd\ValueObject $valueObject)
     {
         $values = $valueObject->getValues();
         foreach($values as $key => $value) {
@@ -24,7 +24,7 @@ class eventFilter
             }
             $filteredValues[$key] = $value;
         }
-        return new \lw_ddd_valueObject($filteredValues);
+        return new \LWddd\ValueObject($filteredValues);
     }
     
     public function ansprechpartner_mailFilter($value)

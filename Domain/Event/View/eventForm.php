@@ -4,7 +4,7 @@ namespace Fab\Domain\Event\View;
 
 class eventForm
 {
-    public function __construct(\lw_ddd_domainEvent $domainEvent)
+    public function __construct(\LWddd\DomainEvent $domainEvent)
     {
         $this->domainEvent = $domainEvent;
         $this->view = new \lw_view(dirname(__FILE__).'/templates/formView.tpl.phtml');

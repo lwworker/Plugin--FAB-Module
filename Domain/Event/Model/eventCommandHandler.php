@@ -15,7 +15,7 @@ class eventCommandHandler
         $this->$command($domainEvent->getEntity());
     }
     
-    public function addEvent(\lw_ddd_valueObject $entity)
+    public function addEvent(\LWddd\ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_tagungen ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, stellvertreter_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :stellvertreter_mail, :standardbetrag, :first_date, :last_date ) ");
         $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
@@ -54,7 +54,7 @@ class eventCommandHandler
         }
     }
     
-    public function saveEvent($id, \lw_ddd_valueObject $entity)
+    public function saveEvent($id, \LWddd\ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, stellvertreter_mail = :stellvertreter_mail, standardbetrag = :standardbetrag, first_date = :first_date, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
@@ -94,7 +94,7 @@ class eventCommandHandler
         }
     }
     
-    public function deleteEvent(\lw_ddd_entity $entity)
+    public function deleteEvent(\LWddd\Entity $entity)
     {
         if ($entity->isDeleteable() && $entity->getId() > 0) {
             $this->db->setStatement("DELETE FROM t:fab_tagungen WHERE id = :id ");

@@ -4,7 +4,7 @@ namespace Fab\Domain\Event\View;
 
 class eventList
 {
-    public function __construct(\lw_ddd_entityAggregate $aggregate)
+    public function __construct(\LWddd\EntityAggregate $aggregate)
     {
         $this->aggregate = $aggregate;
         $this->view = new \lw_view(dirname(__FILE__).'/templates/listView.tpl.phtml');
