@@ -1,33 +1,30 @@
 <?php
+require_once dirname(__FILE__) . '/../../../Services/Zipcheck/zipcheck.php';
 
-namespace Fab\Domain\Participant\Service;
-
-class participantValidate
+class participantsValidate
 {
     public function __construct()
     {
         $this->allowedKeys = array(
                 "id",
-                "buchungskreis",
-                "v_schluessel",
+                "anrede",
+                "sprache",
+                "titel",
+                "name",
+                "institut",
+                "unternehmen",
+                "straße",
+                "plz",
+                "ort",
+                "land",
+                "mail",
+                "veranstaltung",
+                "ust_id_nr",
+                "zahlweise",
+                "refernznr",
+                "teilnehmer_intern",
                 "auftragsnr",
-                "bezeichnung",
-                "v_land",
-                "v_ort",
-                "anmeldefrist_beginn",
-                "anmeldefrist_ende",
-                "v_beginn",
-                "v_ende",
-                "cpd_konto",
-                "erloeskonto",
-                "steuerkennzeichen",
-                "steuersatz",
-                "ansprechpartner",
-                "ansprechpartner_tel",
-                "organisationseinheit",
-                "ansprechpartner_mail",
-                "stellvertreter_mail",
-                "standardbetrag",
+                "betrag",
                 "first_date",
                 "last_date");
     }
@@ -67,7 +64,7 @@ class participantValidate
         return $this->errors[$key];
     }
     
-    function idValidate($value){
+    public function idValidate($value){
         if(empty($value)){
             return true;
         }else{
@@ -80,115 +77,120 @@ class participantValidate
         }
     }
     
-    function buchungskreisValidate($value)
+    public function anredeValidate($value)
     {
-        return $this->defaultValidation("buchungskreis", $value, 4);
+        return $this->defaultValidation("anrede",$value, 15);
     }
     
-    function v_schluesselValidate($value)
+    public function spracheValidate($value)
     {
-        return $this->defaultValidation("v_schluessel", $value, 8);
+        return $this->defaultValidation("sprache", $value, 2);
     }
     
-    function auftragsnrValidate($value)
+    public function titelValidate($value)
     {
-        return $this->defaultValidation("auftragsnr", $value, 12);
+        return $this->defaultValidation("titel", $value, 20);
     }
     
-    function bezeichnungValidate($value)
+    public function nameValidate($value)
     {
-        return $this->defaultValidation("bezeichnung", $value, 50);
+        return $this->defaultValidation("name", $value, 35 , true);
     }
     
-    function v_landValidate($value)
+    public function institutValidate($value)
     {
-        return $this->defaultValidation("v_land", $value, 2);
+        return $this->defaultValidation("institut", $value, 35);
     }
     
-    function v_ortValidate($value)
+    public function unternehmenValidate($value)
     {
-        return $this->defaultValidation("v_ort", $value, 35);
+        return $this->defaultValidation("unternehmen", $value, 35);
     }
     
-    function anmeldefrist_beginnValidate($value)
+    public function straßeValidate($value)
     {
-        return $this->requiredDateValidation("anmeldefrist_beginn", $value);
+        return $this->defaultValidation("straße", $value, 30);
     }
     
-    function anmeldefrist_endeValidate($value)
+    public function plzValidate($value)
     {
-        return $this->requiredDateValidation("anmeldefrist_ende", $value);
+        $zipcheck = new zipcheck();
+        if($this->landValidate($this->array["land"])){
+            $ok = $zipcheck->check(strtoupper($this->array["land"]), $value);
+            if($ok === 1){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
-    
-    function v_beginnValidate($value)
+
+    public function ortValidate($value)
     {
-        return $this->requiredDateValidation("v_beginn", $value);
+        return $this->defaultValidation("ort", $value, 35, true);
     }
-    
-    function v_endeValidate($value)
+
+    public function landValidate($value)
     {
-        return $this->requiredDateValidation("v_ende", $value);
+        return $this->defaultValidation("land", $value, 2);
     }
-    
-    function cpd_kontoValidate($value)
+
+    public function mailValidate($value)
     {
-        return $this->defaultValidation("cpd_konto", $value, 10);
-    }
-    
-    function erloeskontoValidate($value)
-    {
-        return $this->defaultValidation("erloeskonto", $value, 10);
-    }
-    
-    function steuerkennzeichenValidate($value)
-    {
-        return $this->defaultValidation("steuerkennzeichen", $value, 2);
-    }
-    
-    function steuersatzValidate($value)
-    {
-        return $this->defaultValidation("steuersatz", $value, 5);
-    }
-    
-    function ansprechpartnerValidate($value)
-    {
-        return $this->defaultValidation("ansprechpartner", $value, 30);
-    }
-    
-    function ansprechpartner_telValidate($value)
-    {
-        return $this->defaultValidation("ansprechpartner_tel", $value, 20);
-    }
-    
-    function organisationseinheitValidate($value)
-    {
-        return $this->defaultValidation("organisationseinheit", $value, 12);
-    }
-    
-    function ansprechpartner_mailValidate($value)
-    {
-        $bool = $this->requiredValidation("ansprechpartner_mail", $value);
+        $bool = $this->requiredValidation("mail", $value);
         if($bool){
-            return $this->emailValidation("ansprechpartner_mail", $value);
+            return $this->emailValidation("mail", $value);
         }
         return false;
     }
     
-    function stellvertreter_mailValidate($value)
+    public function veranstaltungValidate($value)
     {
-        if(empty($value)){
-            return true;
+        return $this->defaultValidation("veranstaltung", $value, 8 , true);
+    }
+    
+    public function ust_id_nrValidate($value)
+    {
+        return $this->defaultValidation("ust_id_nr", $value, 20);
+    }
+    
+    public function zahlweiseValidate($value)
+    {
+        $bool = $this->defaultValidation("zahlweise", $value, 1, true);
+
+        if(!in_array(strtoupper($value), array("K","U"))){
+            $this->addError("zahlweise", 3, array("errormsg" => "unguelte Zahlweisenabkuerzung. ( K = Kreditzahlung, U = Ueberweisung )"));
+            $bool = false;
+        }
+        
+        if($bool === false){
+            return false;
         }else{
-            return $this->emailValidation("stellvertreter_mail", $value);
+            return true;
         }
     }
     
-    function standardbetragValidate($value)
+    public function referenznrValidate($value)
     {
-        return $this->defaultValidation("standardbetrag", $value, 16);
+        return $this->defaultValidation("referenznr", $value, 8 , true);
     }
     
-    function first_dateValidate($value)
+    public function teilnehmer_internValidate($value)
+    {
+        return $this->defaultValidation("teilnehmer_intern", $value, 1);
+    }
+    
+    public function auftragsnrValidate($value)
+    {
+        return $this->defaultValidation("auftragsnr", $value, 12, true);
+    }
+    
+    public function betragValidate($value)
+    {
+        return $this->defaultValidation("betrag", $value, 16, true);
+    }
+
+    public function first_dateValidate($value)
     {
         if(empty($value)){
             return true;
@@ -197,7 +199,7 @@ class participantValidate
         }
     }
     
-    function last_dateValidate($value)
+    public function last_dateValidate($value)
     {
         if(empty($value)){
             return true;
@@ -206,9 +208,13 @@ class participantValidate
         }
     }
     
-    function defaultValidation($key,$value,$length)
+    public function defaultValidation($key,$value,$length,$required = false)
     {
-        $bool = $this->requiredValidation($key, $value);
+        $bool = true;
+        
+        if($required === true){
+            $bool = $this->requiredValidation($key, $value);
+        }
         
         if(strlen($value) > $length){
             $this->addError($key, 2, array("errormsg" => "Die maximale Zeichenlaenge von ".$length." Zeichen ist einzuhalten."));
@@ -230,19 +236,7 @@ class participantValidate
         return true;
     }
     
-    public function requiredDateValidation($key, $value)
-    {
-        $bool = true;
-        $bool = $this->requiredValidation($key, $value);
-        $bool = $this->dateValidation($key, $value);
-        
-        if($bool == false){
-            return false;
-        }
-        return true;
-    }
-    
-    function dateValidation($key, $value, $opt_timecheck = false)
+    public function dateValidation($key, $value, $opt_timecheck = false)
     {
         $bool = true;
         if($opt_timecheck == true){
@@ -301,7 +295,7 @@ class participantValidate
         return true;
     }
     
-    function emailValidation($key,$value)
+    public function emailValidation($key,$value)
     {
         $bool = true;
 
@@ -314,5 +308,9 @@ class participantValidate
             return false;
         }
         return true;
+    }
+    
+    public function setDB($db){
+        $this->db = $db;
     }
 }
