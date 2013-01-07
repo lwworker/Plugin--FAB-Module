@@ -9,11 +9,16 @@ class fabAutoloader
         spl_autoload_register(array($this, 'loader'));
     }
 
+    public function setConfig($config)
+    {
+        $this->config = $config;
+    }
+    
     private function loader($className) 
     {
         if (strstr($className, 'LWddd')) {
             $config = \lw_registry::getInstance()->getEntry('config');
-            $path = $config['plugin_path']['lw'].'lw_ddd';
+            $path = $this->config['plugin_path']['lw'].'lw_ddd';
             $filename = str_replace('LWddd', $path, $className);
         }
         else {
