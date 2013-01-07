@@ -21,4 +21,11 @@ class eventQueryHandler
         $this->db->bindParameter("id", "i", $id);
         return $this->db->pselect1();
     }
+    
+    public function loadEventsByResponsible($ansprechpartner_mail)
+    {
+        $this->db->setStatement("SELECT * FROM t:fab_tagungen WHERE ansprechpartner_mail = :ansprechpartner_mail ORDER BY anmeldefrist_beginn DESC ");
+        $this->db->bindParameter("ansprechpartner_mail","s",$ansprechpartner_mail);
+        return $this->db->pselect();
+    }
 }
