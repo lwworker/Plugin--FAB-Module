@@ -1,5 +1,7 @@
 <?php
+
 namespace Fab\Domain\Participant\Service;
+
 class participantsValidate
 {
     public function __construct()

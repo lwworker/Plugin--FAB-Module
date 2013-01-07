@@ -15,7 +15,7 @@ class participantCommandHandler
         $this->$command($domainEvent->getEntity());
     }
         
-    public function addParticipant($event_id, \lw_ddd_valueObject $entity)
+    public function addParticipant($event_id, \LWddd\ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_teilnehmer ( event_id, anrede, sprache, titel, nachname, vorname, institut, unternehmen, strasse, plz, ort, land, mail, veranstaltung, ust_id_nr, zahlweise, referenznr, teilnehmer_intern, auftragsnr, betrag, first_date, last_date ) VALUES ( :event_id, :anrede, :sprache, :titel, :nachname, :vorname, :institut, :unternehmen, :strasse, :plz, :ort, :land, :mail, :veranstaltung, :ust_id_nr, :zahlweise, :referenznr, :teilnehmer_intern, :auftragsnr, :betrag, :first_date, :last_date ) ");
         $this->db->bindParameter("event_id", "i", $event_id);
@@ -55,7 +55,7 @@ class participantCommandHandler
         }
     }
     
-    public function saveParticipant($id, \lw_ddd_valueObject $entity)
+    public function saveParticipant($id, \LWddd\ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_teilnehmer SET anrede = :anrede, sprache = :sprache, titel = :titel, nachname = :nachname, vorname = :vorname, institut = :institut, unternehmen = :unternehmen, strasse = :strasse, plz = :plz, ort = :ort, land = :land, mail = :mail, veranstaltung = :veranstaltung, ust_id_nr = :ust_id_nr, zahlweise = :zahlweise, referenznr = :referenznr, teilnehmer_intern = :teilnehmer_intern, auftragsnr = :auftragsnr, betrag = :betrag, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
