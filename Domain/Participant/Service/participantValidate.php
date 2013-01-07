@@ -1,19 +1,20 @@
 <?php
-require_once dirname(__FILE__) . '/../../../Services/Zipcheck/zipcheck.php';
-
+namespace Fab\Domain\Participant\Service;
 class participantsValidate
 {
     public function __construct()
     {
         $this->allowedKeys = array(
                 "id",
+                "event_id",
                 "anrede",
                 "sprache",
                 "titel",
-                "name",
+                "nachname",
+                "vorname",
                 "institut",
                 "unternehmen",
-                "straße",
+                "strasse",
                 "plz",
                 "ort",
                 "land",
@@ -77,6 +78,19 @@ class participantsValidate
         }
     }
     
+    public function event_idValidate($value){
+        if(empty($value)){
+            return true;
+        }else{
+            if(ctype_digit($value)){
+                return true;
+            }else{
+                $this->addError("id", 1, array("errormsg" => "id darf nur aus Zahlen bestehen."));
+                return false;
+            }
+        }
+    }
+    
     public function anredeValidate($value)
     {
         return $this->defaultValidation("anrede",$value, 15);
@@ -92,9 +106,14 @@ class participantsValidate
         return $this->defaultValidation("titel", $value, 20);
     }
     
-    public function nameValidate($value)
+    public function nachnameValidate($value)
     {
-        return $this->defaultValidation("name", $value, 35 , true);
+        return $this->defaultValidation("nachname", $value, 35 , true);
+    }
+    
+    public function vornameValidate($value)
+    {
+        return $this->defaultValidation("vorname", $value, 35 , true);
     }
     
     public function institutValidate($value)
@@ -114,7 +133,7 @@ class participantsValidate
     
     public function plzValidate($value)
     {
-        $zipcheck = new zipcheck();
+        $zipcheck = new \Fab\Services\Zipcheck\zipcheck();
         if($this->landValidate($this->array["land"])){
             $ok = $zipcheck->check(strtoupper($this->array["land"]), $value);
             if($ok === 1){

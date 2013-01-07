@@ -1,4 +1,5 @@
 <?php
+namespace Fab\Services\Zipcheck;
 class zipcheck
 {
     public function __construct() {
