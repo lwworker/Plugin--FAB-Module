@@ -1,8 +1,13 @@
 <?php
 
 namespace Fab\Domain\Event\Object;
+use \LWddd\Entity as Entity;
+use \Fab\Domain\Event\Model\eventCommandHandler as eventCommandHandler;
+use \Fab\Domain\Event\Model\eventQueryHandler as eventQueryHandler;
+use \Fab\Domain\Event\Object\eventData as eventData;
+use \Fab\Domain\Event\Service\eventDecorator as eventDecorator;
 
-class event extends \LWddd\Entity
+class event extends Entity
 {
     public function __construct($id=false)
     {
@@ -16,22 +21,22 @@ class event extends \LWddd\Entity
     
     public function delete()
     {
-        $commandHandler = new \Fab\Domain\Event\Model\eventCommandHandler();
+        $commandHandler = new eventCommandHandler();
         return $commandHandler->deleteEvent($this);
     }
 
     public function save()
     {
-        $commandHandler = new \Fab\Domain\Event\Model\eventCommandHandler();
+        $commandHandler = new eventCommandHandler();
         return $this->saveEntity($commandHandler);
     }
     
     public function load()
     {
         if ($this->id > 0) {
-            $queryHandler = new \Fab\Domain\Event\Model\eventQueryHandler();
+            $queryHandler = new eventQueryHandler();
             $data = $queryHandler->getEventById($this->id);
-            $this->setDataValueObject(new \Fab\Domain\Event\Object\eventData($data));
+            $this->setDataValueObject(new eventData($data));
             $this->setLoaded();
             $this->unsetDirty();
         }
@@ -42,7 +47,7 @@ class event extends \LWddd\Entity
     
     public function renderView($view)
     {
-        $ValueObjectDecorated = \Fab\Domain\Event\Service\eventDecorator::getInstance()->decorate($this->valueObject);
+        $ValueObjectDecorated = eventDecorator::getInstance()->decorate($this->valueObject);
         $view->entity = $ValueObjectDecorated->getValues();
     }    
 }

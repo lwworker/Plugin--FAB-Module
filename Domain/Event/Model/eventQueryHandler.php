@@ -1,12 +1,13 @@
 <?php
 
 namespace Fab\Domain\Event\Model;
+use \lw_registry as lw_registry;
 
 class eventQueryHandler
 {
     public function __construct()
     {
-        $this->db = \lw_registry::getInstance()->getEntry('db');
+        $this->db = lw_registry::getInstance()->getEntry('db');
     }
     
     public function getAllEvents()

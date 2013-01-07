@@ -1,8 +1,9 @@
 <?php
 
 namespace FabFrontend\Controller;
+use \LWddd\Controller as Controller;
 
-class FrontendController extends \lw_ddd_controller
+class FrontendController extends Controller
 {
     public function __construct()
     {
