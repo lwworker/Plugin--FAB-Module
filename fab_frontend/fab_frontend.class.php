@@ -13,10 +13,29 @@ class fab_frontend extends lw_plugin
     
     public function buildPageOutput()
     {
-        include_once(dirname(__FILE__).'/Object/eventAutoloader.php');
-        $autoloader = new FabBackend\Object\eventAutoloader();
-        $controller = new FabBackend\Controller\BackendController();
-        $response = $controller->execute($this->request);
-        return $response->getOutputByName('FabFrontend');
+        include_once(dirname(__FILE__).'/../Services/Autoloader/fabAutoloader.php');
+        $autoloader = new Fab\Service\Autoloader\fabAutoloader();
+        $autoloader->setConfig($this->config);
+        
+        $response = \Fab\Library\fabResponse::getInstance();
+        $cmd = $this->request->getAlnum('cmd');
+        if ($this->request->getAlnum('cmd') == 'showEventListForResponsible' || !$this->request->getAlnum('cmd')) {
+            $controller = new \Fab\Domain\Event\Controller\Controller($response);
+            $controller->setSession(new \Fab\Library\fabSession());
+            $cmd = 'showEventListForResponsible';
+        }
+        else {
+            //$controller = new \Fab\Domain\Participant\Controller\Controller($response);
+        }
+        
+        $response = $controller->execute($cmd, $this->request);
+        
+        if ($response->hasReloadCommand()) {
+            $url = lw_page::getInstance()->getUrl($response->getReloadCommandWithParameters());
+            $this->pageReload($url);
+        }
+        else {
+            return $response->getOutputByName('FabOutput');
+        }
     }
 }
