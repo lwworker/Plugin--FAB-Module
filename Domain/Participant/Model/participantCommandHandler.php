@@ -37,8 +37,8 @@ class participantCommandHandler extends fabCommandHandler
         $this->db->bindParameter("teilnehmer_intern", "i", $entity->getValueByKey('teilnehmer_intern'));
         $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
         $this->db->bindParameter("betrag", "s", $entity->getValueByKey('betrag'));
-        $this->db->bindParameter("first_date", "i", $entity->getValueByKey('first_date'));
-        $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
+        $this->db->bindParameter("first_date", "i", date("YmdHis"));
+        $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
         $this->basePdbinsert("fab_teilnehmer");
     }
@@ -66,7 +66,7 @@ class participantCommandHandler extends fabCommandHandler
         $this->db->bindParameter("teilnehmer_intern", "i", $entity->getValueByKey('teilnehmer_intern'));
         $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
         $this->db->bindParameter("betrag", "s", $entity->getValueByKey('betrag'));
-        $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
+        $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
         $this->basePdbqueryWithEntityReturn($entity);
     }
