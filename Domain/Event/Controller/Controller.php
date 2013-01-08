@@ -20,6 +20,13 @@ class Controller extends \LWddd\Controller
         $this->defaultAction = "showListAction";
     }
     
+    public function showEventListForResponsibleAction() 
+    {
+        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler());
+        $listView = new eventList($aggregate);        
+        $this->response->addOutputByName('FabOutput', $listView->render());
+    }
+    
     public function showListAction()
     {
         $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler());
