@@ -1,21 +1,20 @@
 <?php
 
 namespace Fab\Domain\Participant\Model;
+use \lw_registry as lw_registry;
+use \LWddd\ValueObject as ValueObject;
+use \LWddd\Entity as Entity;
+use \Fab\Library\fabCommandHandler as fabCommandHandler;
+use \Exception as Exception;
 
-class participantCommandHandler
+class participantCommandHandler extends fabCommandHandler
 {
     public function __construct()
     {
-        $this->db = \lw_registry::getInstance()->getEntry('db');
+        $this->db = lw_registry::getInstance()->getEntry('db');
     }
-    
-    public function handle($domainEvent)
-    {
-        $command = $domainEvent->getEventName();
-        $this->$command($domainEvent->getEntity());
-    }
-        
-    public function addParticipant($event_id, \LWddd\ValueObject $entity)
+  
+    public function addParticipant($event_id, ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_teilnehmer ( event_id, anrede, sprache, titel, nachname, vorname, institut, unternehmen, strasse, plz, ort, land, mail, veranstaltung, ust_id_nr, zahlweise, referenznr, teilnehmer_intern, auftragsnr, betrag, first_date, last_date ) VALUES ( :event_id, :anrede, :sprache, :titel, :nachname, :vorname, :institut, :unternehmen, :strasse, :plz, :ort, :land, :mail, :veranstaltung, :ust_id_nr, :zahlweise, :referenznr, :teilnehmer_intern, :auftragsnr, :betrag, :first_date, :last_date ) ");
         $this->db->bindParameter("event_id", "i", $event_id);
@@ -40,22 +39,11 @@ class participantCommandHandler
         $this->db->bindParameter("betrag", "s", $entity->getValueByKey('betrag'));
         $this->db->bindParameter("first_date", "i", $entity->getValueByKey('first_date'));
         $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
-        
-        if($this->debug == true) {
-            die($this->db->prepare());
-        }
-        else {
-            $newId = $this->db->pdbinsert($this->db->gt('fab_teilnehmer'));
-            if ($newId > 0) {
-                return $newId;
-            }
-            else {
-                throw new \Exception('...'); 
-            }
-        }
+
+        $this->basePdbinsert("fab_teilnehmer");
     }
     
-    public function saveParticipant($id, \LWddd\ValueObject $entity)
+    public function saveParticipant($id, ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_teilnehmer SET anrede = :anrede, sprache = :sprache, titel = :titel, nachname = :nachname, vorname = :vorname, institut = :institut, unternehmen = :unternehmen, strasse = :strasse, plz = :plz, ort = :ort, land = :land, mail = :mail, veranstaltung = :veranstaltung, ust_id_nr = :ust_id_nr, zahlweise = :zahlweise, referenznr = :referenznr, teilnehmer_intern = :teilnehmer_intern, auftragsnr = :auftragsnr, betrag = :betrag, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
@@ -79,75 +67,44 @@ class participantCommandHandler
         $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
         $this->db->bindParameter("betrag", "s", $entity->getValueByKey('betrag'));
         $this->db->bindParameter("last_date", "i", $entity->getValueByKey('last_date'));
-        if($this->debug == true) {
-            die($this->db->prepare());
-        }
-        else {
-            $ok = $this->db->pdbquery();
-            if ($ok) {
-                return $entity;
-            }
-            else {
-                throw new \Exception('...'); 
-            }
-        }
+
+        $this->basePdbqueryWithEntityReturn($entity);
     }
     
-    public function deleteEvent($id)
+    public function deleteParticipant(Entity $entity)
     {
-        $this->db->setStatement("DELETE FROM t:fab_teilnehmer WHERE id = :id ");
-        $this->db->bindParameter("id", "i", $id);
-        if($this->debug == true){
-            die($this->db->prepare());
-        }else{
-            $ok = $this->db->pdbquery();
-            if (!$ok) {
-                throw new \Exception('...'); 
-            }
-        }
+        $this->baseDelete($entity, "fab_teilnehmer");                              
     }
-
+    
     public function createTable()
     {
-        if(!$this->db->tableExits("fab_teilnehmer")){
-            $this->db->setStatement("CREATE TABLE IF NOT EXISTS ".$this->db->gt('fab_teilnehmer')." (
-                      `id` int(11) NOT NULL AUTO_INCREMENT,
-                      `event_id` int(11) NOT NULL,
-                      `anrede` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `sprache` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `titel` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `nachname` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `vorname` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `institut` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `unternehmen` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `strasse` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `plz` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `ort` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `land` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `mail` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `veranstaltung` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `ust_id_nr` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `zahlweise` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `referenznr` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `teilnehmer_intern` int(1) NOT NULL,
-                      `auftragsnr` varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `betrag` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                      `first_date` int(14) NOT NULL,
-                      `last_date` int(14) NOT NULL,
-                      PRIMARY KEY (`id`)
-                    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-                ");
-            if($this->debug == true){
-                die($this->db->prepare());
-            }else{
-                $ok = $this->db->pdbquery();
-                if(!$ok){
-                    throw new \Exception('...'); 
-                }
-            }
-        }
-        $this->updateTable();
+        $table_create_statement = "id int(11) NOT NULL AUTO_INCREMENT,
+                                  event_id int(11) NOT NULL,
+                                  anrede varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  sprache varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  titel varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  nachname varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  vorname varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  institut varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  unternehmen varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  strasse varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  plz varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  ort varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  land varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  mail varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  veranstaltung varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  ust_id_nr varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  zahlweise varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  referenznr varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  teilnehmer_intern int(1) NOT NULL,
+                                  auftragsnr varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  betrag varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                                  first_date int(14) NOT NULL,
+                                  last_date int(14) NOT NULL,
+                                  PRIMARY KEY (id) ";
         
+        $this->baseCreateTable("fab_teilnehmer", $table_create_statement);
+        $this->updateTable();    
     }
     
     public function updateTable()
@@ -163,11 +120,7 @@ class participantCommandHandler
     
     public function setDebug($bool = true)
     {
-        if($bool === true){
-            $this->debug = true;
-        }else{
-            $this->debug = false;
-        }
+        $this->baseSetDebug($bool);
     }
     
 }
