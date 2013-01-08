@@ -13,6 +13,10 @@ class eventAggregateFactory
         if ($cmd == "showListAction") {
             $items = $queryHandler->getAllEvents();
         }
+        if ($cmd == "showEventListForResponsibleAction") {
+            $session = $domainEvent->getSession();
+            $items = $queryHandler->loadEventsByResponsible($session->getEmail());
+        }
         foreach($items as $item) {
              $dummy = new event($item['id']);
              $dummy->setDataValueObject(new eventData($item));
