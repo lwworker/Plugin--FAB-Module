@@ -4,8 +4,9 @@ namespace Fab\Domain\Event\View;
 use \LWddd\EntityAggregate as EntityAggregate;
 use \lw_view as lw_view;
 use \lw_page as lw_page;
+use \Fab\Library\fabView as fabView;
 
-class eventList
+class eventList extends fabView
 {
     public function __construct(EntityAggregate $aggregate)
     {
