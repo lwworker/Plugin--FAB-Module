@@ -1,0 +1,27 @@
+<h1>Entities</h1>
+<div>
+    <a href="<?php echo $this->addUrl; ?>">add entity</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Key</th>
+            <th>Content</th>
+            <th>Language</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->entities as $entity): ?>
+        <tr>
+            <td><?php echo $entity->getValueByKey('id'); ?></td>
+            <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditForm", "id"=>$entity->getValueByKey('id'))); ?>"><?php echo $entity->getValueByKey('key'); ?></a></td>
+            <td><?php echo $entity->getValueByKey('content'); ?></td>
+            <td><?php echo $entity->getValueByKey('language'); ?></td>
+            <td><?php echo $entity->getValueByKey('category'); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Fab\Domain\Event\Model;
+namespace Fab\Domain\Text\Model;
 use \lw_registry as lw_registry;
 
 class textQueryHandler
