@@ -43,7 +43,7 @@ class Controller extends \LWddd\Controller
         $this->response->addOutputByName('FabOutput', $formView->render());
     }
     
-    public function showEditFormAction()
+    public function showEditFormAction($errors=false)
     {
         if (!$this->domainEvent->hasEntity()) {
             $this->setEntityById($this->domainEvent->getId());
@@ -111,10 +111,7 @@ class Controller extends \LWddd\Controller
             $entity->setDataValueObject($EventDataValueObject);
             try {
                 $result = $entity->save();
-                if ($id > 0) {
-                    return true;
-                }
-                else {
+                if ($result > 0) {
                     return true;
                 }
             }
@@ -124,7 +121,12 @@ class Controller extends \LWddd\Controller
             }
         }
         else {
-            $this->showAddFormAction($EventValidationSevice->getErrors());
+            if ($id > 0) {
+                $this->showEditFormAction($EventValidationSevice->getErrors());
+            }
+            else {
+                $this->showAddFormAction($EventValidationSevice->getErrors());
+            }
         }
     }
 }

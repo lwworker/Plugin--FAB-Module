@@ -18,7 +18,7 @@
         <tr>
             <td><?php echo $entity->getValueByKey('id'); ?></td>
             <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditForm", "id"=>$entity->getValueByKey('id'))); ?>"><?php echo $entity->getValueByKey('bezeichnung'); ?></a></td>
-            <td><?php echo $entity->getValueByKey('v_beginn'); ?> - <?php echo $entity->getValueByKey('v_ende'); ?></td>
+            <td><?php echo $this->formatDate($entity->getValueByKey('v_beginn')); ?> - <?php echo $this->formatDate($entity->getValueByKey('v_ende')); ?></td>
             <td><?php echo $entity->getValueByKey('v_schluessel'); ?></td>
             <td><?php echo $entity->getValueByKey('cpd_konto'); ?></td>
         </tr>
