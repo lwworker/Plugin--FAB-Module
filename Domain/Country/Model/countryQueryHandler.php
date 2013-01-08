@@ -1,6 +1,6 @@
 <?php
 
-namespace Fab\Domain\Event\Model;
+namespace Fab\Domain\Country\Model;
 use \lw_registry as lw_registry;
 
 class countryQueryHandler
@@ -12,7 +12,7 @@ class countryQueryHandler
     
     public function getAllCountries()
     {
-        $this->db->setStatement("SELECT * FROM t:tabelle ORDER BY countryname DESC ");
+        $this->db->setStatement("SELECT * FROM t:fab_laender ORDER BY land ASC ");
         return $this->db->pselect();
     }
 }
