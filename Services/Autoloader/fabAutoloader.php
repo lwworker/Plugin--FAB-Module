@@ -26,7 +26,7 @@ class fabAutoloader
             $filename = str_replace('Fab', $path, $className);
         }
         $filename = str_replace('\\', '/', $filename).'.php';
-        
+
         if (is_file($filename)) {
             include_once($filename);
         }
