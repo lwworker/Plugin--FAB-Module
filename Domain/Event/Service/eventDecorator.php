@@ -1,6 +1,8 @@
 <?php
 
 namespace Fab\Domain\Event\Service;
+use \Fab\Domain\Event\Service\eventDecorator as eventDecorator;
+use \LWddd\ValueObject as ValueObject;
 
 class eventDecorator
 {
@@ -11,10 +13,10 @@ class eventDecorator
     
     public function getInstance()
     {
-        return new \Fab\Domain\Event\Service\eventDecorator();
+        return new eventDecorator();
     }
     
-    public function decorate(\LWddd\ValueObject $valueObject)
+    public function decorate(ValueObject $valueObject)
     {
         $values = $valueObject->getValues();
         foreach($values as $key => $value){
@@ -25,7 +27,7 @@ class eventDecorator
             }
             $decoratedValues[$key] = $value;
         }
-        return new \LWddd\ValueObject($decoratedValues);
+        return new ValueObject($decoratedValues);
     }
     
     public function ansprechpartner_mailDecorate($value)

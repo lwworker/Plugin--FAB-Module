@@ -1,6 +1,8 @@
 <?php
 
 namespace Fab\Domain\Event\Service;
+use \Fab\Domain\Event\Service\eventFilter as eventFilter;
+use \LWddd\ValueObject as ValueObject;
 
 class eventFilter
 {
@@ -10,10 +12,10 @@ class eventFilter
     
     public function getInstance()
     {
-        return new \Fab\Domain\Event\Service\eventFilter();
+        return new eventFilter();
     }
     
-    public function filter(\LWddd\ValueObject $valueObject)
+    public function filter(ValueObject $valueObject)
     {
         $values = $valueObject->getValues();
         foreach($values as $key => $value) {
@@ -24,7 +26,7 @@ class eventFilter
             }
             $filteredValues[$key] = $value;
         }
-        return new \LWddd\ValueObject($filteredValues);
+        return new ValueObject($filteredValues);
     }
     
     public function ansprechpartner_mailFilter($value)

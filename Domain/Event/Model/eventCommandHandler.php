@@ -1,21 +1,18 @@
 <?php
 
 namespace Fab\Domain\Event\Model;
+use \lw_registry as lw_registry;
+use \LWddd\ValueObject as ValueObject;
+use \LWddd\Entity as Entity;
 
 class eventCommandHandler
 {
     public function __construct()
     {
-        $this->db = \lw_registry::getInstance()->getEntry('db');
+        $this->db = lw_registry::getInstance()->getEntry('db');
     }
     
-    public function handle($domainEvent)
-    {
-        $command = $domainEvent->getEventName();
-        $this->$command($domainEvent->getEntity());
-    }
-    
-    public function addEvent(\LWddd\ValueObject $entity)
+    public function addEvent(ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_tagungen ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, stellvertreter_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :stellvertreter_mail, :standardbetrag, :first_date, :last_date ) ");
         $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
@@ -54,7 +51,7 @@ class eventCommandHandler
         }
     }
     
-    public function saveEvent($id, \LWddd\ValueObject $entity)
+    public function saveEvent($id, ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, stellvertreter_mail = :stellvertreter_mail, standardbetrag = :standardbetrag, first_date = :first_date, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
@@ -94,7 +91,7 @@ class eventCommandHandler
         }
     }
     
-    public function deleteEvent(\LWddd\Entity $entity)
+    public function deleteEvent(Entity $entity)
     {
         if ($entity->isDeleteable() && $entity->getId() > 0) {
             $this->db->setStatement("DELETE FROM t:fab_tagungen WHERE id = :id ");
@@ -135,32 +132,31 @@ class eventCommandHandler
     {
         if(!$this->db->tableExists($this->db->gt('fab_tagungen'))){
             $this->db->setStatement("CREATE TABLE IF NOT EXISTS ".$this->db->gt('fab_tagungen')." (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `buchungskreis` varchar(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `v_schluessel` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `auftragsnr` varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `bezeichnung` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `v_land` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `v_ort` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `anmeldefrist_beginn` int(8) NOT NULL,
-                  `anmeldefrist_ende` int(8) NOT NULL,
-                  `v_beginn` int(8) NOT NULL,
-                  `v_ende` int(8) NOT NULL,
-                  `cpd_konto` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `erloeskonto` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `steuerkennzeichen` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `steuersatz` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `ansprechpartner` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `ansprechpartner_tel` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `organisationseinheit` varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `ansprechpartner_mail` varchar(241) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `stellvertreter_mail` varchar(241) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `standardbetrag` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `first_date` int(14) NOT NULL,
-                  `last_date` int(14) NOT NULL,
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `v_schluessel` (`v_schluessel`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+                  id int(11) NOT NULL AUTO_INCREMENT,
+                  buchungskreis varchar(4) NOT NULL,
+                  v_schluessel varchar(8) NOT NULL,
+                  auftragsnr varchar(12) NOT NULL,
+                  bezeichnung varchar(50) NOT NULL,
+                  v_land varchar(2) NOT NULL,
+                  v_ort varchar(35) NOT NULL,
+                  anmeldefrist_beginn int(8) NOT NULL,
+                  anmeldefrist_ende int(8) NOT NULL,
+                  v_beginn int(8) NOT NULL,
+                  v_ende int(8) NOT NULL,
+                  cpd_konto varchar(10) NOT NULL,
+                  erloeskonto varchar(10) NOT NULL,
+                  steuerkennzeichen varchar(2) NOT NULL,
+                  steuersatz varchar(5) NOT NULL,
+                  ansprechpartner varchar(30) NOT NULL,
+                  ansprechpartner_tel varchar(20) NOT NULL,
+                  organisationseinheit varchar(12) NOT NULL,
+                  ansprechpartner_mail varchar(241) NOT NULL,
+                  stellvertreter_mail varchar(241) NOT NULL,
+                  standardbetrag varchar(16) NOT NULL,
+                  first_date int(14) NOT NULL,
+                  last_date int(14) NOT NULL,
+                  PRIMARY KEY (id)
+                );
             ");
             if($this->debug == true){
                 die($this->db->prepare());
@@ -193,5 +189,4 @@ class eventCommandHandler
             $this->debug = false;
         }
     }
-    
 }

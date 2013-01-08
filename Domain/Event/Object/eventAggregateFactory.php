@@ -1,6 +1,8 @@
 <?php
 
 namespace Fab\Domain\Event\Object;
+use \Fab\Domain\Event\Object\event as event;
+use \Fab\Domain\Event\Object\eventData as eventData;
 
 class eventAggregateFactory
 {
@@ -12,8 +14,8 @@ class eventAggregateFactory
             $items = $queryHandler->getAllEvents();
         }
         foreach($items as $item) {
-             $dummy = new \Fab\Domain\Event\Object\event($item['id']);
-             $dummy->setDataValueObject(new \Fab\Domain\Event\Object\eventData($item));
+             $dummy = new event($item['id']);
+             $dummy->setDataValueObject(new eventData($item));
              $dummy->setLoaded();
              $dummy->unsetDirty();
              $entities[] = $dummy;

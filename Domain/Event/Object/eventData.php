@@ -1,8 +1,10 @@
 <?php
 
 namespace Fab\Domain\Event\Object;
+use \Fab\Domain\Event\Service\eventValidate as eventValidate;
+use \LWddd\ValueObject as ValueObject;
 
-class eventData extends \LWddd\ValueObject
+class eventData extends ValueObject
 {
     public function __construct($values)
     {
@@ -31,8 +33,6 @@ class eventData extends \LWddd\ValueObject
                 "first_date", 
                 "last_date");
         
-        parent::__construct($values, $allowedKeys, new \Fab\Domain\Event\Service\eventValidate());
+        parent::__construct($values, $allowedKeys, new eventValidate());
     }
-    
-
 }
