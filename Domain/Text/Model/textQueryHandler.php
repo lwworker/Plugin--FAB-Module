@@ -3,16 +3,16 @@
 namespace Fab\Domain\Event\Model;
 use \lw_registry as lw_registry;
 
-class countryQueryHandler
+class textQueryHandler
 {
     public function __construct()
     {
         $this->db = lw_registry::getInstance()->getEntry('db');
     }
     
-    public function getAllCountries()
+    public function getAllTextsByCategory()
     {
-        $this->db->setStatement("SELECT * FROM t:tabelle ORDER BY countryname DESC ");
+        $this->db->setStatement("SELECT * FROM t:tabelle DESC ");
         return $this->db->pselect();
     }
 }
