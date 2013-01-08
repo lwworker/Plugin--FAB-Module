@@ -18,7 +18,11 @@ class textCommandHandler extends fabCommandHandler
         $this->db->setStatement("INSERT INTO t:fab_text ( key, content, language, category, first_date, last_date ) VALUES ( :key, :content, :language, :category, :first_date, :last_date ) ");
         $this->db->bindParameter("key", "s", $entity->getValueByKey('key'));
         $this->db->bindParameter("content", "s", $entity->getValueByKey('content'));
-        $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        if(empty($entity->getValueByKey('language'))){
+            $this->db->bindParameter("language", "s", "de");
+        }else{
+            $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        }
         $this->db->bindParameter("category", "s", $entity->getValueByKey('category'));
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
@@ -32,7 +36,11 @@ class textCommandHandler extends fabCommandHandler
         $this->db->bindParameter("id", "i", $id);
         $this->db->bindParameter("key", "s", $entity->getValueByKey('key'));
         $this->db->bindParameter("content", "s", $entity->getValueByKey('content'));
-        $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        if(empty($entity->getValueByKey('language'))){
+            $this->db->bindParameter("language", "s", "de");
+        }else{
+            $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        }
         $this->db->bindParameter("category", "s", $entity->getValueByKey('category'));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
         
