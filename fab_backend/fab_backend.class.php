@@ -16,8 +16,16 @@ class fab_backend extends lw_plugin
         include_once(dirname(__FILE__).'/../Services/Autoloader/fabAutoloader.php');
         $autoloader = new Fab\Service\Autoloader\fabAutoloader();
         $autoloader->setConfig($this->config);
-        $controller = new Fab\Domain\Event\Controller\Controller();
+        
+        $response = \Fab\Library\fabResponse::getInstance();
+        $controller = new \Fab\Domain\Event\Controller\Controller($response);
         $response = $controller->execute($this->request);
-        return $response->getOutputByName('FabBackend');
+        if ($response->hasReloadCommand()) {
+            $url = lw_page::getInstance()->getUrl($response->getReloadCommandWithParameters());
+            $this->pageReload($url);
+        }
+        else {
+            return $response->getOutputByName('FabOutput');
+        }
     }
 }
