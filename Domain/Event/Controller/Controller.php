@@ -9,12 +9,14 @@ use \Fab\Domain\Event\Object\event as event;
 use \Fab\Domain\Event\Service\eventFilter as eventFilter;
 use \Fab\Domain\Event\Service\eventValidate as eventValidate;
 use \Fab\Domain\Event\Object\eventData as eventData;
+use \lw_response as lwResponse;
+use \Exception as Exception;
 
 class Controller extends \LWddd\Controller
 {
-    public function __construct()
+    public function __construct(lwResponse $response)
     {
-        parent::__construct();
+        parent::__construct($response);
         $this->defaultAction = "showListAction";
     }
     
@@ -22,7 +24,7 @@ class Controller extends \LWddd\Controller
     {
         $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler());
         $listView = new eventList($aggregate);        
-        $this->response->addOutputByName('FabBackend', $listView->render());
+        $this->response->addOutputByName('FabOutput', $listView->render());
     }
     
     public function showAddFormAction($errors=false)
@@ -31,7 +33,7 @@ class Controller extends \LWddd\Controller
         if ($errors) {
             $formView->setErrors($errors);
         }
-        $this->response->addOutputByName('FabBackend', $formView->render());
+        $this->response->addOutputByName('FabOutput', $formView->render());
     }
     
     public function showEditFormAction()
@@ -40,24 +42,26 @@ class Controller extends \LWddd\Controller
             $this->setEntityById($this->domainEvent->getId());
         }
         $formView = new eventForm($this->domainEvent);
-        $this->response->addOutputByName('FabBackend', $formView->render());
-    }
-    
-    protected function setEntityById($id)
-    {
-        $event = new event($id);
-        $event->load();
-        $this->domainEvent->setEntity($event);
+        $this->response->addOutputByName('FabOutput', $formView->render());
     }
     
     public function saveEventAction()
     {
-        $this->saveEvent($this->domainEvent->getId());
+        $ok = $this->saveEvent($this->domainEvent->getId());
+        if ($ok) {
+            $this->response->setReloadCmd('showEditForm', array("id"=>$this->domainEvent->getId()));
+        }
+        else {
+            throw new Exception('error saving the event');
+        }
     }
     
     public function addEventAction()
     {
-        $this->saveEvent();
+        $ok = $this->saveEvent();
+        if ($ok) {
+            $this->response->setReloadCmd('showList');
+        }
     }
     
     public function deleteEventAction()
@@ -68,8 +72,18 @@ class Controller extends \LWddd\Controller
         $entity = $this->domainEvent->getEntity();
         if ($entity->isDeleteable()) {
             $entity->delete();
-            die("deleted");
+            $this->response->setReloadCmd('showList');
         }
+        else {
+            throw new Exception('delete not possible');
+        }
+    }
+    
+    protected function setEntityById($id)
+    {
+        $event = new event($id);
+        $event->load();
+        $this->domainEvent->setEntity($event);
     }
     
     protected function saveEvent($id=false)
@@ -91,10 +105,10 @@ class Controller extends \LWddd\Controller
             try {
                 $result = $entity->save();
                 if ($id > 0) {
-                    die("saved");
+                    return true;
                 }
                 else {
-                    die("added");
+                    return true;
                 }
             }
             catch (Exception $e)
