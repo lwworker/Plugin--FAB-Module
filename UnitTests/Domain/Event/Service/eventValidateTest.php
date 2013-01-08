@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/../../Service/eventValidate.php';
+include_once(dirname(__FILE__).'/../../../../Services/Autoloader/fabAutoloader.php');
 
 /**
  * Test class for eventValidate.
@@ -18,7 +18,9 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        $this->eventValidate = new FabBackend\Service\eventValidate();
+        $autoloader = new Fab\Service\Autoloader\fabAutoloader();
+        $autoloader->setConfig(array("plugins" => "C:/xampp/htdocs/c38/contentory/c_server/plugins/"));
+        $this->eventValidate = new \Fab\Domain\Event\Service\eventValidate();
     }
 
     /**
