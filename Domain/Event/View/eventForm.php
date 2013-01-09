@@ -5,6 +5,7 @@ use \LWddd\DomainEvent as DomainEvent;
 use \lw_view as lw_view;
 use \lw_page as lw_page;
 use \Fab\Library\fabView as fabView;
+use \Fab\Domain\Country\View\countryOptions as countryOptions;
 
 class eventForm extends fabView
 {
@@ -17,6 +18,13 @@ class eventForm extends fabView
     public function setErrors($errors)
     {
         $this->view->errors = $errors;
+    }
+    
+    public function renderCountryOptions($countryShortcut)
+    {
+        $countryOptions = new countryOptions($this->domainEvent);
+        $countryOptions->setSelectedCountryByshortcut($countryShortcut);
+        $this->view->countryOptions = $countryOptions->render();
     }
     
     public function render()
@@ -35,9 +43,11 @@ class eventForm extends fabView
         }
         if ($this->domainEvent->hasEntity() && !$this->view->errors) {
             $this->domainEvent->getEntity()->renderView($this->view);
+            $this->renderCountryOptions($this->domainEvent->getEntity()->getValueByKey('v_land'));
         }
         else {
             $this->domainEvent->getPostValueObject()->renderView($this->view);
+            $this->renderCountryOptions($this->domainEvent->getPostValueObject()->getValueByKey('v_land'));
         }
         $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showList"));
         return $this->view->render();

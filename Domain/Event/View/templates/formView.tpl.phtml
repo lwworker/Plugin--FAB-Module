@@ -67,7 +67,10 @@
     <div class="control-group">
         <label class="control-label" for="v_land">Veranstaltungsland</label>
         <div class="controls">
-            <input class="input-mini" type="text" id="v_land" name="v_land" placeholder="Veranstaltungsland" value="<?php if($this->entity): echo $this->entity['v_land']; endif; ?>" />
+            <select id="v_land" name="v_land">
+                <option value="">bitte ausw&auml;hlen</option>
+                <?php echo $this->countryOptions; ?>
+            </select>
             <?php showError($this->errors['v_land']); ?>
         </div>
     </div>
