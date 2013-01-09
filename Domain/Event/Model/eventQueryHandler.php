@@ -29,7 +29,7 @@ class eventQueryHandler extends fabQueryHandler
      */
     public function getEventById($id)
     {
-        $this->baseGetEntryById($id, "fab_tagungen");
+        return $this->baseGetEntryById($id, "fab_tagungen");
     }
     
     /**
@@ -39,7 +39,7 @@ class eventQueryHandler extends fabQueryHandler
      */
     public function loadEventsByResponsible($ansprechpartner_mail)
     {
-        $this->db->setStatement("SELECT * FROM t:fab_tagungen WHERE ansprechpartner_mail = :ansprechpartner_mail AND anmeldefrist_beginn < :today AND anmeldefrist_ende > :today  ORDER BY anmeldefrist_beginn DESC ");
+        $this->db->setStatement("SELECT * FROM t:fab_tagungen WHERE (ansprechpartner_mail = :ansprechpartner_mail OR stellvertreter_mail = :ansprechpartner_mail) AND anmeldefrist_beginn < :today AND anmeldefrist_ende > :today  ORDER BY anmeldefrist_beginn DESC ");
         $this->db->bindParameter("ansprechpartner_mail","s",$ansprechpartner_mail);
         $this->db->bindParameter("today", "i", date("Ymd"));
         return $this->db->pselect();
