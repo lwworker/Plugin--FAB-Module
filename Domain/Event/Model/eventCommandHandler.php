@@ -70,7 +70,7 @@ class eventCommandHandler extends fabCommandHandler
         $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
         $this->db->bindParameter("last_date", "s", date("YmdHis"));
 
-        return $this->basePdbqueryWithEntityReturn($entity);
+        return $this->basePdbquery();
     }
     
     public function deleteEvent(Entity $entity)

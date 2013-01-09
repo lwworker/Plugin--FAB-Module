@@ -39,6 +39,7 @@ class eventForm extends fabView
         else {
             $this->domainEvent->getPostValueObject()->renderView($this->view);
         }
+        $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showList"));
         return $this->view->render();
     }
 }
