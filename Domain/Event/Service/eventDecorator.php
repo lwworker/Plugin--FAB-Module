@@ -35,6 +35,11 @@ class eventDecorator
         return str_replace('@fz-juelich.de', "", $value);
     }
     
+    public function stellvertreter_mailDecorate($value)
+    {
+        return str_replace('@fz-juelich.de', "", $value);
+    }
+    
     public function anmeldefrist_beginnDecorate($value)
     {
         return $this->baseDateDecorate($value);

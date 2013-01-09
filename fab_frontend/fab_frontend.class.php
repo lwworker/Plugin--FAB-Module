@@ -21,14 +21,24 @@ class fab_frontend extends lw_plugin
         $cmd = $this->request->getAlnum('cmd');
         if ($this->request->getAlnum('cmd') == 'showEventListForResponsible' || !$this->request->getAlnum('cmd')) {
             $controller = new \Fab\Domain\Event\Controller\Controller($response);
-            $controller->setSession(new \Fab\Library\fabSession());
             $cmd = 'showEventListForResponsible';
+        }
+        elseif ($this->request->getAlnum('cmd') == 'showEventDetails' 
+                || $this->request->getAlnum('cmd') == 'showReplacementForm'
+                || $this->request->getAlnum('cmd') == 'saveReplacement') {
+            $controller = new \Fab\Domain\Event\Controller\Controller($response);
         }
         else {
             //$controller = new \Fab\Domain\Participant\Controller\Controller($response);
         }
+        $controller->setSession(new \Fab\Library\fabSession());
         
-        $response = $controller->execute($cmd, $this->request);
+        try {
+            $response = $controller->execute($cmd, $this->request);
+        }
+        catch(Exception $e) {
+            die($e->getMessage());
+        }            
         
         if ($response->hasReloadCommand()) {
             $url = lw_page::getInstance()->getUrl($response->getReloadCommandWithParameters());

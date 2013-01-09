@@ -7,6 +7,7 @@ use \Fab\Domain\Event\Model\eventQueryHandler as eventQueryHandler;
 use \Fab\Domain\Event\Object\eventData as eventData;
 use \Fab\Domain\Event\Service\eventDecorator as eventDecorator;
 use \lw_registry as lwRegistry;
+use \Exception as Exception;
 
 class event extends Entity
 {

@@ -34,6 +34,11 @@ class eventFilter
         return $value.'@fz-juelich.de';
     }
     
+    public function stellvertreter_mailFilter($value)
+    {
+        return $value.'@fz-juelich.de';
+    }
+    
     public function anmeldefrist_beginnFilter($value)
     {
         return $this->baseDateFilter($value);

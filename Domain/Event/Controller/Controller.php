@@ -3,8 +3,12 @@
 namespace Fab\Domain\Event\Controller;
 use \Fab\Domain\Event\Object\eventAggregateFactory as eventAggregateFactory;
 use \Fab\Domain\Event\Model\eventQueryHandler as eventQueryHandler;
+use \Fab\Domain\Event\Model\eventCommandHandler as eventCommandHandler;
 use \Fab\Domain\Event\View\eventList as eventList;
+use \Fab\Domain\Event\View\eventListForResponsible as eventListForResponsible;
+use \Fab\Domain\Event\View\eventDetails as eventDetails;
 use \Fab\Domain\Event\View\eventForm as eventForm;
+use \Fab\Domain\Event\View\replacementForm as replacementForm;
 use \Fab\Domain\Event\Object\event as event;
 use \Fab\Domain\Event\Service\eventFilter as eventFilter;
 use \Fab\Domain\Event\Service\eventValidate as eventValidate;
@@ -21,10 +25,52 @@ class Controller extends \LWddd\Controller
         $this->defaultAction = "showListAction";
     }
     
+    public function saveReplacementAction()
+    {
+        $PostValueObjectFiltered = eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());
+        $EventValidationSevice = new eventValidate();
+        $valid = $EventValidationSevice->stellvertreter_mailValidate($PostValueObjectFiltered->getValueByKey('stellvertreter_mail'));
+        if ($valid)
+        {
+            $eventCommandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
+            $ok = $eventCommandHandler->saveReplacement($this->domainEvent->getId(), $PostValueObjectFiltered->getValueByKey('stellvertreter_mail'));
+            if ($ok > 0) {
+                $this->response->setReloadCmd('showEventDetails', array("id"=>$this->domainEvent->getId()));
+            }
+            else {
+                throw new Exception('error saving the replacement');
+            }
+        }
+        else {
+            $this->showReplacementFormAction($EventValidationSevice->getErrors());
+        }        
+    }    
+    
+    public function showReplacementFormAction($errors=false)
+    {
+        if (!$this->domainEvent->hasEntity()) {
+            $this->setEntityById($this->domainEvent->getId());
+        }
+        $formView = new replacementForm($this->domainEvent);
+        if ($errors) {
+            $formView->setErrors($errors);
+        }        
+        $this->response->addOutputByName('FabOutput', $formView->render());
+    }
+    
+    public function showEventDetailsAction() 
+    {
+        if (!$this->domainEvent->hasEntity()) {
+            $this->setEntityById($this->domainEvent->getId());
+        }
+        $detailView = new eventDetails($this->domainEvent);
+        $this->response->addOutputByName('FabOutput', $detailView->render());
+    }
+    
     public function showEventListForResponsibleAction() 
     {
         $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler(lwRegistry::getInstance()->getEntry("db")));
-        $listView = new eventList($aggregate);        
+        $listView = new eventListForResponsible($aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     
