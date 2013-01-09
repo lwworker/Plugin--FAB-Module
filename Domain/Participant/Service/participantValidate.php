@@ -2,7 +2,7 @@
 
 namespace Fab\Domain\Participant\Service;
 
-class participantsValidate
+class participantValidate
 {
     public function __construct()
     {
@@ -193,7 +193,17 @@ class participantsValidate
     
     public function referenznrValidate($value)
     {
-        return $this->defaultValidation("referenznr", $value, 8 , true);
+        $bool = true;
+        if(int_val($value) < 400000){
+            $this->addError("referenznr", 3, array("errormsg" => "Die Referenznummer beginnt bei 400000"));
+            $bool = false;
+        }
+        $bool = $this->defaultValidation("referenznr", $value, 8 , true);
+        
+        if($bool == false){
+            return false;
+        }
+        return true;
     }
     
     public function teilnehmer_internValidate($value)

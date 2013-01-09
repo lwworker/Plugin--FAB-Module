@@ -20,7 +20,7 @@ class eventValidateTest extends \PHPUnit_Framework_TestCase {
     protected function setUp() {
         $autoloader = new Fab\Service\Autoloader\fabAutoloader();
         $autoloader->setConfig(array("plugins" => "C:/xampp/htdocs/c38/contentory/c_server/plugins/"));
-        $this->eventValidate = new \Fab\Domain\Event\Service\eventValidate();
+        $this->eventValidate = new Fab\Domain\Event\Service\eventValidate();
     }
 
     /**

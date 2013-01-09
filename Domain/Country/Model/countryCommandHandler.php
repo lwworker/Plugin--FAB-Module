@@ -15,6 +15,11 @@ class countryCommandHandler extends fabCommandHandler
         parent::__construct($db);
     }
 
+    /**
+     * A country list will be imported from /data/countries.csv and saved into the
+     * database table "fab_laender".
+     * @return true/exception
+     */
     public function importCountries()
     {
         $data = array();
@@ -35,6 +40,10 @@ class countryCommandHandler extends fabCommandHandler
         $this->basePdbinsert("fab_laender");
     }
     
+    /**
+     * The existance of fab_laender will be checked and created if the table is missing
+     * @return true/exception
+     */
     public function createTable()
     {
         $table_create_statement = "land varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -44,6 +53,10 @@ class countryCommandHandler extends fabCommandHandler
         $this->updateTable();
     }
     
+    /**
+     * Execute changes for the table fab_tagungen
+     * @return boolean
+     */
     public function updateTable()
     {
         return true;
@@ -55,6 +68,10 @@ class countryCommandHandler extends fabCommandHandler
          */
     }
     
+    /**
+     * Switches the debug modus on/off
+     * @param bool $bool
+     */
     public function setDebug($bool = true)
     {
         $this->baseSetDebug($bool);

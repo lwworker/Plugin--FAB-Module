@@ -9,11 +9,17 @@ use \Exception as Exception;
 
 class participantCommandHandler extends fabCommandHandler
 {
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
   
+    /**
+     * Creation of a new participant for a certain event
+     * @param int $event_id
+     * @param \LWddd\ValueObject $entity
+     * @return true/exception
+     */
     public function addParticipant($event_id, ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_teilnehmer ( event_id, anrede, sprache, titel, nachname, vorname, institut, unternehmen, strasse, plz, ort, land, mail, veranstaltung, ust_id_nr, zahlweise, referenznr, teilnehmer_intern, auftragsnr, betrag, first_date, last_date ) VALUES ( :event_id, :anrede, :sprache, :titel, :nachname, :vorname, :institut, :unternehmen, :strasse, :plz, :ort, :land, :mail, :veranstaltung, :ust_id_nr, :zahlweise, :referenznr, :teilnehmer_intern, :auftragsnr, :betrag, :first_date, :last_date ) ");
@@ -40,9 +46,15 @@ class participantCommandHandler extends fabCommandHandler
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
-        $this->basePdbinsert("fab_teilnehmer");
+        return $this->basePdbinsert("fab_teilnehmer");
     }
     
+    /**
+     * Saving changes for a certain participant
+     * @param int $id
+     * @param \LWddd\ValueObject $entity
+     * @return true/exception
+     */
     public function saveParticipant($id, ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_teilnehmer SET anrede = :anrede, sprache = :sprache, titel = :titel, nachname = :nachname, vorname = :vorname, institut = :institut, unternehmen = :unternehmen, strasse = :strasse, plz = :plz, ort = :ort, land = :land, mail = :mail, veranstaltung = :veranstaltung, ust_id_nr = :ust_id_nr, zahlweise = :zahlweise, referenznr = :referenznr, teilnehmer_intern = :teilnehmer_intern, auftragsnr = :auftragsnr, betrag = :betrag, last_date = :last_date WHERE id = :id ");
@@ -68,14 +80,23 @@ class participantCommandHandler extends fabCommandHandler
         $this->db->bindParameter("betrag", "s", $entity->getValueByKey('betrag'));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
-        $this->basePdbqueryWithEntityReturn($entity);
+        return $this->basePdbqueryWithEntityReturn($entity);
     }
     
+    /**
+     * 
+     * @param \LWddd\Entity $entity
+     * @return true/exception
+     */
     public function deleteParticipant(Entity $entity)
     {
-        $this->baseDelete($entity, "fab_teilnehmer");                              
+        return $this->baseDelete($entity, "fab_teilnehmer");                              
     }
     
+    /**
+     * The existance of fab_teilnehmer will be checked and created if the table is missing
+     * @return true/exception
+     */
     public function createTable()
     {
         $table_create_statement = "id int(11) NOT NULL AUTO_INCREMENT,
@@ -103,10 +124,14 @@ class participantCommandHandler extends fabCommandHandler
                                   last_date int(14) NOT NULL,
                                   PRIMARY KEY (id) ";
         
-        $this->baseCreateTable("fab_teilnehmer", $table_create_statement);
+        return $this->baseCreateTable("fab_teilnehmer", $table_create_statement);
         $this->updateTable();    
     }
     
+    /**
+     * Execute changes for the table fab_teilnehmer
+     * @return boolean
+     */
     public function updateTable()
     {
         return true;
@@ -118,9 +143,12 @@ class participantCommandHandler extends fabCommandHandler
          */
     }
     
+    /**
+     * Switches the debug modus on/off
+     * @param bool $bool
+     */
     public function setDebug($bool = true)
     {
         $this->baseSetDebug($bool);
     }
-    
 }

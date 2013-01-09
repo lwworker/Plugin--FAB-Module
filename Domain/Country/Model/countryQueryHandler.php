@@ -12,6 +12,10 @@ class countryQueryHandler extends fabQueryHandler
         parent::__construct($db);
     }
     
+    /**
+     * Returns a list of all saved countries from A to Z
+     * @return array
+     */
     public function getAllCountries()
     {
         $this->db->setStatement("SELECT * FROM t:fab_laender ORDER BY land ASC ");

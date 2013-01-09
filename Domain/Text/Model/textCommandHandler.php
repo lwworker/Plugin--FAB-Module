@@ -1,6 +1,6 @@
 <?php
 
-namespace Fab\Domain\Event\Model;
+namespace Fab\Domain\Text\Model;
 use \lw_registry as lw_registry;
 use \LWddd\ValueObject as ValueObject;
 use \LWddd\Entity as Entity;
@@ -8,42 +8,70 @@ use \Fab\Library\fabCommandHandler as fabCommandHandler;
 
 class textCommandHandler extends fabCommandHandler
 {
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
     
+    /**
+     * Creation of a new entry
+     * @param \LWddd\ValueObject $entity
+     * @return true/exception
+     */
     public function addText(ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_text ( key, content, language, category, first_date, last_date ) VALUES ( :key, :content, :language, :category, :first_date, :last_date ) ");
         $this->db->bindParameter("key", "s", $entity->getValueByKey('key'));
         $this->db->bindParameter("content", "s", $entity->getValueByKey('content'));
-        $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        if($entity->getValueByKey('language') == ""){
+            $this->db->bindParameter("language", "s", "de");
+        }else{
+            $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        }
         $this->db->bindParameter("category", "s", $entity->getValueByKey('category'));
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
         
-        $this->basePdbinsert("fab_text");
+        return $this->basePdbinsert("fab_text");
     }
     
+    /**
+     * Text-entry with certain id will be updated
+     * @param int $id
+     * @param \LWddd\ValueObject $entity
+     * @return true/exception
+     */
     public function saveText($id, ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_text SET key = :key, content = :content, language = :language, category = :category, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
         $this->db->bindParameter("key", "s", $entity->getValueByKey('key'));
         $this->db->bindParameter("content", "s", $entity->getValueByKey('content'));
-        $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        if($entity->getValueByKey('language') == ""){
+            $this->db->bindParameter("language", "s", "de");
+        }else{
+            $this->db->bindParameter("language", "s", $entity->getValueByKey('language'));
+        }
         $this->db->bindParameter("category", "s", $entity->getValueByKey('category'));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
         
-        $this->basePdbqueryWithEntityReturn($entity);
+        return $this->basePdbquery();
     }
     
+    /**
+     * 
+     * @param \LWddd\Entity $entity
+     * @return true/exception
+     */
     public function deleteText(Entity $entity)
     {
-        $this->baseDelete($entity, "fab_text");
+        return $this->baseDelete($entity, "fab_text");
     }
     
+    /**
+     * The existance of fab_text will be checked and created if the table is missing
+     * @return true/exception
+     */
     public function createTable()
     {
         $table_create_statement = "id int(11) NOT NULL AUTO_INCREMENT,
@@ -55,10 +83,14 @@ class textCommandHandler extends fabCommandHandler
                                   last_date int(14) NOT NULL,
                                   PRIMARY KEY (`id`) ";
         
-        $this->baseCreateTable("fab_text", $table_create_statement);
+        return $this->baseCreateTable("fab_text", $table_create_statement);
         $this->updateTable();
     }
     
+    /**
+     * Execute changes for the table fab_text
+     * @return boolean
+     */
     public function updateTable()
     {
         return true;
@@ -70,8 +102,13 @@ class textCommandHandler extends fabCommandHandler
          */
     }
     
+    
+    /**
+     * Switches the debug modus on/off
+     * @param bool $bool
+     */
     public function setDebug($bool = true)
     {
-        $this->baseSetDebug($bool);
+        return $this->baseSetDebug($bool);
     }
 }
