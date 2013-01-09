@@ -6,6 +6,7 @@ use \Fab\Domain\Event\Model\eventCommandHandler as eventCommandHandler;
 use \Fab\Domain\Event\Model\eventQueryHandler as eventQueryHandler;
 use \Fab\Domain\Event\Object\eventData as eventData;
 use \Fab\Domain\Event\Service\eventDecorator as eventDecorator;
+use \lw_registry as lwRegistry;
 
 class event extends Entity
 {
@@ -21,20 +22,20 @@ class event extends Entity
     
     public function delete()
     {
-        $commandHandler = new eventCommandHandler();
+        $commandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
         return $commandHandler->deleteEvent($this);
     }
 
     public function save()
     {
-        $commandHandler = new eventCommandHandler();
+        $commandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
         return $this->saveEntity($commandHandler);
     }
     
     public function load()
     {
         if ($this->id > 0) {
-            $queryHandler = new eventQueryHandler();
+            $queryHandler = new eventQueryHandler(lwRegistry::getInstance()->getEntry("db"));
             $data = $queryHandler->getEventById($this->id);
             $this->setDataValueObject(new eventData($data));
             $this->setLoaded();
