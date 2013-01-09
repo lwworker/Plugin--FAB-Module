@@ -4,12 +4,14 @@ namespace Fab\Domain\Country\View;
 use \LWddd\DomainEvent as DomainEvent;
 use \lw_view as lw_view;
 use \Fab\Domain\Country\Model\countryQueryHandler as countryQueryHandler;  
+use \lw_registry as lwRegistry;
+
 class countryOptions
 {
     public function __construct(DomainEvent $domainEvent)
     {
         $this->domainEvent = $domainEvent;
-        $this->queryHandler = new countryQueryHandler();
+        $this->queryHandler = new countryQueryHandler(lwRegistry::getInstance()->getEntry("db"));
         $this->view = new lw_view(dirname(__FILE__).'/templates/optionsView.tpl.phtml');
     }
     
@@ -21,7 +23,6 @@ class countryOptions
     public function render()
     {
         $this->view->countries = $this->queryHandler->getAllCountries();      
-        
         return $this->view->render();
     }
 }
