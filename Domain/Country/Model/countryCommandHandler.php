@@ -1,6 +1,6 @@
 <?php
 
-namespace Fab\Domain\Event\Model;
+namespace Fab\Domain\Country\Model;
 use \lw_registry as lw_registry;
 use \LWddd\ValueObject as ValueObject;
 use \LWddd\Entity as Entity;
@@ -9,11 +9,16 @@ use \Exception as Exception;
 
 class countryCommandHandler extends fabCommandHandler
 {
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
 
+    /**
+     * A country list will be imported from /data/countries.csv and saved into the
+     * database table "fab_laender".
+     * @return true/exception
+     */
     public function importCountries()
     {
         $data = array();
@@ -31,18 +36,26 @@ class countryCommandHandler extends fabCommandHandler
         $values = substr($values, 0, strlen($values) - 2);
         
         $this->db->setStatement("INSERT INTO t:fab_leander ( land , bezeichnung ) VALUES ".$values." ");   
-        $this->basePdbinsert("fab_leander");
+        return $this->basePdbinsert("fab_leander");
     }
     
+    /**
+     * The existance of fab_laender will be checked and created if the table is missing
+     * @return true/exception
+     */
     public function createTable()
     {
         $table_create_statement = "land varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
                                   bezeichnung varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ";
         
-        $this->baseCreateTable("fab_leander", $table_create_statement);
+        return $this->baseCreateTable("fab_leander", $table_create_statement);
         $this->updateTable();
     }
     
+    /**
+     * Execute changes for the table fab_tagungen
+     * @return boolean
+     */
     public function updateTable()
     {
         return true;
@@ -54,6 +67,10 @@ class countryCommandHandler extends fabCommandHandler
          */
     }
     
+    /**
+     * Switches the debug modus on/off
+     * @param bool $bool
+     */
     public function setDebug($bool = true)
     {
         $this->baseSetDebug($bool);

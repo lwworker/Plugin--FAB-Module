@@ -1,25 +1,32 @@
 <?php
 
 namespace Fab\Domain\Participant\Model;
+use \Fab\Library\fabQueryHandler as fabQueryHandler;
 
-class participantQueryHandler
+class participantQueryHandler extends fabQueryHandler
 {
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = \lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
     
+    /**
+     * Returns a list of all paticipants of a certain event
+     * @param int $event_id
+     * @return array
+     */
     public function loadParticipantsByEvent($event_id)
     {
-        $this->db->setStatement("SELECT * FROM t:fab_teilnehmer WHERE event_id = :event_id ORDER BY nachname ASC ");
-        $this->db->bindParameter("event_id", "i", $event_id);
-        return $this->db->pselect();
+        $this->baseLoadEntriesByAttributeWithOrder("fab_teilnehmer", "event_id", "i", $event_id, "nachname", "ASC");
     }
 
+    /**
+     * Returns all saved data for a specific participant
+     * @param int $id
+     * @return array
+     */
     public function loadParticipantById($id)
     {
-        $this->db->setStatement("SELECT * FROM t:fab_teilnehmer WHERE id = :id ");
-        $this->db->bindParameter("id", "i", $id);
-        return $this->db->pselect1();
+        $this->baseGetEntryById($id, "fab_teilnehmer");
     }
 }

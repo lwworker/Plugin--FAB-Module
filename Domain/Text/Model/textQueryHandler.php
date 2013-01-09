@@ -2,15 +2,22 @@
 
 namespace Fab\Domain\Text\Model;
 use \lw_registry as lw_registry;
+use \Fab\Library\fabQueryHandler as fabQueryHandler;
 
-class textQueryHandler
+class textQueryHandler extends fabQueryHandler
 {
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
         $this->setLanguage("de");
     }
     
+    /**
+     * Returns a list all saved texts for a specific category
+     * @param string $category
+     * @return array
+     * @throws Exception
+     */
     public function getAllTextsByCategory($category)
     {
         if (!$this->categoryExists($category)) {
@@ -22,45 +29,76 @@ class textQueryHandler
         }
     }
     
+    /**
+     * Returns a list of saved and unique categories
+     * @return array 
+     */
     public function getAllUniqueCategories()
     {
-        $this->db->setStatement("SELECT DISTINCT category FROM t:fab_text ");
-        return $this->db->pselect();
+        $this->baseGetAllUniqueValuesForAttribute("category", "fab_text");
     }
     
+    /**
+     * Returns a list of saved and unique languages
+     * @return array 
+     */
     public function getAllUniqueLanguages()
     {
-        $this->db->setStatement("SELECT DISTINCT language FROM t:fab_text ");
-        return $this->db->pselect();
+        $this->baseGetAllUniqueValuesForAttribute("language", "fab_text");
     }
     
+    /**
+     * The param language will be checked if this language is already existing
+     * @param string $lang
+     * @return boolean
+     */
     public function languageExists($lang)
     {
         $languages = $this->getAllUniqueLanguages();
-        if(in_array($lang, $languages)){
-            return true;
-        }else{
-            return false;
-        }       
-    }
-    
-    public function categoryExists($category)
-    {
-        $categories = $this->getAllUniqueCategories();
-        if(in_array($category, $categories)){
-            return true;
+        if(is_array($languages)){
+            if(in_array($lang, $languages)){
+                return true;
+            }else{
+                return false;
+            }       
         }else{
             return false;
         }
     }
     
-    public function getTextById($id)
+    /**
+     * The param category will be checked if this category is already existing
+     * @param string $lang
+     * @return boolean
+     */
+    public function categoryExists($category)
     {
-        $this->db->setStatement("SELECT * FROM t:fab_text WHERE id = :id ");
-        $this->db->bindParameter("id", "i", $id);
-        return $this->db->pselect1();
+        $categories = $this->getAllUniqueCategories();
+        if(is_array($categories)){
+            if(in_array($category, $categories)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
     
+    /**
+     * Returns all saved data for a specific text
+     * @param int $id
+     * @return array
+     */
+    public function getTextById($id)
+    {
+        $this->baseGetEntryById($id, "fab_text");
+    }
+    
+    /**
+     * 
+     * @param string $lang
+     */
     public function setLanguage($lang)
     {
         if ($this->languageExists($lang)) {

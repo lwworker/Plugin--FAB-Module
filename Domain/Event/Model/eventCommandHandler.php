@@ -9,11 +9,16 @@ use \Exception as Exception;
 
 class eventCommandHandler extends fabCommandHandler
 {
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
         
+    /**
+     * Creation of a new Event
+     * @param \LWddd\ValueObject $entity
+     * @return true/exception
+     */
     public function addEvent(ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_tagungen ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, stellvertreter_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :stellvertreter_mail, :standardbetrag, :first_date, :last_date ) ");
@@ -40,10 +45,16 @@ class eventCommandHandler extends fabCommandHandler
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
-        $this->basePdbinsert("fab_tagungen");
+        return $this->basePdbinsert("fab_tagungen");
         
     }
     
+    /**
+     * An Event with certain id will be updated
+     * @param int $id
+     * @param \LWddd\ValueObject $entity
+     * @return true/exception
+     */
     public function saveEvent($id, ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, stellvertreter_mail = :stellvertreter_mail, standardbetrag = :standardbetrag, last_date = :last_date WHERE id = :id ");
@@ -70,9 +81,14 @@ class eventCommandHandler extends fabCommandHandler
         $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
-        $this->basePdbqueryWithEntityReturn($entity);
+        return $this->basePdbquery();
     }
     
+    /**
+     * 
+     * @param \LWddd\Entity $entity
+     * @return true/exception
+     */
     public function deleteEvent(Entity $entity)
     {
         $this->baseDelete($entity, "fab_tagungen");
@@ -84,9 +100,13 @@ class eventCommandHandler extends fabCommandHandler
         $this->db->bindParameter("id", "i", $id);
         $this->db->bindParameter("stellvertreter_mail", "s", $stellvertreter_mail);
 
-        $this->basePdbquery();
+        return $this->basePdbquery();
     }    
     
+    /**
+     * The existance of fab_tagungen will be checked and created if the table is missing
+     * @return true/exception
+     */
     public function createTable()
     {
         $table_create_statement = "id int(11) NOT NULL AUTO_INCREMENT,
@@ -115,10 +135,14 @@ class eventCommandHandler extends fabCommandHandler
                                   PRIMARY KEY (id),
                                   UNIQUE KEY v_schluessel (v_schluessel) ";
         
-        $this->baseCreateTable("fab_tagungen", $table_create_statement);
+        return $this->baseCreateTable("fab_tagungen", $table_create_statement);
         $this->updateTable();
     }
     
+    /**
+     * Execute changes for the table fab_tagungen
+     * @return boolean
+     */
     public function updateTable()
     {
         return true;
@@ -130,6 +154,10 @@ class eventCommandHandler extends fabCommandHandler
          */
     }
     
+    /**
+     * Switches the debug modus on/off
+     * @param bool $bool
+     */
     public function setDebug($bool = true)
     {
         $this->baseSetDebug($bool);
