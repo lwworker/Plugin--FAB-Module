@@ -47,7 +47,6 @@ class eventValidate
                 $valid = false;
             }
         }
-        
         return $valid;
     }
     
@@ -174,12 +173,35 @@ class eventValidate
         return false;
     }
     
-    function stellvertreter_mailValidate($value)
+    function stellvertreter_mailValidate($value, $id = false)
     {
-        if(empty($value)){
+        if(empty($value)){ 
             return true;
-        }else{
-            return $this->emailValidation("stellvertreter_mail", $value);
+        }
+        else {
+            if ($this->array['ansprechpartner_mail']) {
+                $apMail = $this->array['ansprechpartner_mail'];
+            } 
+            elseif($this->array['id'])
+            {
+                $id = $this->array['id'];
+            }
+            if ($id) {
+                $queryHandler = new \Fab\Domain\Event\Model\eventQueryHandler(\lw_registry::getInstance()->getEntry("db"));
+                $values = $queryHandler->getEventById($id);
+                $apMail = $values['ansprechpartner_mail'];
+            }
+            if ($apMail && $apMail == $value) {
+                $this->addError("stellvertreter_mail", 101, array("errormsg" => "Die Stellvertretermail darf nicht der Ansprechpartnermail entsprechen."));
+                $error = true;
+            }
+            if (!$this->emailValidation("stellvertreter_mail", $value)) {
+                $error = true;
+            }
+            if ($error) {
+                return false;
+            }
+            return true;
         }
     }
     

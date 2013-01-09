@@ -29,7 +29,7 @@ class Controller extends \LWddd\Controller
     {
         $PostValueObjectFiltered = eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());
         $EventValidationSevice = new eventValidate();
-        $valid = $EventValidationSevice->stellvertreter_mailValidate($PostValueObjectFiltered->getValueByKey('stellvertreter_mail'));
+        $valid = $EventValidationSevice->stellvertreter_mailValidate($PostValueObjectFiltered->getValueByKey('stellvertreter_mail'), $this->domainEvent->getId());
         if ($valid)
         {
             $eventCommandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
