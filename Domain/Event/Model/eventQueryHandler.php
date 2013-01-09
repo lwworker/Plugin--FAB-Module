@@ -1,13 +1,15 @@
 <?php
 
 namespace Fab\Domain\Event\Model;
+use \Fab\Library\fabQueryHandler as fabQueryHandler;
 use \lw_registry as lw_registry;
+use \lw_db as lw_db;
 
-class eventQueryHandler
+class eventQueryHandler extends fabQueryHandler
 {
-    public function __construct()
+    public function __construct(lw_db $db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
     
     public function getAllEvents()

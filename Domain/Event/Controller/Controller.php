@@ -10,6 +10,7 @@ use \Fab\Domain\Event\Service\eventFilter as eventFilter;
 use \Fab\Domain\Event\Service\eventValidate as eventValidate;
 use \Fab\Domain\Event\Object\eventData as eventData;
 use \lw_response as lwResponse;
+use \lw_registry as lwRegistry;
 use \Exception as Exception;
 
 class Controller extends \LWddd\Controller
@@ -22,14 +23,14 @@ class Controller extends \LWddd\Controller
     
     public function showEventListForResponsibleAction() 
     {
-        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler());
+        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler(lwRegistry::getInstance()->getEntry("db")));
         $listView = new eventList($aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     
     public function showListAction()
     {
-        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler());
+        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler(lwRegistry::getInstance()->getEntry("db")));
         $listView = new eventList($aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
@@ -56,7 +57,7 @@ class Controller extends \LWddd\Controller
     {
         $ok = $this->saveEvent($this->domainEvent->getId());
         if ($ok) {
-            $this->response->setReloadCmd('showEditForm', array("id"=>$this->domainEvent->getId()));
+            $this->response->setReloadCmd('showList');
         }
         else {
             throw new Exception('error saving the event');

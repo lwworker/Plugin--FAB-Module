@@ -4,13 +4,14 @@ namespace Fab\Library;
 use \LWddd\ValueObject as ValueObject;
 use \LWddd\Entity as Entity;
 use \Exception as Exception;
+use \lw_db as lw_db;
 
 class fabCommandHandler 
 {
 
-    public function __construct()
+    public function __construct(lw_db $db)
     {
-        
+        parent::__construct($db);
     }
     
     public function handle($domainEvent)
@@ -25,7 +26,7 @@ class fabCommandHandler
             $this->db->setStatement("DELETE FROM t:" . $table_name . " WHERE id = :id ");
             $this->db->bindParameter("id", "i", $entity->getId());
             
-            $this->basePdbqueryWithEntityReturn($entity);
+            $this->basePdbquery();
         }
         else { 
             throw new Exception('...'); 
@@ -64,22 +65,6 @@ class fabCommandHandler
         else {
             $ok = $this->db->pdbquery();
             if(!$ok){
-                throw new Exception('...'); 
-            }
-        }
-    }
-
-    public function basePdbqueryWithEntityReturn(ValueObject $entity)
-    {
-        if($this->debug == true) {
-            die($this->db->prepare());
-        }
-        else {
-            $ok = $this->db->pdbquery();
-            if ($ok) {
-                return $ok;
-            }
-            else {
                 throw new Exception('...'); 
             }
         }
