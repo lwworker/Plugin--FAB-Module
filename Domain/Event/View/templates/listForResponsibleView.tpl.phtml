@@ -1,5 +1,7 @@
 <h1>Tagungen</h1>
 
+<p>logged in as: <?php echo $this->sessionmail; ?></p>
+
 <table class="table">
     <thead>
         <tr>
@@ -14,7 +16,13 @@
         <?php foreach ($this->entities as $entity): ?>
         <tr>
             <td><?php echo $entity->getValueByKey('id'); ?></td>
-            <td>eigene</td>
+            <td><?php 
+            if ($entity->getValueByKey('ansprechpartner_mail') == $this->sessionmail):
+            ?>eigene<?php    
+            else:
+            ?>in Vertretung<?php    
+            endif;
+            ?></td>
             <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEventDetails", "id"=>$entity->getValueByKey('id'))); ?>"><?php echo $entity->getValueByKey('bezeichnung'); ?></a></td>
             <td><?php echo $this->formatDate($entity->getValueByKey('anmeldefrist_beginn')); ?> - <?php echo $this->formatDate($entity->getValueByKey('anmeldefrist_ende')); ?></td>
             <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantList", "id"=>$entity->getValueByKey('id'))); ?>">Teilnehmer verwalten</a></td>

@@ -70,7 +70,7 @@ class Controller extends \LWddd\Controller
     public function showEventListForResponsibleAction() 
     {
         $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler(lwRegistry::getInstance()->getEntry("db")));
-        $listView = new eventListForResponsible($aggregate);        
+        $listView = new eventListForResponsible($this->domainEvent, $aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     

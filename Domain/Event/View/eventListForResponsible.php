@@ -8,8 +8,9 @@ use \Fab\Library\fabView as fabView;
 
 class eventListForResponsible extends fabView
 {
-    public function __construct(EntityAggregate $aggregate)
+    public function __construct($domainEvent, EntityAggregate $aggregate)
     {
+        $this->domainEvent = $domainEvent;
         $this->aggregate = $aggregate;
         $this->view = new lw_view(dirname(__FILE__).'/templates/listForResponsibleView.tpl.phtml');
     }
@@ -17,6 +18,9 @@ class eventListForResponsible extends fabView
     public function render()
     {
         $this->aggregate->renderView($this->view);
+        $sessionmail = $this->domainEvent->getSession()->getEmail();
+        $this->view->sessionmail = $sessionmail;
+        
         return $this->view->render();
     }
 }
