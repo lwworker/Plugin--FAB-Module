@@ -1,13 +1,15 @@
 <?php
 
 namespace Fab\Domain\Country\Model;
+use \Fab\Library\fabQueryHandler as fabQueryHandler;
 use \lw_registry as lw_registry;
+use \lw_db as lw_db;
 
-class countryQueryHandler
+class countryQueryHandler extends fabQueryHandler
 {
-    public function __construct()
+    public function __construct(lw_db $db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
     
     public function getAllCountries()
