@@ -11,7 +11,7 @@ class fabCommandHandler
 
     public function __construct(lw_db $db)
     {
-        parent::__construct($db);
+        $this->db = $db;
     }
     
     public function handle($domainEvent)
@@ -67,6 +67,7 @@ class fabCommandHandler
             if(!$ok){
                 throw new Exception('...'); 
             }
+            return $ok;
         }
     }
     
