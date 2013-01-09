@@ -1,17 +1,18 @@
 <?php
 
-namespace Fab\Domain\Event\Model;
+namespace Fab\Domain\Country\Model;
 use \lw_registry as lw_registry;
 use \LWddd\ValueObject as ValueObject;
 use \LWddd\Entity as Entity;
 use \Fab\Library\fabCommandHandler as fabCommandHandler;
 use \Exception as Exception;
+use \lw_db as lw_db;
 
 class countryCommandHandler extends fabCommandHandler
 {
-    public function __construct()
+    public function __construct(lw_db $db)
     {
-        $this->db = lw_registry::getInstance()->getEntry('db');
+        parent::__construct($db);
     }
 
     public function importCountries()
@@ -28,10 +29,10 @@ class countryCommandHandler extends fabCommandHandler
         foreach ($data as $value){
             $values .= "('".$value[0]."', '".$value[1]."'),";
         }
-        $values = substr($values, 0, strlen($values) - 2);
+        $values = substr($values, 0, strlen($values) - 1);
         
-        $this->db->setStatement("INSERT INTO t:fab_leander ( land , bezeichnung ) VALUES ".$values." ");   
-        $this->basePdbinsert("fab_leander");
+        $this->db->setStatement("INSERT INTO t:fab_laender ( land , bezeichnung ) VALUES ".$values." ");   
+        $this->basePdbinsert("fab_laender");
     }
     
     public function createTable()
@@ -39,7 +40,7 @@ class countryCommandHandler extends fabCommandHandler
         $table_create_statement = "land varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
                                   bezeichnung varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ";
         
-        $this->baseCreateTable("fab_leander", $table_create_statement);
+        $this->baseCreateTable("fab_laender", $table_create_statement);
         $this->updateTable();
     }
     
