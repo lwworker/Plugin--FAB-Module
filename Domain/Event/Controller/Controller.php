@@ -56,7 +56,7 @@ class Controller extends \LWddd\Controller
     {
         $ok = $this->saveEvent($this->domainEvent->getId());
         if ($ok) {
-            $this->response->setReloadCmd('showEditForm', array("id"=>$this->domainEvent->getId()));
+            $this->response->setReloadCmd('showList');
         }
         else {
             throw new Exception('error saving the event');
