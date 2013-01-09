@@ -18,13 +18,22 @@ class event extends Entity
 
     public function isDeleteable()
     {
+        $this->load();
+        if ($this->getValueByKey('anmeldefrist_beginn') < date("Ymd") && $this->getValueByKey('anmeldefrist_ende') > date("Ymd")) {
+            return false;
+        }
         return true;
     }
     
     public function delete()
     {
-        $commandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
-        return $commandHandler->deleteEvent($this);
+        if ($this->isDeleteable()) {
+            $commandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
+            return $commandHandler->deleteEvent($this);
+        }
+        else {
+            throw new Exception('Delete not allowed, because Event is active!');
+        }
     }
 
     public function save()
