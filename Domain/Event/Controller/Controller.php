@@ -2,8 +2,6 @@
 
 namespace Fab\Domain\Event\Controller;
 use \Fab\Domain\Event\Object\eventAggregateFactory as eventAggregateFactory;
-use \Fab\Domain\Event\Model\eventQueryHandler as eventQueryHandler;
-use \Fab\Domain\Event\Model\eventCommandHandler as eventCommandHandler;
 use \Fab\Domain\Event\View\eventList as eventList;
 use \Fab\Domain\Event\View\eventListForResponsible as eventListForResponsible;
 use \Fab\Domain\Event\View\eventDetails as eventDetails;
@@ -14,7 +12,6 @@ use \Fab\Domain\Event\Service\eventFilter as eventFilter;
 use \Fab\Domain\Event\Service\eventValidate as eventValidate;
 use \Fab\Domain\Event\Object\eventData as eventData;
 use \lw_response as lwResponse;
-use \lw_registry as lwRegistry;
 use \Exception as Exception;
 
 class Controller extends \LWddd\Controller
@@ -25,14 +22,31 @@ class Controller extends \LWddd\Controller
         $this->defaultAction = "showListAction";
     }
     
+    protected function getQueryHandler()
+    {
+        if (!$this->queryHandler) {
+            $this->queryHandler = new \Fab\Domain\Event\Model\eventQueryHandler(\lw_registry::getInstance()->getEntry("db"));
+        }
+        return $this->queryHandler;
+    }
+    
+    protected function getCommandHandler()
+    {
+        if (!$this->commandHandler) {
+            $this->commandHandler = new \Fab\Domain\Event\Model\eventCommandHandler(\lw_registry::getInstance()->getEntry("db"));
+        }
+        return $this->commandHandler;
+    }
+    
     public function saveReplacementAction()
     {
         $PostValueObjectFiltered = eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());
         $EventValidationSevice = new eventValidate();
+        $EventValidationSevice->setQueryHandler($this->getQueryHandler());
         $valid = $EventValidationSevice->stellvertreter_mailValidate($PostValueObjectFiltered->getValueByKey('stellvertreter_mail'), $this->domainEvent->getId());
         if ($valid)
         {
-            $eventCommandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
+            $eventCommandHandler = $this->getCommandHandler();
             $ok = $eventCommandHandler->saveReplacement($this->domainEvent->getId(), $PostValueObjectFiltered->getValueByKey('stellvertreter_mail'));
             if ($ok > 0) {
                 $this->response->setReloadCmd('showEventDetails', array("id"=>$this->domainEvent->getId()));
@@ -69,14 +83,14 @@ class Controller extends \LWddd\Controller
     
     public function showEventListForResponsibleAction() 
     {
-        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler(lwRegistry::getInstance()->getEntry("db")));
+        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, $this->getQueryHandler());
         $listView = new eventListForResponsible($this->domainEvent, $aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     
     public function showListAction()
     {
-        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, new eventQueryHandler(lwRegistry::getInstance()->getEntry("db")));
+        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, $this->getQueryHandler());
         $listView = new eventList($aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
@@ -144,6 +158,7 @@ class Controller extends \LWddd\Controller
     {
         $PostValueObjectFiltered = eventFilter::getInstance()->filter($this->domainEvent->getPostValueObject());
         $EventValidationSevice = new eventValidate();
+        $EventValidationSevice->setQueryHandler($this->getQueryHandler());
         $EventValidationSevice->setValues($PostValueObjectFiltered->getValues());
         $valid = $EventValidationSevice->validate();
         if ($valid)

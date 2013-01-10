@@ -1,7 +1,6 @@
 <?php
 
 namespace Fab\Domain\Event\Object;
-use \Fab\Domain\Event\Service\eventValidate as eventValidate;
 use \LWddd\ValueObject as ValueObject;
 
 class eventData extends ValueObject
@@ -33,6 +32,9 @@ class eventData extends ValueObject
                 "first_date", 
                 "last_date");
         
-        parent::__construct($values, $allowedKeys, new eventValidate());
+        $queryHandler = new \Fab\Domain\Event\Model\eventQueryHandler(\lw_registry::getInstance()->getEntry("db"));
+        $validator = new \Fab\Domain\Event\Service\eventValidate();
+        $validator->setQueryHandler($queryHandler);
+        parent::__construct($values, $allowedKeys, $validator);
     }
 }
