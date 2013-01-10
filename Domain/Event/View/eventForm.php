@@ -5,13 +5,14 @@ use \LWddd\DomainEvent as DomainEvent;
 use \lw_view as lw_view;
 use \lw_page as lw_page;
 use \Fab\Library\fabView as fabView;
-use \Fab\Domain\Country\View\countryOptions as countryOptions;
+use \Fab\Library\fabDIC as DIC;
 
 class eventForm extends fabView
 {
     public function __construct(DomainEvent $domainEvent)
     {
         $this->domainEvent = $domainEvent;
+        $this->dic = new DIC();
         $this->view = new lw_view(dirname(__FILE__).'/templates/formView.tpl.phtml');
     }
     
@@ -22,7 +23,7 @@ class eventForm extends fabView
     
     public function renderCountryOptions($countryShortcut)
     {
-        $countryOptions = new countryOptions($this->domainEvent);
+        $countryOptions = $this->dic->getCountryOptions();
         $countryOptions->setSelectedCountryByshortcut($countryShortcut);
         $this->view->countryOptions = $countryOptions->render();
     }

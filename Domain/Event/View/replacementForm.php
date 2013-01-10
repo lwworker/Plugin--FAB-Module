@@ -2,9 +2,9 @@
 
 namespace Fab\Domain\Event\View;
 use \LWddd\DomainEvent as DomainEvent;
-use \lw_page as lw_page;
 use \Fab\Library\fabView as fabView;
 use \lw_view as lw_view;
+use \lw_page as lw_page;
 
 class replacementForm extends fabView
 {

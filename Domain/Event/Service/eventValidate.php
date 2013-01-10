@@ -338,7 +338,7 @@ class eventValidate
         $bool = true;
 
         if(filter_var($value, FILTER_VALIDATE_EMAIL) == false) {
-            $this->addError($key, 2, array("errormsg" => "Es wurde keine korrekte EMail-Adresse eingegeben."));
+            $this->addError($key, 2, array("errormsg" => "Es wurde keine korrekte E-Mail-Adresse eingegeben."));
             $bool = false;
         }
 
