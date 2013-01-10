@@ -2,18 +2,16 @@
 
 namespace Fab\Domain\Event\Object;
 use \LWddd\Entity as Entity;
-use \Fab\Domain\Event\Model\eventCommandHandler as eventCommandHandler;
-use \Fab\Domain\Event\Model\eventQueryHandler as eventQueryHandler;
 use \Fab\Domain\Event\Object\eventData as eventData;
-use \Fab\Domain\Event\Service\eventDecorator as eventDecorator;
-use \lw_registry as lwRegistry;
 use \Exception as Exception;
+use \Fab\Library\fabDIC as DIC;
 
 class event extends Entity
 {
     public function __construct($id=false)
     {
         parent::__construct($id);
+        $this->dic = new DIC();
     }
 
     public function isDeleteable()
@@ -28,8 +26,7 @@ class event extends Entity
     public function delete()
     {
         if ($this->isDeleteable()) {
-            $commandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
-            return $commandHandler->deleteEvent($this);
+            return $this->dic->getEventCommandHandler()->deleteEvent($this);
         }
         else {
             throw new Exception('Delete not allowed, because Event is active!');
@@ -38,15 +35,13 @@ class event extends Entity
 
     public function save()
     {
-        $commandHandler = new eventCommandHandler(lwRegistry::getInstance()->getEntry("db"));
-        return $this->saveEntity($commandHandler);
+        return $this->saveEntity($this->dic->getEventCommandHandler());
     }
     
     public function load()
     {
         if ($this->id > 0) {
-            $queryHandler = new eventQueryHandler(lwRegistry::getInstance()->getEntry("db"));
-            $data = $queryHandler->getEventById($this->id);
+            $data = $this->dic->getEventQueryHandler()->getEventById($this->id);
             $this->setDataValueObject(new eventData($data));
             $this->setLoaded();
             $this->unsetDirty();
@@ -58,7 +53,7 @@ class event extends Entity
     
     public function renderView($view)
     {
-        $ValueObjectDecorated = eventDecorator::getInstance()->decorate($this->valueObject);
+        $ValueObjectDecorated = $this->dic->getEventDecorator()->decorate($this->valueObject);
         $view->entity = $ValueObjectDecorated->getValues();
     }    
 }
