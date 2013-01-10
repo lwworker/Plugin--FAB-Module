@@ -42,5 +42,14 @@ class fabDIC
         return \Fab\Domain\Event\Service\eventFilter::getInstance();
     }
     
+    public function getEventDecorator()
+    {
+        return \Fab\Domain\Event\Service\eventDecorator::getInstance();
+    }
+    
+    public function getCountryOptions()
+    {
+        return new \Fab\Domain\Country\View\countryOptions();
+    }
     
 }
