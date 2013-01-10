@@ -20,10 +20,10 @@ class participantCommandHandler extends fabCommandHandler
      * @param \LWddd\ValueObject $entity
      * @return true/exception
      */
-    public function addParticipant($event_id, ValueObject $entity)
+    public function addEntity($eventId, ValueObject $entity)
     {
         $this->db->setStatement("INSERT INTO t:fab_teilnehmer ( event_id, anrede, sprache, titel, nachname, vorname, institut, unternehmen, strasse, plz, ort, land, mail, veranstaltung, ust_id_nr, zahlweise, referenznr, teilnehmer_intern, auftragsnr, betrag, first_date, last_date ) VALUES ( :event_id, :anrede, :sprache, :titel, :nachname, :vorname, :institut, :unternehmen, :strasse, :plz, :ort, :land, :mail, :veranstaltung, :ust_id_nr, :zahlweise, :referenznr, :teilnehmer_intern, :auftragsnr, :betrag, :first_date, :last_date ) ");
-        $this->db->bindParameter("event_id", "i", $event_id);
+        $this->db->bindParameter("event_id", "i", $eventId);
         $this->db->bindParameter("anrede", "s", $entity->getValueByKey('anrede'));
         $this->db->bindParameter("sprache", "s", $entity->getValueByKey('sprache'));
         $this->db->bindParameter("titel", "s", $entity->getValueByKey('titel'));
@@ -46,6 +46,8 @@ class participantCommandHandler extends fabCommandHandler
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
 
+        die($this->db->prepare());
+        
         return $this->basePdbinsert("fab_teilnehmer");
     }
     
@@ -55,7 +57,7 @@ class participantCommandHandler extends fabCommandHandler
      * @param \LWddd\ValueObject $entity
      * @return true/exception
      */
-    public function saveParticipant($id, ValueObject $entity)
+    public function saveEntity($id, ValueObject $entity)
     {
         $this->db->setStatement("UPDATE t:fab_teilnehmer SET anrede = :anrede, sprache = :sprache, titel = :titel, nachname = :nachname, vorname = :vorname, institut = :institut, unternehmen = :unternehmen, strasse = :strasse, plz = :plz, ort = :ort, land = :land, mail = :mail, veranstaltung = :veranstaltung, ust_id_nr = :ust_id_nr, zahlweise = :zahlweise, referenznr = :referenznr, teilnehmer_intern = :teilnehmer_intern, auftragsnr = :auftragsnr, betrag = :betrag, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
@@ -88,7 +90,7 @@ class participantCommandHandler extends fabCommandHandler
      * @param \LWddd\Entity $entity
      * @return true/exception
      */
-    public function deleteParticipant(Entity $entity)
+    public function deleteEntity(Entity $entity)
     {
         return $this->baseDelete($entity, "fab_teilnehmer");                              
     }
@@ -120,8 +122,8 @@ class participantCommandHandler extends fabCommandHandler
                                   teilnehmer_intern int(1) NOT NULL,
                                   auftragsnr varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
                                   betrag varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                                  first_date int(14) NOT NULL,
-                                  last_date int(14) NOT NULL,
+                                  first_date bigint(14) NOT NULL,
+                                  last_date bigint(14) NOT NULL,
                                   PRIMARY KEY (id) ";
         
         return $this->baseCreateTable("fab_teilnehmer", $table_create_statement);

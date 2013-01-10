@@ -9,6 +9,42 @@ class fabDIC
         
     }
     
+    public function getParticipantQueryHandler()
+    {
+        if (!$this->participantQueryHandler) {
+            $this->participantQueryHandler = new \Fab\Domain\Participant\Model\participantQueryHandler($this->getDbObject());
+        }
+        return $this->participantQueryHandler;        
+    }
+    
+    public function getParticipantCommandHandler()
+    {
+        if (!$this->participantCommandHandler) {
+            $this->participantCommandHandler = new \Fab\Domain\Participant\Model\participantCommandHandler($this->getDbObject());
+        }
+        return $this->participantCommandHandler;        
+    }
+    
+    public function getParticipantFilter()
+    {
+        $config = $this->getConfiguration();
+        $filter = \Fab\Domain\Participant\Service\participantFilter::getInstance();
+        return $filter;
+    }
+    
+    public function getParticipantDecorator()
+    {
+        $config = $this->getConfiguration();
+        $decorator = \Fab\Domain\Participant\Service\participantDecorator::getInstance();
+        return $decorator;
+    }
+    
+    public function getParticipantValidationObject()
+    {
+        $participantValidationSevice = new \Fab\Domain\Participant\Service\participantValidate();
+        return $participantValidationSevice;
+    }
+    
     public function getEventQueryHandler()
     {
         if (!$this->eventQueryHandler) {
@@ -23,12 +59,7 @@ class fabDIC
             $this->eventCommandHandler = new \Fab\Domain\Event\Model\eventCommandHandler($this->getDbObject());
         }
         return $this->eventCommandHandler;        
-    }
-    
-    public function getDbObject()
-    {
-        return \lw_registry::getInstance()->getEntry("db");
-    }
+    }    
     
     public function getEventValidationObject()
     {
@@ -55,6 +86,11 @@ class fabDIC
             $decorator->setDefaultMailDomain($config['fab']['defaultMailDomain']);
         }
         return $decorator;
+    }
+    
+    public function getDbObject()
+    {
+        return \lw_registry::getInstance()->getEntry("db");
     }
     
     public function getCountryOptions()

@@ -29,7 +29,8 @@ class fab_frontend extends lw_plugin
             $controller = new \Fab\Domain\Event\Controller\Controller($response);
         }
         else {
-            //$controller = new \Fab\Domain\Participant\Controller\Controller($response);
+            $controller = new \Fab\Domain\Participant\Controller\Controller($response);
+            $controller->setEventId($this->request->getInt('eventId')); 
         }
         $controller->setSession(new \Fab\Library\fabSession());
         
