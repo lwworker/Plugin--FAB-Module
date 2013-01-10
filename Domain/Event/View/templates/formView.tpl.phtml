@@ -179,7 +179,7 @@
         <div class="controls">
             <div class="input-append">
                 <input class="input-large" type="text" id="ansprechpartner_mail" name="ansprechpartner_mail" placeholder="a.name" value="<?php if($this->entity): echo $this->entity['ansprechpartner_mail']; endif; ?>" />
-                <span class="add-on">@fz-juelich.de</span>
+                <span class="add-on"><?php echo $this->mailDomain; ?></span>
             </div>
             <?php showError($this->errors['ansprechpartner_mail']); ?>
         </div>

@@ -6,12 +6,14 @@ use \lw_view as lw_view;
 use \lw_page as lw_page;
 use \Fab\Library\fabView as fabView;
 use \Fab\Domain\Country\View\countryOptions as countryOptions;
+use \Fab\Library\fabDIC as DIC;
 
 class eventDetails extends fabView
 {
     public function __construct(DomainEvent $domainEvent)
     {
         $this->domainEvent = $domainEvent;
+        $this->dic = new DIC();
         $this->view = new lw_view(dirname(__FILE__).'/templates/detailView.tpl.phtml');
     }
     
@@ -22,6 +24,8 @@ class eventDetails extends fabView
         }
         $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventListForResponsible"));
         $this->view->editReplacementUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showReplacementForm", "id" =>  $this->domainEvent->getId()));
+        $config = $this->dic->getConfiguration();
+        $this->view->mailDomain = $config['fab']['defaultMailDomain'];
         return $this->view->render();
     }
 }

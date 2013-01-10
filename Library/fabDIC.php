@@ -39,12 +39,22 @@ class fabDIC
     
     public function getEventFilter()
     {
-        return \Fab\Domain\Event\Service\eventFilter::getInstance();
+        $config = $this->getConfiguration();
+        $filter = \Fab\Domain\Event\Service\eventFilter::getInstance();
+        if ($config['fab']['defaultMailDomain']) {
+            $filter->setDefaultMailDomain($config['fab']['defaultMailDomain']);
+        }
+        return $filter;
     }
     
     public function getEventDecorator()
     {
-        return \Fab\Domain\Event\Service\eventDecorator::getInstance();
+        $config = $this->getConfiguration();
+        $decorator = \Fab\Domain\Event\Service\eventDecorator::getInstance();
+        if ($config['fab']['defaultMailDomain']) {
+            $decorator->setDefaultMailDomain($config['fab']['defaultMailDomain']);
+        }
+        return $decorator;
     }
     
     public function getCountryOptions()
@@ -52,4 +62,8 @@ class fabDIC
         return new \Fab\Domain\Country\View\countryOptions();
     }
     
+    public function getConfiguration()
+    {
+        return \lw_registry::getInstance()->getEntry("config");
+    }
 }

@@ -8,7 +8,11 @@ class eventDecorator
 {
     public function __construct()
     {
-        
+    }
+    
+    public function setDefaultMailDomain($mailDomain)
+    {
+        $this->mailDomain = $mailDomain;
     }
     
     public function getInstance()
@@ -32,12 +36,18 @@ class eventDecorator
     
     public function ansprechpartner_mailDecorate($value)
     {
-        return str_replace('@fz-juelich.de', "", $value);
+        if ($this->mailDomain) {
+            return str_replace($this->mailDomain, "", $value);
+        }
+        return $value;
     }
     
     public function stellvertreter_mailDecorate($value)
     {
-        return str_replace('@fz-juelich.de', "", $value);
+        if ($this->mailDomain) {
+            return str_replace($this->mailDomain, "", $value);
+        }
+        return $value;
     }
     
     public function anmeldefrist_beginnDecorate($value)

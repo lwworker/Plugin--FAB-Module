@@ -17,7 +17,7 @@
         <div class="controls">
             <div class="input-append">
                 <input class="input-large" type="text" id="stellvertreter_mail" name="stellvertreter_mail" placeholder="a.name" value="<?php if($this->entity): echo $this->entity['stellvertreter_mail']; endif; ?>" />
-                <span class="add-on">@fz-juelich.de</span>
+                <span class="add-on"><?php echo $this->mailDomain; ?></span>
             </div>
             
             <?php if($this->errors['stellvertreter_mail']): ?>

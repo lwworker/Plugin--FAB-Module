@@ -10,6 +10,11 @@ class eventFilter
     {
     }
     
+    public function setDefaultMailDomain($mailDomain)
+    {
+        $this->mailDomain = $mailDomain;
+    }
+    
     public function getInstance()
     {
         return new eventFilter();
@@ -31,13 +36,16 @@ class eventFilter
     
     public function ansprechpartner_mailFilter($value)
     {
-        return $value.'@fz-juelich.de';
+        if ($this->mailDomain) {
+            return $value.$this->mailDomain;
+        }
+        return $value;
     }
     
     public function stellvertreter_mailFilter($value)
     {
-        if (strlen(trim($value))>0) {
-            return $value.'@fz-juelich.de';
+        if (strlen(trim($value))>0 && $this->mailDomain) {
+            return $value.$this->mailDomain;
         }
         return false;
     }

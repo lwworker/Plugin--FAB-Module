@@ -58,13 +58,13 @@
         <dd><?php echo $this->entity['organisationseinheit']; ?></dd>
 
         <dt>Email des AP</dt>
-        <dd><?php echo $this->entity['ansprechpartner_mail']; ?></dd>
+        <dd><?php echo $this->entity['ansprechpartner_mail']; ?><?php echo $this->mailDomain; ?></dd>
 
         <dt>Standardbetrag</dt>
         <dd><?php echo $this->entity['standardbetrag']; ?></dd>
 
         <dt>E-Mail des Stellvertreters</dt>
-        <dd><?php echo $this->entity['stellvertreter_mail']; ?></dd>
+        <dd><?php echo $this->entity['stellvertreter_mail']; ?><?php echo $this->mailDomain; ?></dd>
 
     </dl>
 </div>
