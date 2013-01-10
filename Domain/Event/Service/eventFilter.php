@@ -36,7 +36,10 @@ class eventFilter
     
     public function stellvertreter_mailFilter($value)
     {
-        return $value.'@fz-juelich.de';
+        if (strlen(trim($value))>0) {
+            return $value.'@fz-juelich.de';
+        }
+        return false;
     }
     
     public function anmeldefrist_beginnFilter($value)
