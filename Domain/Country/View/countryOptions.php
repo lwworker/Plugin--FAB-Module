@@ -8,9 +8,8 @@ use \lw_registry as lwRegistry;
 
 class countryOptions
 {
-    public function __construct(DomainEvent $domainEvent)
+    public function __construct()
     {
-        $this->domainEvent = $domainEvent;
         $this->queryHandler = new countryQueryHandler(lwRegistry::getInstance()->getEntry("db"));
         $this->view = new lw_view(dirname(__FILE__).'/templates/optionsView.tpl.phtml');
     }
