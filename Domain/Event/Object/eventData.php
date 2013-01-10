@@ -2,11 +2,13 @@
 
 namespace Fab\Domain\Event\Object;
 use \LWddd\ValueObject as ValueObject;
+use \Fab\Library\fabDIC as DIC;
 
 class eventData extends ValueObject
 {
     public function __construct($values)
     {
+        $this->dic = new DIC();
         $allowedKeys = array(
                 "id", 
                 "buchungskreis", 
@@ -32,9 +34,6 @@ class eventData extends ValueObject
                 "first_date", 
                 "last_date");
         
-        $queryHandler = new \Fab\Domain\Event\Model\eventQueryHandler(\lw_registry::getInstance()->getEntry("db"));
-        $validator = new \Fab\Domain\Event\Service\eventValidate();
-        $validator->setQueryHandler($queryHandler);
-        parent::__construct($values, $allowedKeys, $validator);
+        parent::__construct($values, $allowedKeys, $this->dic->getEventValidationObject());
     }
 }
