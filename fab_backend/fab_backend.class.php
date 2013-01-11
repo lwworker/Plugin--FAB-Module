@@ -19,7 +19,12 @@ class fab_backend extends lw_plugin
         
         $response = \Fab\Library\fabResponse::getInstance();
         $controller = new \Fab\Domain\Event\Controller\Controller($response);
-        $response = $controller->execute($this->request->getAlnum('cmd'), $this->request);
+        try {
+            $response = $controller->execute($this->request->getAlnum('cmd'), $this->request);
+        }
+        catch (Exception $e) {
+            die($e->getMessage());
+        }
         
         if ($response->hasReloadCommand()) {
             $url = lw_page::getInstance()->getUrl($response->getReloadCommandWithParameters());
