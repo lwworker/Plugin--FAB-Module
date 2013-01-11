@@ -64,6 +64,7 @@ class Controller extends dddController
             }
             
             $entity = new participant($id);
+            $entity->setEventId($this->eventId);
             $entity->setDataValueObject($ParticipantDataValueObject);
             
             try {
