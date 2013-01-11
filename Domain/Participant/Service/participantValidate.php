@@ -41,10 +41,12 @@ class participantValidate
     {                   
         $valid = true;
         foreach($this->allowedKeys as $key){
-            $function = $key."Validate";
-            $result = $this->$function($this->array[$key]);
-            if($result == false){
-                $valid = false;
+            $method = $key."Validate";
+            if (method_exists($this, $method)) {
+                $result = $this->$method($this->array[$key]);
+                if($result == false){
+                    $valid = false;
+                }
             }
         }
         
@@ -136,11 +138,13 @@ class participantValidate
     public function plzValidate($value)
     {
         $zipcheck = new \Fab\Services\Zipcheck\zipcheck();
-        if($this->landValidate($this->array["land"])){
+        if($this->landValidate($this->array["land"])) {
             $ok = $zipcheck->check(strtoupper($this->array["land"]), $value);
-            if($ok === 1){
+            $this->addError("plz", 33, array("errormsg" => "PLZ passt nicht zum Land"));
+            if($ok === 1) {
                 return true;
-            }else{
+            }
+            else {
                 return false;
             }
         }
@@ -165,11 +169,6 @@ class participantValidate
         return false;
     }
     
-    public function veranstaltungValidate($value)
-    {
-        return $this->defaultValidation("veranstaltung", $value, 8 , true);
-    }
-    
     public function ust_id_nrValidate($value)
     {
         return $this->defaultValidation("ust_id_nr", $value, 20);
@@ -191,29 +190,9 @@ class participantValidate
         }
     }
     
-    public function referenznrValidate($value)
-    {
-        $bool = true;
-        if(int_val($value) < 400000){
-            $this->addError("referenznr", 3, array("errormsg" => "Die Referenznummer beginnt bei 400000"));
-            $bool = false;
-        }
-        $bool = $this->defaultValidation("referenznr", $value, 8 , true);
-        
-        if($bool == false){
-            return false;
-        }
-        return true;
-    }
-    
     public function teilnehmer_internValidate($value)
     {
         return $this->defaultValidation("teilnehmer_intern", $value, 1);
-    }
-    
-    public function auftragsnrValidate($value)
-    {
-        return $this->defaultValidation("auftragsnr", $value, 12, true);
     }
     
     public function betragValidate($value)

@@ -35,7 +35,14 @@ class event extends Entity
 
     public function save()
     {
-        return $this->saveEntity($this->dic->getEventCommandHandler());
+        if ($this->id > 0 ) {
+            $result = $this->dic->getEventCommandHandler()->saveEntity($this->id, $this->valueObject);
+        }
+        else {
+            $result = $this->dic->getEventCommandHandler()->addEntity($this->valueObject);
+            $this->id = $result;
+        }
+        return $this->finishSaveResult($result);
     }
     
     public function load()

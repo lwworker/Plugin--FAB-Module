@@ -1,0 +1,31 @@
+<h1>Teilnehmer</h1>
+<div>
+    <a href="<?php echo $this->addUrl; ?>">Teilnehmer hinzuf&uuml;gen</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>&uuml;bertragen</th>
+            <th>Referenznummer</th>
+            <th>Name</th>
+            <th>Unternehmen</th>
+            <th>Zahl</th>
+            <th>Betrag</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->entities as $entity): ?>
+        <tr>
+            <td><?php echo $entity->getValueByKey('submitted'); ?></td>
+            <td><?php echo $entity->getValueByKey('referenznr'); ?></td>
+            <td><?php echo $entity->getValueByKey('nachname').' '.$entity->getValueByKey('vorname'); ?></td>
+            <td><?php echo $entity->getValueByKey('unternehmen'); ?></td>
+            <td><?php echo $entity->getValueByKey('zahlweise'); ?></td>
+            <td><?php echo $entity->getValueByKey('betrag'); ?></td>
+            <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditForm", "id"=>$entity->getValueByKey('id'))); ?>"><?php echo $entity->getValueByKey('bezeichnung'); ?></a></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
