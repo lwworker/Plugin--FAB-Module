@@ -9,6 +9,7 @@ use \Fab\Domain\Event\View\eventList as eventList;
 use \Fab\Domain\Event\View\eventForm as eventForm;
 use \Fab\Domain\Event\Object\event as event;
 use \Fab\Domain\Event\Object\eventData as eventData;
+use \Fab\Domain\Event\Object\eventFactory as eventFactory;
 use \Fab\Library\fabDIC as DIC;
 use \lw_response as lwResponse;
 use \Exception as Exception;
@@ -22,42 +23,10 @@ class Controller extends \LWddd\Controller
         $this->dic = new DIC();
     }
     
-    public function saveReplacementAction()
-    {
-        $PostValueObjectFiltered = $this->dic->getEventFilter()->filter($this->domainEvent->getPostValueObject());
-        $EventValidationSevice = $this->dic->getEventValidationObject();
-        $valid = $EventValidationSevice->stellvertreter_mailValidate($PostValueObjectFiltered->getValueByKey('stellvertreter_mail'), $this->domainEvent->getId());
-        if ($valid) {
-            $eventCommandHandler = $this->dic->getEventCommandHandler();
-            $ok = $eventCommandHandler->saveReplacement($this->domainEvent->getId(), $PostValueObjectFiltered->getValueByKey('stellvertreter_mail'));
-            if ($ok > 0) {
-                $this->response->setReloadCmd('showEventDetails', array("id"=>$this->domainEvent->getId()));
-            }
-            else {
-                throw new Exception('error saving the replacement');
-            }
-        }
-        else {
-            $this->showReplacementFormAction($EventValidationSevice->getErrors());
-        }        
-    }    
-    
-    public function showReplacementFormAction($errors=false)
-    {
-        if (!$this->domainEvent->hasEntity()) {
-            $this->setEntityById($this->domainEvent->getId());
-        }
-        $formView = new replacementForm($this->domainEvent);
-        if ($errors) {
-            $formView->setErrors($errors);
-        }        
-        $this->response->addOutputByName('FabOutput', $formView->render());
-    }
-    
     public function showEventDetailsAction() 
     {
         if (!$this->domainEvent->hasEntity()) {
-            $this->setEntityById($this->domainEvent->getId());
+            $this->domainEvent->setEntity(eventFactory::buildEventByEventId($this->domainEvent->getId()));
         }
         $detailView = new eventDetails($this->domainEvent);
         $this->response->addOutputByName('FabOutput', $detailView->render());
@@ -89,7 +58,7 @@ class Controller extends \LWddd\Controller
     public function showEditFormAction($errors=false)
     {
         if (!$this->domainEvent->hasEntity()) {
-            $this->setEntityById($this->domainEvent->getId());
+            $this->domainEvent->setEntity(eventFactory::buildEventByEventId($this->domainEvent->getId()));
         }
         $formView = new eventForm($this->domainEvent);
         if ($errors) {
@@ -117,7 +86,7 @@ class Controller extends \LWddd\Controller
     public function deleteEventAction()
     {
         if (!$this->domainEvent->hasEntity()) {
-            $this->setEntityById($this->domainEvent->getId());
+            $this->domainEvent->setEntity(eventFactory::buildEventByEventId($this->domainEvent->getId()));
         }
         $entity = $this->domainEvent->getEntity();
         if ($entity->isDeleteable()) {
@@ -127,13 +96,6 @@ class Controller extends \LWddd\Controller
         else {
             throw new Exception('delete not possible');
         }
-    }
-    
-    protected function setEntityById($id)
-    {
-        $event = new event($id);
-        $event->load();
-        $this->domainEvent->setEntity($event);
     }
     
     protected function saveEvent($id=false)

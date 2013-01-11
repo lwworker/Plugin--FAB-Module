@@ -16,7 +16,6 @@ class event extends Entity
 
     public function isDeleteable()
     {
-        $this->load();
         if ($this->getValueByKey('anmeldefrist_beginn') < date("Ymd") && $this->getValueByKey('anmeldefrist_ende') > date("Ymd")) {
             return false;
         }
@@ -47,15 +46,9 @@ class event extends Entity
     
     public function load()
     {
-        if ($this->id > 0) {
-            $data = $this->dic->getEventQueryHandler()->getEventById($this->id);
-            $this->setDataValueObject(new eventData($data));
-            $this->setLoaded();
-            $this->unsetDirty();
-        }
-        else {
-            throw new Exception('Event cannot be loaded, because no ID is present');
-        }
+        echo "<pre>";
+        debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        exit();
     }
     
     public function renderView($view)
