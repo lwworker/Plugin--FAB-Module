@@ -9,6 +9,47 @@ class fabDIC
         
     }
     
+    public function getReplacementQueryHandler()
+    {
+        if (!$this->replacementQueryHandler) {
+            $this->replacementQueryHandler = new \Fab\Domain\Replacement\Model\replacementQueryHandler($this->getDbObject());
+        }
+        return $this->replacementQueryHandler;        
+    }
+    
+    public function getReplacementCommandHandler()
+    {
+        if (!$this->replacementCommandHandler) {
+            $this->replacementCommandHandler = new \Fab\Domain\Replacement\Model\replacementCommandHandler($this->getDbObject());
+        }
+        return $this->replacementCommandHandler;        
+    }
+    
+    public function getReplacementValidationObject()
+    {
+        return new \Fab\Domain\Replacement\Service\replacementValidate();
+    }
+    
+    public function getReplacementDecorator()
+    {
+        $config = $this->getConfiguration();
+        $decorator = \Fab\Domain\Replacement\Service\replacementDecorator::getInstance();
+        if ($config['fab']['defaultMailDomain']) {
+            $decorator->setDefaultMailDomain($config['fab']['defaultMailDomain']);
+        }
+        return $decorator;
+    }
+    
+    public function getReplacementFilter()
+    {
+        $config = $this->getConfiguration();
+        $filter = \Fab\Domain\Replacement\Service\replacementFilter::getInstance();
+        if ($config['fab']['defaultMailDomain']) {
+            $filter->setDefaultMailDomain($config['fab']['defaultMailDomain']);
+        }
+        return $filter;
+    }    
+    
     public function getParticipantQueryHandler()
     {
         if (!$this->participantQueryHandler) {
