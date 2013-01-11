@@ -21,7 +21,7 @@ class eventCommandHandler extends fabCommandHandler
      */
     public function addEntity(ValueObject $entity)
     {
-        $this->db->setStatement("INSERT INTO t:fab_tagungen ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, stellvertreter_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :stellvertreter_mail, :standardbetrag, :first_date, :last_date ) ");
+        $this->db->setStatement("INSERT INTO t:fab_tagungen ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :standardbetrag, :first_date, :last_date ) ");
         $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
         $this->db->bindParameter("v_schluessel", "s", $entity->getValueByKey('v_schluessel'));
         $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
@@ -40,7 +40,6 @@ class eventCommandHandler extends fabCommandHandler
         $this->db->bindParameter("tel_ansprechpartner", "i", $entity->getValueByKey('ansprechpartner_tel'));
         $this->db->bindParameter("organisationseinheit", "s", $entity->getValueByKey('organisationseinheit'));
         $this->db->bindParameter("mail_ansprechpartner", "s", $entity->getValueByKey('ansprechpartner_mail'));
-        $this->db->bindParameter("stellvertreter_mail", "s", $entity->getValueByKey('stellvertreter_mail'));
         $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
@@ -57,7 +56,7 @@ class eventCommandHandler extends fabCommandHandler
      */
     public function saveEntity($id, ValueObject $entity)
     {
-        $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, stellvertreter_mail = :stellvertreter_mail, standardbetrag = :standardbetrag, last_date = :last_date WHERE id = :id ");
+        $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, standardbetrag = :standardbetrag, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
         $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
         $this->db->bindParameter("v_schluessel", "s", $entity->getValueByKey('v_schluessel'));
@@ -77,10 +76,8 @@ class eventCommandHandler extends fabCommandHandler
         $this->db->bindParameter("tel_ansprechpartner", "i", $entity->getValueByKey('ansprechpartner_tel'));
         $this->db->bindParameter("organisationseinheit", "s", $entity->getValueByKey('organisationseinheit'));
         $this->db->bindParameter("mail_ansprechpartner", "s", $entity->getValueByKey('ansprechpartner_mail'));
-        $this->db->bindParameter("stellvertreter_mail", "s", $entity->getValueByKey('stellvertreter_mail'));
         $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
         $this->db->bindParameter("last_date", "s", date("YmdHis"));
-
         return $this->basePdbquery();
     }
     
@@ -94,15 +91,6 @@ class eventCommandHandler extends fabCommandHandler
         return $this->baseDelete($entity, "fab_tagungen");
     }
 
-    public function saveReplacement($id, $stellvertreter_mail)
-    {
-        $this->db->setStatement("UPDATE t:fab_tagungen SET stellvertreter_mail = :stellvertreter_mail WHERE id = :id ");
-        $this->db->bindParameter("id", "i", $id);
-        $this->db->bindParameter("stellvertreter_mail", "s", $stellvertreter_mail);
-
-        return $this->basePdbquery();
-    }    
-    
     /**
      * The existance of fab_tagungen will be checked and created if the table is missing
      * @return true/exception

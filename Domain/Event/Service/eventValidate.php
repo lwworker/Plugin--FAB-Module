@@ -26,7 +26,6 @@ class eventValidate
                 "ansprechpartner_tel",
                 "organisationseinheit",
                 "ansprechpartner_mail",
-                "stellvertreter_mail",
                 "standardbetrag",
                 "first_date",
                 "last_date");
@@ -179,37 +178,6 @@ class eventValidate
             return $this->emailValidation("ansprechpartner_mail", $value);
         }
         return false;
-    }
-    
-    function stellvertreter_mailValidate($value, $id = false)
-    {
-        if(empty($value)){ 
-            return true;
-        }
-        else {
-            if ($this->array['ansprechpartner_mail']) {
-                $apMail = $this->array['ansprechpartner_mail'];
-            } 
-            elseif($this->array['id'])
-            {
-                $id = $this->array['id'];
-            }
-            if ($id) {
-                $values = $this->queryHandler->getEventById($id);
-                $apMail = $values['ansprechpartner_mail'];
-            }
-            if ($apMail && $apMail == $value) {
-                $this->addError("stellvertreter_mail", 101, array("errormsg" => "Die Stellvertretermail darf nicht der Ansprechpartnermail entsprechen."));
-                $error = true;
-            }
-            if (!$this->emailValidation("stellvertreter_mail", $value)) {
-                $error = true;
-            }
-            if ($error) {
-                return false;
-            }
-            return true;
-        }
     }
     
     function standardbetragValidate($value)
