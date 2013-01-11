@@ -23,10 +23,12 @@ class fab_frontend extends lw_plugin
             $controller = new \Fab\Domain\Event\Controller\Controller($response);
             $cmd = 'showEventListForResponsible';
         }
-        elseif ($this->request->getAlnum('cmd') == 'showEventDetails' 
-                || $this->request->getAlnum('cmd') == 'showReplacementForm'
-                || $this->request->getAlnum('cmd') == 'saveReplacement') {
+        elseif ($this->request->getAlnum('cmd') == 'showEventDetails') {
             $controller = new \Fab\Domain\Event\Controller\Controller($response);
+        }
+        elseif ($this->request->getAlnum('cmd') == 'showReplacementForm'
+                || $this->request->getAlnum('cmd') == 'saveReplacement') {
+            $controller = new \Fab\Domain\Replacement\Controller\Controller($response);
         }
         else {
             $controller = new \Fab\Domain\Participant\Controller\Controller($response);
