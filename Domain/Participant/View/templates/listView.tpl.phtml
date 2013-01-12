@@ -18,13 +18,31 @@
     <tbody>
         <?php foreach ($this->entities as $entity): ?>
         <tr>
-            <td><?php echo $entity->getValueByKey('submitted'); ?></td>
-            <td><?php echo $entity->getValueByKey('referenznr'); ?></td>
+            <td><?php 
+                if ($entity->getValueByKey('teilnehmer_intern') == 1) {
+                    echo "intern";
+                }
+                elseif($entity->getValueByKey('submitted')) {
+                    echo $entity->getValueByKey('submitted'); 
+                }
+                else {
+                    ?><input type="checkbox" /><?php
+                }
+            ?></td>
+            <td><?php echo $entity->getValueByKey('id')+400000; ?></td>
             <td><?php echo $entity->getValueByKey('nachname').' '.$entity->getValueByKey('vorname'); ?></td>
             <td><?php echo $entity->getValueByKey('unternehmen'); ?></td>
             <td><?php echo $entity->getValueByKey('zahlweise'); ?></td>
             <td><?php echo $entity->getValueByKey('betrag'); ?></td>
-            <td><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditForm", "id"=>$entity->getValueByKey('id'))); ?>"><?php echo $entity->getValueByKey('bezeichnung'); ?></a></td>
+            <td><?php
+                if ($entity->getValueByKey('submitted')) {
+                    ?><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantDetails", "id"=>$entity->getValueByKey('id'), "eventId"=>$entity->getValueByKey('event_id'))); ?>">anzeigen</a><?php
+                }
+                else {
+                    ?><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditParticipantForm", "id"=>$entity->getValueByKey('id'), "eventId"=>$entity->getValueByKey('event_id'))); ?>">bearbeiten</a><?php
+                }
+                ?>
+            </td>
         </tr>
     <?php endforeach; ?>
     </tbody>
