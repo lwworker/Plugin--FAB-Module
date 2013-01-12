@@ -14,12 +14,6 @@ class fabCommandHandler
         $this->db = $db;
     }
     
-    public function handle($domainEvent)
-    {
-        $command = $domainEvent->getEventName();
-        $this->$command($domainEvent->getEntity());
-    }
-    
     /**
      * Deletion of an entry with certain id
      * @param \LWddd\Entity $entity
@@ -27,15 +21,15 @@ class fabCommandHandler
      * @return true/exception
      * @throws Exception
      */
-    public function baseDelete(Entity $entity, $table_name)
+    public function baseDelete($id, $tableName)
     {
-        if ($entity->isDeleteable() && $entity->getId() > 0) {
-            $this->db->setStatement("DELETE FROM t:" . $table_name . " WHERE id = :id ");
-            $this->db->bindParameter("id", "i", $entity->getId());
+        try {
+            $this->db->setStatement("DELETE FROM t:".$tableName." WHERE id = :id ");
+            $this->db->bindParameter("id", "i", $id);
             return $this->basePdbquery();
         }
-        else { 
-            throw new Exception('...'); 
+        catch (Exception $e) { 
+            throw new Exception($e->getMessage()); 
         }
     }
 
@@ -103,7 +97,7 @@ class fabCommandHandler
      * @param type $bool
      * @return bool
      */
-    public function baseSetDebug($bool)
+    public function setDebug($bool)
     {
         if($bool === true){
             $this->debug = true;

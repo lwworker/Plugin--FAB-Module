@@ -47,7 +47,7 @@ class fabQueryHandler
      */
     public function baseLoadEntriesByAttributeWithOrder($table_name, $attribute, $attribute_type, $attribute_value, $order_attribute, $order_type)
     {
-        $this->db->setStatement("SELECT * FROM t:" . $table_name . " WHERE " . $attribute . " = :attribute_value ORDER BY " . $order_attribute . " " . $order_type . " ");
+        $this->db->setStatement("SELECT * FROM t:".$table_name." WHERE ".$attribute." = :attribute_value ORDER BY ".$order_attribute." ".$order_type." ");
         $this->db->bindParameter("attribute_value", $attribute_type, $attribute_value);
         return $this->db->pselect();
     }

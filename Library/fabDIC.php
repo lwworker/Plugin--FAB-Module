@@ -50,20 +50,12 @@ class fabDIC
         return $filter;
     }    
     
-    public function getParticipantQueryHandler()
+    public function getParticipantRepository()
     {
-        if (!$this->participantQueryHandler) {
-            $this->participantQueryHandler = new \Fab\Domain\Participant\Model\participantQueryHandler($this->getDbObject());
+        if (!$this->participantRepository) {
+            $this->participantRepository = new \Fab\Domain\Participant\Model\participantRepository();
         }
-        return $this->participantQueryHandler;        
-    }
-    
-    public function getParticipantCommandHandler()
-    {
-        if (!$this->participantCommandHandler) {
-            $this->participantCommandHandler = new \Fab\Domain\Participant\Model\participantCommandHandler($this->getDbObject());
-        }
-        return $this->participantCommandHandler;        
+        return $this->participantRepository;        
     }
     
     public function getParticipantFilter()
