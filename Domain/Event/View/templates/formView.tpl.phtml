@@ -18,15 +18,25 @@ $(function () {
 });  
 </script>
 <div class="span12">
-    <h1>
-        Tagung
-        <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
-        <div class="pull-right">
-           	<a href="#" class="btn btn-delete" onClick="return confirm('wirklich entfernen?');"><img src="[CONFIG:url_client]assets/img/garbage.png">l&ouml;schen</a>
-        </div>
+	<div class="half">
+    	<h1>Tagung</h1>
+    </div>
+    <div class="half">
+		
+        <div class="right">
+        <?php if ($this->type == "edit"): ?>
+            <a href="<?php echo $this->deleteUrl; ?>" class="btn" onClick="return confirm('wirklich entfernen?');">
+            <img src="[CONFIG:url_client]assets/img/garbage.png">l&ouml;schen</a>			        
         <?php endif; ?>
-    </h1>
-    <hr />
+        <!-- submit button -->
+        <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
+        <?php if(is_array($this->errors)): ?>
+        <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+        <?php endif; ?>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr /> 
     <br />
 </div>
 <form action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal">
@@ -259,9 +269,10 @@ $(function () {
     
     </div>
     </div>
-    <button type="submit" class="btn btn-submit"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
+    <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
 	<?php if(is_array($this->errors)): ?>
     <div class="alert page-error"><b>Es gibt Fehler!</b></div>
     <?php endif; ?>
-
+	
 </form>
+<div class="clearfix"></div>

@@ -21,7 +21,7 @@ class participantQueryHandler extends fabQueryHandler
             return $this->baseLoadEntriesByAttributeWithOrder("fab_teilnehmer", "event_id", "i", $eventId, "nachname", "ASC");
         }
         else {
-            throw Exception("no valid EventId available!");
+            throw new \Exception("no valid EventId available!");
         }
     }
 
