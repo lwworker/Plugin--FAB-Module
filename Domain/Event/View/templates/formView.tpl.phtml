@@ -18,20 +18,23 @@ $(function () {
 });  
 </script>
 <div class="span12">
-	<div class="half">
-    	<h1>Tagung</h1>
-    </div>
-    <div class="half">
-		
-        <div class="right">
+	<div id="form-header">
+    	<div class="half">
+            <h1>Tagung</h1>
+            <p>Einleitungstext... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  </p>	
+        </div>	
+        <div class="control-bar">
+        <!-- back button -->
+        <a class="btn btn-icon" id="back" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>       
+        <!-- delete button -->    
         <?php if ($this->type == "edit"): ?>
-            <a href="<?php echo $this->deleteUrl; ?>" class="btn" onClick="return confirm('wirklich entfernen?');">
-            <img src="[CONFIG:url_client]assets/img/garbage.png">l&ouml;schen</a>			        
+            <a href="<?php echo $this->deleteUrl; ?>" class="btn btn-icon" onClick="return confirm('wirklich entfernen?');">
+            <img src="[CONFIG:url_client]assets/img/garbage.png"></a>			        
         <?php endif; ?>
         <!-- submit button -->
-        <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
+        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</a>
         <?php if(is_array($this->errors)): ?>
-        <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+            <div class="alert page-error"><b>Es gibt Fehler!</b></div>
         <?php endif; ?>
         </div>
     </div>
@@ -39,13 +42,13 @@ $(function () {
     <hr /> 
     <br />
 </div>
-<form action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal">
+<form action="<?php echo $this->actionUrl; ?>" method="post" id="form" class="form-horizontal">
 	<div class="span12">
     	<h2>Tagungsdetails</h2>
         <hr />
     </div>
     <div class="light-gray-block">
-    	<div class="half">
+    	<div class="half left">
             <div class="control-group span6">
                 <label id="buchungskreis_label" class="control-label" for="buchungskreis">Buchungskreis</label>
                 <div class="controls">
@@ -79,7 +82,7 @@ $(function () {
             
         </div>
         
-        <div class="half"> 
+        <div class="half left"> 
             <div class="control-group span6">
                 <label class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;ssel</label>
                 <div class="controls">
@@ -114,7 +117,7 @@ $(function () {
         <hr />
     </div>
     <div class="light-gray-block">
-    <div class="half">
+    <div class="half left">
         <div class="control-group span6">
             <label class="control-label" for="anmeldefrist_beginn">Beginn der Anmeldefrist</label>
             <div class="controls">
@@ -136,7 +139,7 @@ $(function () {
         
     </div>
     
-    <div class="half">
+    <div class="half left">
         <div class="control-group span6">
             <label class="control-label" for="anmeldefrist_ende">Ende der Anmeldefrist</label>
             <div class="controls">
@@ -163,7 +166,7 @@ $(function () {
         <hr />
     </div>
     <div class="light-gray-block">
-    <div class="half">
+    <div class="half left">
         <div class="control-group span6">
             <label class="control-label" for="cpd_konto">CPD Debitorkonto</label>
             <div class="controls">
@@ -183,7 +186,7 @@ $(function () {
         </div>
         
     </div>
-    <div class="half">
+    <div class="half left">
         <div class="control-group span6">
             <label class="control-label" for="erloeskonto">Erl&ouml;skonto</label>
             <div class="controls">
@@ -210,7 +213,7 @@ $(function () {
         <hr />
     </div>
     <div class="light-gray-block">
-    <div class="half">
+    <div class="half left">
         <div class="control-group span6">
             <label class="control-label" for="ansprechpartner">Ansprechpartner im Institut</label>
             <div class="controls">
@@ -242,7 +245,7 @@ $(function () {
         </div>
     
     </div>
-    <div class="half">
+    <div class="half left">
         <div class="control-group span6">
             <label class="control-label" for="ansprechpartner_tel">Telefon des AP</label>
             <div class="controls">
@@ -269,10 +272,13 @@ $(function () {
     
     </div>
     </div>
-    <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
-	<?php if(is_array($this->errors)): ?>
-    <div class="alert page-error"><b>Es gibt Fehler!</b></div>
-    <?php endif; ?>
-	
+    <div class="span12">
+    	<div class="half left">
+            <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
+            <?php if(is_array($this->errors)): ?>
+            <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+            <?php endif; ?>
+        </div>
+    </div>
 </form>
 <div class="clearfix"></div>
