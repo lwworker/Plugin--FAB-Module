@@ -16,7 +16,7 @@ class eventQueryHandler extends fabQueryHandler
      * Returns a list all saved events with all atributes in defined order
      * @return array
      */
-    public function getAllEvents()
+    public function loadAllEvents()
     {
         $this->db->setStatement("SELECT * FROM t:fab_tagungen ORDER BY anmeldefrist_beginn DESC ");
         return $this->db->pselect();
@@ -27,7 +27,7 @@ class eventQueryHandler extends fabQueryHandler
      * @param int $id
      * @return array
      */
-    public function getEventById($id)
+    public function loadEventById($id)
     {
         return $this->baseGetEntryById($id, "fab_tagungen");
     }

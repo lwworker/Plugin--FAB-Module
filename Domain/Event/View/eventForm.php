@@ -47,8 +47,8 @@ class eventForm extends fabView
             $this->renderCountryOptions($this->domainEvent->getEntity()->getValueByKey('v_land'));
         }
         else {
-            $this->domainEvent->getPostValueObject()->renderView($this->view);
-            $this->renderCountryOptions($this->domainEvent->getPostValueObject()->getValueByKey('v_land'));
+            $this->domainEvent->getDataValueObject()->renderView($this->view);
+            $this->renderCountryOptions($this->domainEvent->getDataValueObject()->getValueByKey('v_land'));
         }
         $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showList"));
         $config = $this->dic->getConfiguration();

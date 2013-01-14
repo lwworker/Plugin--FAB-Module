@@ -5,11 +5,12 @@ use \Fab\Domain\Event\View\replacementForm as replacementForm;
 use \Fab\Domain\Event\View\eventDetails as eventDetails;
 use \Fab\Domain\Event\Object\eventAggregateFactory as eventAggregateFactory;
 use \Fab\Domain\Event\View\eventListForResponsible as eventListForResponsible;
-use \Fab\Domain\Event\View\eventList as eventList;
-use \Fab\Domain\Event\View\eventForm as eventForm;
+use \Fab\Domain\Event\View\eventList as eventListView;
+use \Fab\Domain\Event\View\eventForm as eventFormView;
 use \Fab\Domain\Event\Object\event as event;
 use \Fab\Domain\Event\Object\eventData as eventData;
-use \Fab\Domain\Event\Object\eventFactory as eventFactory;
+use \Fab\Domain\Event\Specification\isValid as isValid;
+use \Fab\Domain\Event\Model\eventFactory as eventFactory;
 use \Fab\Library\fabDIC as DIC;
 use \lw_response as lwResponse;
 use \Exception as Exception;
@@ -41,30 +42,37 @@ class Controller extends \LWddd\Controller
     
     public function showListAction()
     {
-        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, $this->dic->getEventQueryHandler());
-        $listView = new eventList($aggregate);        
+        $aggregate = $this->dic->getEventRepository()->getAllEventsAggregate();
+        $listView = new eventListView($aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     
     public function showAddFormAction($errors=false)
     {
-        $formView = new eventForm($this->domainEvent);
+        $entity = eventFactory::getInstance()->buildNewEventFromValueObject($this->domainEvent->getDataValueObject());
+        $this->domainEvent->setEntity($entity);
+        $formView = new eventFormView($this->domainEvent);
         if ($errors) {
             $formView->setErrors($errors);
         }
-        $this->response->addOutputByName('FabOutput', $formView->render());
+        $this->response->addOutputByName('FabOutput', $formView->render());        
     }
     
     public function showEditFormAction($errors=false)
     {
-        if (!$this->domainEvent->hasEntity()) {
-            $this->domainEvent->setEntity(eventFactory::buildEventByEventId($this->domainEvent->getId()));
+        if ($errors) {
+            $formView->setErrors($errors);
+            $entity = eventFactory::getInstance()->buildNewEventFromValueObject($this->domainEvent->getDataValueObject());
         }
-        $formView = new eventForm($this->domainEvent);
+        else {
+            $entity = $this->dic->getEventRepository()->getEventObjectById($this->domainEvent->getId());
+        }
+        $this->domainEvent->setEntity($entity);
+        $formView = new eventFormView($this->domainEvent);
         if ($errors) {
             $formView->setErrors($errors);
         }
-        $this->response->addOutputByName('FabOutput', $formView->render());
+        $this->response->addOutputByName('FabOutput', $formView->render());        
     }
     
     public function saveEventAction()
@@ -122,10 +130,10 @@ class Controller extends \LWddd\Controller
         }
         else {
             if ($id > 0) {
-                $this->showEditEventFormAction($isValidSpecification->getErrors());
+                $this->showEditFormAction($isValidSpecification->getErrors());
             }
             else {
-                $this->showAddEventFormAction($isValidSpecification->getErrors());
+                $this->showAddFormAction($isValidSpecification->getErrors());
             }
         }
     }

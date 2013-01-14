@@ -18,7 +18,7 @@ class countryQueryHandler extends fabQueryHandler
      */
     public function getAllCountries()
     {
-        $this->db->setStatement("SELECT * FROM t:fab_laender ORDER BY land ASC ");
+        $this->db->setStatement("SELECT * FROM t:fab_laender ORDER BY bezeichnung ASC ");
         return $this->db->pselect();
     }
 }

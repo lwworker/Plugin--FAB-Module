@@ -78,21 +78,13 @@ class fabDIC
         return $participantValidationSevice;
     }
     
-    public function getEventQueryHandler()
+    public function getEventRepository()
     {
-        if (!$this->eventQueryHandler) {
-            $this->eventQueryHandler = new \Fab\Domain\Event\Model\eventQueryHandler($this->getDbObject());
+        if (!$this->eventRepository) {
+            $this->eventRepository = new \Fab\Domain\Event\Model\eventRepository();
         }
-        return $this->eventQueryHandler;        
+        return $this->eventRepository;        
     }
-    
-    public function getEventCommandHandler()
-    {
-        if (!$this->eventCommandHandler) {
-            $this->eventCommandHandler = new \Fab\Domain\Event\Model\eventCommandHandler($this->getDbObject());
-        }
-        return $this->eventCommandHandler;        
-    }    
     
     public function getEventValidationObject()
     {

@@ -15,16 +15,14 @@ class fabCommandHandler
     }
     
     /**
-     * Deletion of an entry with certain id
+     * 
      * @param \LWddd\Entity $entity
-     * @param string $table_name
      * @return true/exception
-     * @throws Exception
      */
-    public function baseDelete($id, $tableName)
+    public function deleteEntityById($id)
     {
         try {
-            $this->db->setStatement("DELETE FROM t:".$tableName." WHERE id = :id ");
+            $this->db->setStatement("DELETE FROM t:".$this->table." WHERE id = :id ");
             $this->db->bindParameter("id", "i", $id);
             return $this->basePdbquery();
         }

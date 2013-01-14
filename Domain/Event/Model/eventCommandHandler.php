@@ -12,6 +12,7 @@ class eventCommandHandler extends fabCommandHandler
     public function __construct($db)
     {
         parent::__construct($db);
+        $this->table = "fab_tagungen";
     }
         
     /**
@@ -19,33 +20,31 @@ class eventCommandHandler extends fabCommandHandler
      * @param \LWddd\ValueObject $entity
      * @return true/exception
      */
-    public function addEntity(ValueObject $entity)
+    public function addEntity($array)
     {
-        $this->db->setStatement("INSERT INTO t:fab_tagungen ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :standardbetrag, :first_date, :last_date ) ");
-        $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
-        $this->db->bindParameter("v_schluessel", "s", $entity->getValueByKey('v_schluessel'));
-        $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
-        $this->db->bindParameter("bezeichnung", "s", $entity->getValueByKey('bezeichnung'));
-        $this->db->bindParameter("v_land", "s", $entity->getValueByKey('v_land'));
-        $this->db->bindParameter("v_ort", "s", $entity->getValueByKey('v_ort'));
-        $this->db->bindParameter("anmeldefrist_beginn", "i", $entity->getValueByKey('anmeldefrist_beginn'));
-        $this->db->bindParameter("anmeldefrist_ende", "i", $entity->getValueByKey('anmeldefrist_ende'));
-        $this->db->bindParameter("v_beginn", "i", $entity->getValueByKey('v_beginn'));
-        $this->db->bindParameter("v_ende", "i", $entity->getValueByKey('v_ende'));
-        $this->db->bindParameter("cpd_konto", "s", $entity->getValueByKey('cpd_konto'));
-        $this->db->bindParameter("erloeskonto", "s", $entity->getValueByKey('erloeskonto'));
-        $this->db->bindParameter("steuerkennzeichen", "s", $entity->getValueByKey('steuerkennzeichen'));
-        $this->db->bindParameter("steuersatz", "s", $entity->getValueByKey('steuersatz'));
-        $this->db->bindParameter("ansprechpartner", "s", $entity->getValueByKey('ansprechpartner'));
-        $this->db->bindParameter("tel_ansprechpartner", "i", $entity->getValueByKey('ansprechpartner_tel'));
-        $this->db->bindParameter("organisationseinheit", "s", $entity->getValueByKey('organisationseinheit'));
-        $this->db->bindParameter("mail_ansprechpartner", "s", $entity->getValueByKey('ansprechpartner_mail'));
-        $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
+        $this->db->setStatement("INSERT INTO t:".$this->table." ( buchungskreis, v_schluessel, auftragsnr, bezeichnung, v_land, v_ort, anmeldefrist_beginn, anmeldefrist_ende, v_beginn, v_ende, cpd_konto, erloeskonto, steuerkennzeichen, steuersatz, ansprechpartner, ansprechpartner_tel, organisationseinheit, ansprechpartner_mail, standardbetrag, first_date, last_date ) VALUES ( :buchungskreis, :v_schluessel, :auftragsnr, :bezeichnung, :v_land, :v_ort, :anmeldefrist_beginn, :anmeldefrist_ende, :v_beginn, :v_ende, :cpd_konto, :erloeskonto, :steuerkennzeichen, :steuersatz, :ansprechpartner, :tel_ansprechpartner, :organisationseinheit, :mail_ansprechpartner, :standardbetrag, :first_date, :last_date ) ");
+        $this->db->bindParameter("buchungskreis", "s", $array['buchungskreis']);
+        $this->db->bindParameter("v_schluessel", "s", $array['v_schluessel']);
+        $this->db->bindParameter("auftragsnr", "s", $array['auftragsnr']);
+        $this->db->bindParameter("bezeichnung", "s", $array['bezeichnung']);
+        $this->db->bindParameter("v_land", "s", $array['v_land']);
+        $this->db->bindParameter("v_ort", "s", $array['v_ort']);
+        $this->db->bindParameter("anmeldefrist_beginn", "i", $array['anmeldefrist_beginn']);
+        $this->db->bindParameter("anmeldefrist_ende", "i", $array['anmeldefrist_ende']);
+        $this->db->bindParameter("v_beginn", "i", $array['v_beginn']);
+        $this->db->bindParameter("v_ende", "i", $array['v_ende']);
+        $this->db->bindParameter("cpd_konto", "s", $array['cpd_konto']);
+        $this->db->bindParameter("erloeskonto", "s", $array['erloeskonto']);
+        $this->db->bindParameter("steuerkennzeichen", "s", $array['steuerkennzeichen']);
+        $this->db->bindParameter("steuersatz", "s", $array['steuersatz']);
+        $this->db->bindParameter("ansprechpartner", "s", $array['ansprechpartner']);
+        $this->db->bindParameter("tel_ansprechpartner", "i", $array['ansprechpartner_tel']);
+        $this->db->bindParameter("organisationseinheit", "s", $array['organisationseinheit']);
+        $this->db->bindParameter("mail_ansprechpartner", "s", $array['ansprechpartner_mail']);
+        $this->db->bindParameter("standardbetrag", "s", $array['standardbetrag']);
         $this->db->bindParameter("first_date", "i", date("YmdHis"));
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
-
-        return $this->basePdbinsert("fab_tagungen");
-        
+        return $this->basePdbinsert($this->table);
     }
     
     /**
@@ -54,41 +53,31 @@ class eventCommandHandler extends fabCommandHandler
      * @param \LWddd\ValueObject $entity
      * @return true/exception
      */
-    public function saveEntity($id, ValueObject $entity)
+    public function saveEntity($id, $array)
     {
-        $this->db->setStatement("UPDATE t:fab_tagungen SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, standardbetrag = :standardbetrag, last_date = :last_date WHERE id = :id ");
+        $this->db->setStatement("UPDATE t:".$this->table." SET buchungskreis = :buchungskreis, v_schluessel = :v_schluessel, auftragsnr = :auftragsnr, bezeichnung = :bezeichnung, v_land = :v_land, v_ort = :v_ort, anmeldefrist_beginn = :anmeldefrist_beginn, anmeldefrist_ende = :anmeldefrist_ende, v_beginn = :v_beginn, v_ende = :v_ende, cpd_konto = :cpd_konto, erloeskonto = :erloeskonto, steuerkennzeichen = :steuerkennzeichen, steuersatz = :steuersatz, ansprechpartner = :ansprechpartner, ansprechpartner_tel = :tel_ansprechpartner, organisationseinheit = :organisationseinheit, ansprechpartner_mail = :mail_ansprechpartner, standardbetrag = :standardbetrag, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
-        $this->db->bindParameter("buchungskreis", "s", $entity->getValueByKey('buchungskreis'));
-        $this->db->bindParameter("v_schluessel", "s", $entity->getValueByKey('v_schluessel'));
-        $this->db->bindParameter("auftragsnr", "s", $entity->getValueByKey('auftragsnr'));
-        $this->db->bindParameter("bezeichnung", "s", $entity->getValueByKey('bezeichnung'));
-        $this->db->bindParameter("v_land", "s", $entity->getValueByKey('v_land'));
-        $this->db->bindParameter("v_ort", "s", $entity->getValueByKey('v_ort'));
-        $this->db->bindParameter("anmeldefrist_beginn", "i", $entity->getValueByKey('anmeldefrist_beginn'));
-        $this->db->bindParameter("anmeldefrist_ende", "i", $entity->getValueByKey('anmeldefrist_ende'));
-        $this->db->bindParameter("v_beginn", "i", $entity->getValueByKey('v_beginn'));
-        $this->db->bindParameter("v_ende", "i", $entity->getValueByKey('v_ende'));
-        $this->db->bindParameter("cpd_konto", "s", $entity->getValueByKey('cpd_konto'));
-        $this->db->bindParameter("erloeskonto", "s", $entity->getValueByKey('erloeskonto'));
-        $this->db->bindParameter("steuerkennzeichen", "s", $entity->getValueByKey('steuerkennzeichen'));
-        $this->db->bindParameter("steuersatz", "s", $entity->getValueByKey('steuersatz'));
-        $this->db->bindParameter("ansprechpartner", "s", $entity->getValueByKey('ansprechpartner'));
-        $this->db->bindParameter("tel_ansprechpartner", "i", $entity->getValueByKey('ansprechpartner_tel'));
-        $this->db->bindParameter("organisationseinheit", "s", $entity->getValueByKey('organisationseinheit'));
-        $this->db->bindParameter("mail_ansprechpartner", "s", $entity->getValueByKey('ansprechpartner_mail'));
-        $this->db->bindParameter("standardbetrag", "s", $entity->getValueByKey('standardbetrag'));
+        $this->db->bindParameter("buchungskreis", "s", $array['buchungskreis']);
+        $this->db->bindParameter("v_schluessel", "s", $array['v_schluessel']);
+        $this->db->bindParameter("auftragsnr", "s", $array['auftragsnr']);
+        $this->db->bindParameter("bezeichnung", "s", $array['bezeichnung']);
+        $this->db->bindParameter("v_land", "s", $array['v_land']);
+        $this->db->bindParameter("v_ort", "s", $array['v_ort']);
+        $this->db->bindParameter("anmeldefrist_beginn", "i", $array['anmeldefrist_beginn']);
+        $this->db->bindParameter("anmeldefrist_ende", "i", $array['anmeldefrist_ende']);
+        $this->db->bindParameter("v_beginn", "i", $array['v_beginn']);
+        $this->db->bindParameter("v_ende", "i", $array['v_ende']);
+        $this->db->bindParameter("cpd_konto", "s", $array['cpd_konto']);
+        $this->db->bindParameter("erloeskonto", "s", $array['erloeskonto']);
+        $this->db->bindParameter("steuerkennzeichen", "s", $array['steuerkennzeichen']);
+        $this->db->bindParameter("steuersatz", "s", $array['steuersatz']);
+        $this->db->bindParameter("ansprechpartner", "s", $array['ansprechpartner']);
+        $this->db->bindParameter("tel_ansprechpartner", "i", $array['ansprechpartner_tel']);
+        $this->db->bindParameter("organisationseinheit", "s", $array['organisationseinheit']);
+        $this->db->bindParameter("mail_ansprechpartner", "s", $array['ansprechpartner_mail']);
+        $this->db->bindParameter("standardbetrag", "s", $array['standardbetrag']);
         $this->db->bindParameter("last_date", "s", date("YmdHis"));
         return $this->basePdbquery();
-    }
-    
-    /**
-     * 
-     * @param \LWddd\Entity $entity
-     * @return true/exception
-     */
-    public function deleteEntity(Entity $entity)
-    {
-        return $this->baseDelete($entity, "fab_tagungen");
     }
 
     /**
@@ -123,7 +112,7 @@ class eventCommandHandler extends fabCommandHandler
                                   PRIMARY KEY (id),
                                   UNIQUE KEY v_schluessel (v_schluessel) ";
         
-        return $this->baseCreateTable("fab_tagungen", $table_create_statement);
+        return $this->baseCreateTable($this->table, $table_create_statement);
         $this->updateTable();
     }
     
@@ -140,14 +129,5 @@ class eventCommandHandler extends fabCommandHandler
          * und wenn nicht, dann die Spalte mit "ALTER TABLE tablename ADD COLUMN ..." erstellen.
          * 
          */
-    }
-    
-    /**
-     * Switches the debug modus on/off
-     * @param bool $bool
-     */
-    public function setDebug($bool = true)
-    {
-        $this->baseSetDebug($bool);
     }
 }

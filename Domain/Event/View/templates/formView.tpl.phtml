@@ -14,7 +14,7 @@
 ?>
 <script type="text/javascript">
 $(function () { 
-	$(".icon_help").popover({placement:'left', trigger:'hover'}); 
+	$(".icon_help").popover({placement:'right', trigger:'hover'}); 
 });  
 </script>
 <div class="span12">
@@ -22,12 +22,9 @@ $(function () {
         Tagung
         <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
         <div class="pull-right">
-            <p><a href="<?php echo $this->deleteUrl; ?>" class="btn btn-small btn-warning" onClick="return confirm('wirklich entfernen?');">l&ouml;schen</a></p>			
-        </div>
-        <?php endif; ?>
-        <div class="pull-right">
            	<a href="#" class="btn btn-delete" onClick="return confirm('wirklich entfernen?');"><img src="[CONFIG:url_client]assets/img/garbage.png">l&ouml;schen</a>
         </div>
+        <?php endif; ?>
     </h1>
     <hr />
     <br />
@@ -44,7 +41,7 @@ $(function () {
                 <div class="controls">
                     <input class="" type="text" id="buchungskreis" name="buchungskreis" placeholder="0100" value="<?php if($this->entity): echo $this->entity['buchungskreis']; endif; ?>" />
                      <a class="icon_help" rel="popover" title="Buchungskreis" data-content="Der Buchungskreis ist in der SAP-Welt eine selbstständig bilanzierende Einheit. Im FZJ ist das zur Zeit der Buchungskreis „0100“." ></a>      
-                    <?php showError($this->errors['buchungskreis']); ?>
+                     <?php showError($this->errors['buchungskreis']); ?>
                 </div>
             </div>
     
@@ -60,7 +57,10 @@ $(function () {
             <div class="control-group span6">
                 <label class="control-label" for="v_land">Veranstaltungsland</label>
                 <div class="controls">
-                    <input class="" type="text" id="v_land" name="v_land" placeholder="Veranstaltungsland" value="<?php if($this->entity): echo $this->entity['v_land']; endif; ?>" />
+                    <select id="v_land" name="v_land" >
+                        <option value="">bitte ein Land ausw&auml;len</option>
+                        <?php echo $this->countryOptions; ?> 
+                    </select>
                     <a class="icon_help" rel="popover" title="Veranstaltungsland" data-content="Im SAP-System wird ein 2-stelliges Länderkennzeichen erfasst, das keiner Prüfung unterliegt.
         Im WEB-Vorsystem kann über die Suchhilfe ein gültiges 2-stelliges Länderkennzeichen ausgewählt werden. Die Landbezeichnung wird dann auf dem Erfassungsbild ausgegeben. Das Veranstaltungsland nimmt Einfluss auf das Format der Adresse im Rechnungsformular, das vom SAP-System ausgegeben wird." ></a> 
                     <?php showError($this->errors['v_land']); ?>

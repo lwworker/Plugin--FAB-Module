@@ -9,6 +9,33 @@ class fabValidation
         
     }
     
+    protected function setDataArray($array)
+    {
+        $this->array = $array;
+    }
+    
+    protected function resetErrors()
+    {
+        unset($this->errors);
+        $this->errors = array();
+    }
+    
+    protected function addError($key, $number, $array=false)
+    {
+        $this->errors[$key][$number]['error'] = 1;
+        $this->errors[$key][$number]['options'] = $array;
+    }
+    
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+    
+    public function getErrorsByKey($key)
+    {
+        return $this->errors[$key];
+    }    
+    
     public function emailValidation($key,$value)
     {
         $bool = true;
@@ -32,6 +59,18 @@ class fabValidation
         }
         return true;
     }
+    
+    public function requiredDateValidation($key, $value)
+    {
+        $bool = true;
+        $bool = $this->requiredValidation($key, $value);
+        $bool = $this->dateValidation($key, $value);
+        
+        if($bool == false) {
+            return false;
+        }
+        return true;
+    }    
     
     public function dateValidation($key, $value, $opt_timecheck = false)
     {
