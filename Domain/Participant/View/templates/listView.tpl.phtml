@@ -1,54 +1,76 @@
-<h1>Teilnehmer</h1>
-<div>
-    <a href="<?php echo $this->backUrl; ?>">zur&uuml;ck</a> | 
-    <a href="<?php echo $this->addUrl; ?>">Teilnehmer hinzuf&uuml;gen</a> | 
-    <a href="<?php echo $this->uploadUrl; ?>">Teilnehmer CSV hochladen</a> | 
-    <a href="<?php echo $this->downloadUrl; ?>">Teilnehmer CSV herunterladen</a> | 
-    <a href="<?php echo $this->detailsUrl; ?>">Tagungsdetails</a> | 
-    <a href="<?php echo $this->replacementUrl; ?>">Stellvertreter festlegen</a>
+<div class="span12">
+	<div id="form-header">
+        <div class="half">	
+        	<h1>Teilnehmer</h1>
+            <p>Einleitungstext... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  </p>	
+        </div>	
+        <div class="control-bar">
+            <!-- back button -->
+            <a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a> 
+            <!-- back button -->
+            <a href="<?php echo $this->addUrl; ?>" class="btn btn-icon"><img src="[CONFIG:url_client]assets/img/add.png"></a>
+            <!-- Upload button -->
+            <a class="btn btn-icon" href="<?php echo $this->uploadUrl; ?>"><img src="[CONFIG:url_client]assets/img/upload.png"></a> 
+            <!-- Download button -->
+            <a class="btn btn-icon" href="<?php echo $this->downloadUrl; ?>"><img src="[CONFIG:url_client]assets/img/download.png"></a>  
+            <!-- Tagungdetails button -->
+            <a class="btn btn-icon" href="<?php echo $this->detailsUrl; ?>"><img src="[CONFIG:url_client]assets/img/tagung-details.png"></a> 
+            <!-- Stellvertereter button -->
+            <a class="btn btn-icon btn-adjusted" href="<?php echo $this->editReplacementUrl; ?>"><img src="[CONFIG:url_client]assets/img/stellvertreter.png"></a>
+        </div>
+        <div class="user-bar">
+            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr /> 
+    <br />
 </div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>&uuml;bertragen</th>
-            <th>Referenznummer</th>
-            <th>Name</th>
-            <th>Unternehmen</th>
-            <th>Zahl</th>
-            <th>Betrag</th>
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($this->entities as $entity): ?>
-        <tr>
-            <td><?php 
-                if ($entity->getValueByKey('teilnehmer_intern') == 1) {
-                    echo "intern";
-                }
-                elseif($entity->getValueByKey('submitted')) {
-                    echo $entity->getValueByKey('submitted'); 
-                }
-                else {
-                    ?><input type="checkbox" /><?php
-                }
-            ?></td>
-            <td><?php echo $entity->getValueByKey('id')+400000; ?></td>
-            <td><?php echo $entity->getValueByKey('nachname').' '.$entity->getValueByKey('vorname'); ?></td>
-            <td><?php echo $entity->getValueByKey('unternehmen'); ?></td>
-            <td><?php echo $entity->getValueByKey('zahlweise'); ?></td>
-            <td><?php echo $entity->getValueByKey('betrag'); ?></td>
-            <td><?php
-                if ($entity->getValueByKey('submitted')) {
-                    ?><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantDetails", "id"=>$entity->getValueByKey('id'), "eventId"=>$entity->getValueByKey('event_id'))); ?>">anzeigen</a><?php
-                }
-                else {
-                    ?><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditParticipantForm", "id"=>$entity->getValueByKey('id'), "eventId"=>$entity->getValueByKey('event_id'))); ?>">bearbeiten</a><?php
-                }
-                ?>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
+<div class="span12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>&uuml;bertragen</th>
+                <th>Referenznummer</th>
+                <th>Name</th>
+                <th>Unternehmen</th>
+                <th>Zahl</th>
+                <th>Betrag</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($this->entities as $entity): ?>
+            <tr>
+                <td><?php 
+                    if ($entity->getValueByKey('teilnehmer_intern') == 1) {
+                        echo "intern";
+                    }
+                    elseif($entity->getValueByKey('submitted')) {
+                        echo $entity->getValueByKey('submitted'); 
+                    }
+                    else {
+                        ?><input type="checkbox" /><?php
+                    }
+                ?></td>
+                <td><?php echo $entity->getValueByKey('id')+400000; ?></td>
+                <td><?php echo $entity->getValueByKey('nachname').' '.$entity->getValueByKey('vorname'); ?></td>
+                <td><?php echo $entity->getValueByKey('unternehmen'); ?></td>
+                <td><?php echo $entity->getValueByKey('zahlweise'); ?></td>
+                <td><?php echo $entity->getValueByKey('betrag'); ?></td>
+                <td><?php
+                    if ($entity->getValueByKey('submitted')) {
+                        ?><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantDetails", "id"=>$entity->getValueByKey('id'), "eventId"=>$entity->getValueByKey('event_id'))); ?>">anzeigen</a><?php
+                    }
+                    else {
+                        ?><a href="<?php echo lw_page::getInstance()->getUrl(array("cmd"=>"showEditParticipantForm", "id"=>$entity->getValueByKey('id'), "eventId"=>$entity->getValueByKey('event_id'))); ?>">bearbeiten</a><?php
+                    }
+                    ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<div class="clearfix"></div>
