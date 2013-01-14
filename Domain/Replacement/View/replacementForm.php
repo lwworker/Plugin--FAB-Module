@@ -26,11 +26,8 @@ class replacementForm extends fabView
         $this->view->actionUrl = lw_page::getInstance()->getUrl(array("cmd"=>"saveReplacement", "id" => $this->domainEvent->getId()));
         $this->view->type = "edit";
 
-        if ($this->domainEvent->hasEntity() && !$this->view->errors) {
+        if ($this->domainEvent->hasEntity()) {
             $this->domainEvent->getEntity()->renderView($this->view);
-        }
-        else {
-            $this->domainEvent->getPostValueObject()->renderView($this->view);
         }
         
         $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventDetails", "id"=>$this->domainEvent->getId()));

@@ -17,7 +17,7 @@ class replacementQueryHandler extends fabQueryHandler
      * @param int $id
      * @return array
      */
-    public function getReplacementByEventId($eventId)
+    public function loadReplacementByEventId($eventId)
     {
         $this->db->setStatement("SELECT id, stellvertreter_mail FROM t:fab_tagungen WHERE id = :id ");
         $this->db->bindParameter("id", "i", $eventId);

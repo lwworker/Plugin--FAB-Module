@@ -29,14 +29,24 @@ class eventRepository extends fabRepository
         return $this->queryHandler;
     }
     
-    public function getAllEventsAggregate()
+    protected function buildAggregateFromQueryResult($items)
     {
-        $items = $this->getQueryHandler()->loadAllEvents();
         foreach($items as $item) {
              $entities[] =  $this->buildEventObjectByArray($item);
         }
         return new \LWddd\EntityAggregate($entities);
-        
+    }
+    
+    public function getEventsForResponsibleAggregate($ansprechpartner_mail)
+    {
+        $items = $this->getQueryHandler()->loadEventsByResponsible($ansprechpartner_mail);
+        return $this->buildAggregateFromQueryResult($items);
+    }
+    
+    public function getAllEventsAggregate()
+    {
+        $items = $this->getQueryHandler()->loadAllEvents();
+        return $this->buildAggregateFromQueryResult($items);
     }
     
     public function buildEventObjectByArray($data)

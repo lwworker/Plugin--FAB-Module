@@ -60,7 +60,6 @@ class participantRepository extends fabRepository
             $id = $participant->getId();
         }
         else {
-            die("add");
             $result = $this->getCommandHandler()->addEntity($eventId, $participant->getValues());
             $id = $result;
         }

@@ -2,7 +2,7 @@
 
 namespace Fab\Domain\Event\Controller;
 use \Fab\Domain\Event\View\replacementForm as replacementForm;
-use \Fab\Domain\Event\View\eventDetails as eventDetails;
+use \Fab\Domain\Event\View\eventDetails as eventDetailsView;
 use \Fab\Domain\Event\Object\eventAggregateFactory as eventAggregateFactory;
 use \Fab\Domain\Event\View\eventListForResponsible as eventListForResponsible;
 use \Fab\Domain\Event\View\eventList as eventListView;
@@ -27,15 +27,15 @@ class Controller extends \LWddd\Controller
     public function showEventDetailsAction() 
     {
         if (!$this->domainEvent->hasEntity()) {
-            $this->domainEvent->setEntity(eventFactory::buildEventByEventId($this->domainEvent->getId()));
+            $this->domainEvent->setEntity($this->dic->getEventRepository()->getEventObjectById($this->domainEvent->getId()));
         }
-        $detailView = new eventDetails($this->domainEvent);
+        $detailView = new eventDetailsView($this->domainEvent);
         $this->response->addOutputByName('FabOutput', $detailView->render());
     }
     
     public function showEventListForResponsibleAction() 
     {
-        $aggregate = eventAggregateFactory::buildAggregateFromDomainEvent($this->domainEvent, $this->dic->getEventQueryHandler());
+        $aggregate = $this->dic->getEventRepository()->getEventsForResponsibleAggregate($this->session->getEmail());
         $listView = new eventListForResponsible($this->domainEvent, $aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
