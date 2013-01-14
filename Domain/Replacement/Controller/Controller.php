@@ -3,9 +3,10 @@
 namespace Fab\Domain\Replacement\Controller;
 use \lw_response as lwResponse;
 use \Fab\Library\fabDIC as DIC;
-use \Fab\Domain\Replacement\View\replacementForm as replacementForm;
+use \Fab\Domain\Replacement\View\replacementForm as replacementFormView;
 use \Fab\Domain\Replacement\Object\replacement as replacement;
-use \Fab\Domain\Replacement\Object\replacementFactory as replacementFactory;
+use \Fab\Domain\Replacement\Model\replacementFactory as replacementFactory;
+use \Fab\Domain\Replacement\Specification\isValid as isValid;
 
 class Controller extends \LWddd\Controller
 {
@@ -16,41 +17,42 @@ class Controller extends \LWddd\Controller
         $this->dic = new DIC();
     }
     
+    public function showReplacementFormAction($errors=false)
+    {
+        if ($errors) {
+            $entity = replacementFactory::getInstance()->buildNewReplacementFromValueObject($this->domainEvent->getDataValueObject());
+        }
+        else {
+            $entity = $this->dic->getReplacementRepository()->getReplacementObjectById($this->domainEvent->getId());
+        }
+        $this->domainEvent->setEntity($entity);
+        $formView = new replacementFormView($this->domainEvent);
+        if ($errors) {
+            $formView->setErrors($errors);
+        }
+        $this->response->addOutputByName('FabOutput', $formView->render());
+    }    
+    
     public function saveReplacementAction()
     {
-        $PostValueObjectFiltered = $this->dic->getReplacementFilter()->filter($this->domainEvent->getPostValueObject());
-
-        $event = \Fab\Domain\Event\Object\eventFactory::buildEventByEventId($this->domainEvent->getId());
-        
-        $ReplacementValidationSevice = $this->dic->getReplacementValidationObject();
-        $ReplacementValidationSevice->setValues($PostValueObjectFiltered->getValues());
-        $ReplacementValidationSevice->setEventEntity($event);
-
-        $valid = $ReplacementValidationSevice->validate();
-        if ($valid) {
-            $replacementCommandHandler = $this->dic->getReplacementCommandHandler();
-            $ok = $replacementCommandHandler->saveReplacementByEventId($this->domainEvent->getId(), $PostValueObjectFiltered->getValueByKey('stellvertreter_mail'));
-            if ($ok > 0) {
-                $this->response->setReloadCmd('showEventDetails', array("id"=>$this->domainEvent->getId()));
+        $DataValueObjectFiltered = $this->dic->getReplacementFilter()->filter($this->domainEvent->getDataValueObject());
+        $entity = $this->dic->getReplacementRepository()->getReplacementObjectById($this->domainEvent->getId());
+        $entity->setDataValueObject($DataValueObjectFiltered);
+        $isValidSpecification = isValid::getInstance();
+        $isValidSpecification->setEvent($this->dic->getEventRepository()->getEventObjectById($this->domainEvent->getId()));
+        if ($isValidSpecification->isSatisfiedBy($entity)) {
+            try {
+                $result = $this->dic->getReplacementRepository()->saveReplacementByEventId($this->domainEvent->getId(), $entity);
+                if ($result > 0) {
+                     $this->response->setReloadCmd('showEventDetails', array("id"=>$this->domainEvent->getId()));
+                }
             }
-            else {
-                throw new \Exception('error saving the replacement');
+            catch (Exception $e) {
+                throw new Exception($e->getMessage());
             }
         }
         else {
-            $this->showReplacementFormAction($ReplacementValidationSevice->getErrors());
-        }        
-    }    
-    
-    public function showReplacementFormAction($errors=false)
-    {
-        if (!$this->domainEvent->hasEntity()) {
-            $this->domainEvent->setEntity(replacementFactory::buildReplacementByEventId($this->domainEvent->getId()));
+            $this->showReplacementFormAction($isValidSpecification->getErrors());
         }
-        $formView = new replacementForm($this->domainEvent);
-        if ($errors) {
-            $formView->setErrors($errors);
-        }        
-        $this->response->addOutputByName('FabOutput', $formView->render());
-    }
+    }    
 }

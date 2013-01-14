@@ -37,7 +37,7 @@ class eventRepository extends fabRepository
         return new \LWddd\EntityAggregate($entities);
     }
     
-    public function getEventsForResponsibleAggregate($domainEvent)
+    public function getEventsForResponsibleAggregate($ansprechpartner_mail)
     {
         $items = $this->getQueryHandler()->loadEventsByResponsible($ansprechpartner_mail);
         return $this->buildAggregateFromQueryResult($items);

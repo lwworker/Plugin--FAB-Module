@@ -9,20 +9,12 @@ class fabDIC
         
     }
     
-    public function getReplacementQueryHandler()
+    public function getReplacementRepository()
     {
-        if (!$this->replacementQueryHandler) {
-            $this->replacementQueryHandler = new \Fab\Domain\Replacement\Model\replacementQueryHandler($this->getDbObject());
+        if (!$this->replacementRepository) {
+            $this->replacementRepository = new \Fab\Domain\Replacement\Model\replacementRepository();
         }
-        return $this->replacementQueryHandler;        
-    }
-    
-    public function getReplacementCommandHandler()
-    {
-        if (!$this->replacementCommandHandler) {
-            $this->replacementCommandHandler = new \Fab\Domain\Replacement\Model\replacementCommandHandler($this->getDbObject());
-        }
-        return $this->replacementCommandHandler;        
+        return $this->replacementRepository;        
     }
     
     public function getReplacementValidationObject()

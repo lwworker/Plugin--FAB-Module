@@ -14,7 +14,7 @@ class replacementData extends ValueObject
                 "id", 
                 "stellvertreter_mail");
         
-        $event = eventFactory::buildEventByEventId($values['id']);
+        $event = $this->dic->getEventRepository()->getEventObjectById($values['id']);
         $validator = $this->dic->getReplacementValidationObject();
         $validator->setEventEntity($event); 
                 
