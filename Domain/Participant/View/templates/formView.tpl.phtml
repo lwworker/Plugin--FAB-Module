@@ -161,7 +161,7 @@
     <div class="control-group">
         <label id="buchungskreis_label" class="control-label" for="betrag">Betrag</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="betrag" name="betrag" placeholder="22,22" value="<?php if($this->entity): echo $this->entity['betrag']; endif; ?>" />
+            <input class="input-medium" type="text" id="betrag" name="betrag" placeholder="<?php echo $this->baseCost; ?>" value="<?php if($this->entity): echo $this->entity['betrag']; else: echo $this->baseCost; endif; ?>" />
             <?php showError($this->errors['betrag']); ?>
         </div>
     </div>
@@ -178,6 +178,21 @@
         </div>
     </div>
 
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="auftragsnummer">Auftragsnummer</label>
+        <div class="controls">
+            <?php echo $this->auftragsnummer; ?>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;sel</label>
+        <div class="controls">
+            <?php echo $this->veranstaltungsSchluessel; ?>
+        </div>
+    </div>
+
+    
     <button type="submit" class="btn">Submit</button>
 
 </form>

@@ -55,6 +55,14 @@ class participantForm extends fabView
         }
     }
     
+    public function renderEventData()
+    {
+        $event = $this->dic->getEventRepository()->getEventObjectById($this->eventId);
+        $this->view->baseCost = $event->getValueByKey('standardbetrag');
+        $this->view->auftragsnummer = $event->getValueByKey('auftragsnr');
+        $this->view->veranstaltungsSchluessel = $event->getValueByKey('v_schluessel');
+    }
+    
     public function render()
     {
         if ($this->domainCommand == "showAddParticipantFormAction" || $this->domainCommand == "addParticipantAction") {
@@ -65,6 +73,7 @@ class participantForm extends fabView
         }
         $this->entity->renderView($this->view);
         $this->renderCountryOptions($this->entity->getValueByKey('land'));
+        $this->renderEventData();
         $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantList", "eventId"=>$this->eventId));
         return $this->view->render();
     }

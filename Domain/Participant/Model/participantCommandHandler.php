@@ -9,6 +9,7 @@ class participantCommandHandler extends fabCommandHandler
     public function __construct($db)
     {
         parent::__construct($db);
+        $this->table = "fab_teilnehmer";
     }
   
     /**
@@ -19,7 +20,7 @@ class participantCommandHandler extends fabCommandHandler
      */
     public function addEntity($eventId, $array)
     {
-        $this->db->setStatement("INSERT INTO t:fab_teilnehmer ( event_id, anrede, sprache, titel, nachname, vorname, institut, unternehmen, unternehmenshortcut, strasse, plz, ort, land, mail, ust_id_nr, zahlweise, teilnehmer_intern, betrag, first_date, last_date ) VALUES ( :event_id, :anrede, :sprache, :titel, :nachname, :vorname, :institut, :unternehmen, :shortcutunternehmen, :strasse, :plz, :ort, :land, :mail, :ust_id_nr, :zahlweise, :teilnehmer_intern, :betrag, :first_date, :last_date ) ");
+        $this->db->setStatement("INSERT INTO t:".$this->table." ( event_id, anrede, sprache, titel, nachname, vorname, institut, unternehmen, unternehmenshortcut, strasse, plz, ort, land, mail, ust_id_nr, zahlweise, teilnehmer_intern, betrag, first_date, last_date ) VALUES ( :event_id, :anrede, :sprache, :titel, :nachname, :vorname, :institut, :unternehmen, :shortcutunternehmen, :strasse, :plz, :ort, :land, :mail, :ust_id_nr, :zahlweise, :teilnehmer_intern, :betrag, :first_date, :last_date ) ");
         $this->db->bindParameter("event_id", "i", $eventId);
         $this->db->bindParameter("anrede", "s", $array['anrede']);
         $this->db->bindParameter("sprache", "s", $array['sprache']);
@@ -52,7 +53,7 @@ class participantCommandHandler extends fabCommandHandler
      */
     public function saveEntity($id, $array)
     {
-        $this->db->setStatement("UPDATE t:fab_teilnehmer SET anrede = :anrede, sprache = :sprache, titel = :titel, nachname = :nachname, vorname = :vorname, institut = :institut, unternehmen = :unternehmen, unternehmenshortcut = :shortcutunternehmen,  strasse = :strasse, plz = :plz, ort = :ort, land = :land, mail = :mail, ust_id_nr = :ust_id_nr, zahlweise = :zahlweise, teilnehmer_intern = :teilnehmer_intern, betrag = :betrag, last_date = :last_date WHERE id = :id ");
+        $this->db->setStatement("UPDATE t:".$this->table." SET anrede = :anrede, sprache = :sprache, titel = :titel, nachname = :nachname, vorname = :vorname, institut = :institut, unternehmen = :unternehmen, unternehmenshortcut = :shortcutunternehmen,  strasse = :strasse, plz = :plz, ort = :ort, land = :land, mail = :mail, ust_id_nr = :ust_id_nr, zahlweise = :zahlweise, teilnehmer_intern = :teilnehmer_intern, betrag = :betrag, last_date = :last_date WHERE id = :id ");
         $this->db->bindParameter("id", "i", $id);
         $this->db->bindParameter("anrede", "s", $array['anrede']);
         $this->db->bindParameter("sprache", "s", $array['sprache']);
@@ -73,16 +74,6 @@ class participantCommandHandler extends fabCommandHandler
         $this->db->bindParameter("betrag", "s", $array['betrag']);
         $this->db->bindParameter("last_date", "i", date("YmdHis"));
         return $this->basePdbquery();
-    }
-    
-    /**
-     * 
-     * @param int $id
-     * @return boolean
-     */
-    public function deleteEntityById($id)
-    {
-        return $this->baseDelete($id, "fab_teilnehmer");
     }
     
     /**
@@ -116,7 +107,7 @@ class participantCommandHandler extends fabCommandHandler
                                   last_date bigint(14) NOT NULL,
                                   PRIMARY KEY (id) ";
         
-        return $this->baseCreateTable("fab_teilnehmer", $table_create_statement);
+        return $this->baseCreateTable($this->table, $table_create_statement);
         $this->updateTable();    
     }
     
@@ -126,7 +117,7 @@ class participantCommandHandler extends fabCommandHandler
      */
     public function updateTable()
     {
-        $sql = "ALTER TABLE fab_teilnehmer ADD unternehmenshortcut VARCHAR( 10 ) NOT NULL AFTER unternehmen ";
+        $sql = "ALTER TABLE t:".$this->table." ADD unternehmenshortcut VARCHAR( 10 ) NOT NULL AFTER unternehmen ";
         return true;
         /*
          * Wenn es noch keine Erweiterung gibt, dann true zurueckgeben

@@ -9,6 +9,7 @@ use \Fab\Domain\Participant\View\participantList as participantListView;
 use \Fab\Domain\Participant\View\participantForm as participantFormView;
 use \Fab\Domain\Participant\View\participantCsvDownload as participantCsvDownloadView;
 use \Fab\Domain\Participant\Specification\isValid as isValid;
+use \Fab\Domain\Participant\Specification\isDeletable as isDeletable;
 use \LWddd\Controller as dddController;
 use \Fab\Library\fabDIC as DIC;
 use \lw_response as lwResponse;
@@ -20,6 +21,17 @@ class Controller extends dddController
         parent::__construct($response);
         $this->defaultAction = "showListAction";
         $this->dic = new DIC();
+    }
+    
+    public function deleteParticipantAction()
+    {
+        try {
+            $ok = $this->dic->getParticipantRepository()->deleteParticipantById($this->domainEvent->getId());
+        }
+        catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }        
+        $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
     }
     
     public function showParticipantListAction()
