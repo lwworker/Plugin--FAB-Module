@@ -33,45 +33,21 @@
     <?php endif; ?>
     
     <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="anrede">Anrede</label>
+        <label id="unternehmenshortcut_label" class="control-label" for="unternehmenshortcut">Unternehmensk&uuml;rzel</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="anrede" name="anrede" placeholder="Frau" value="<?php if($this->entity): echo $this->entity['anrede']; endif; ?>" />
-            <?php showError($this->errors['anrede']); ?>
+            <input class="input-medium" type="text" id="unternehmenshortcut" name="unternehmenshortcut" placeholder="FZJ" value="<?php if($this->entity): echo $this->entity['unternehmenshortcut']; endif; ?>" />
+            <?php showError($this->errors['unternehmenshortcut']); ?>
         </div>
     </div>
-
+    
     <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="sprache">Sprache</label>
+        <label id="unternehmen_label" class="control-label" for="unternehmen">Unternehmen</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="sprache" name="sprache" placeholder="de" value="<?php if($this->entity): echo $this->entity['sprache']; endif; ?>" />
-            <?php showError($this->errors['sprache']); ?>
+            <input class="input-medium" type="text" id="unternehmen" name="unternehmen" placeholder="Forschungszentrum Jülich" value="<?php if($this->entity): echo $this->entity['unternehmen']; endif; ?>" />
+            <?php showError($this->errors['unternehmen']); ?>
         </div>
     </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="titel">Titel</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="titel" name="titel" placeholder="Dr." value="<?php if($this->entity): echo $this->entity['titel']; endif; ?>" />
-            <?php showError($this->errors['titel']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="nachname">Nachname</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="nachname" name="nachname" placeholder="Nachname" value="<?php if($this->entity): echo $this->entity['nachname']; endif; ?>" />
-            <?php showError($this->errors['nachname']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="vorname">Vorname</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="vorname" name="vorname" placeholder="Vorname" value="<?php if($this->entity): echo $this->entity['vorname']; endif; ?>" />
-            <?php showError($this->errors['vorname']); ?>
-        </div>
-    </div>
-
+    
     <div class="control-group">
         <label id="buchungskreis_label" class="control-label" for="institut">Institut</label>
         <div class="controls">
@@ -81,21 +57,13 @@
     </div>
     
     <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="unternehmen">Unternehmen</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="unternehmen" name="unternehmen" placeholder="FZJ" value="<?php if($this->entity): echo $this->entity['unternehmen']; endif; ?>" />
-            <?php showError($this->errors['unternehmen']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="strasse">Strasse</label>
+        <label id="buchungskreis_label" class="control-label" for="strasse">Strasse/Postfach</label>
         <div class="controls">
             <input class="input-medium" type="text" id="strasse" name="strasse" placeholder="Musterstrasse" value="<?php if($this->entity): echo $this->entity['strasse']; endif; ?>" />
             <?php showError($this->errors['strasse']); ?>
         </div>
     </div>
-
+    
     <div class="control-group">
         <label id="buchungskreis_label" class="control-label" for="plz">Postleitzahl</label>
         <div class="controls">
@@ -115,16 +83,70 @@
     <div class="control-group">
         <label id="buchungskreis_label" class="control-label" for="land">Land</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="land" name="land" placeholder="0100" value="<?php if($this->entity): echo $this->entity['land']; endif; ?>" />
+            <select id="land" name="land">
+                <?php echo $this->countryOptions; ?>
+            </select>
             <?php showError($this->errors['land']); ?>
+        </div>
+    </div>    
+    
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="anrede">Anrede</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="anrede" name="anrede" placeholder="Frau" value="<?php if($this->entity): echo $this->entity['anrede']; endif; ?>" />
+            <?php showError($this->errors['anrede']); ?>
         </div>
     </div>
 
     <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="mail">Mail</label>
+        <label id="buchungskreis_label" class="control-label" for="titel">Titel</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="titel" name="titel" placeholder="Dr." value="<?php if($this->entity): echo $this->entity['titel']; endif; ?>" />
+            <?php showError($this->errors['titel']); ?>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="vorname">Vorname</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="vorname" name="vorname" placeholder="Vorname" value="<?php if($this->entity): echo $this->entity['vorname']; endif; ?>" />
+            <?php showError($this->errors['vorname']); ?>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="nachname">Nachname</label>
+        <div class="controls">
+            <input class="input-medium" type="text" id="nachname" name="nachname" placeholder="Nachname" value="<?php if($this->entity): echo $this->entity['nachname']; endif; ?>" />
+            <?php showError($this->errors['nachname']); ?>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="mail">E-Mail</label>
         <div class="controls">
             <input class="input-medium" type="text" id="mail" name="mail" placeholder="name@domain.de" value="<?php if($this->entity): echo $this->entity['mail']; endif; ?>" />
             <?php showError($this->errors['mail']); ?>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="teilnehmer_intern">interner Teilnehmer</label>
+        <div class="controls">
+            <input type="checkbox" id="teilnehmer_intern" name="teilnehmer_intern" value="1" <?php if($this->entity['teilnehmer_intern'] == 1): ?> checked="checked"<?php endif; ?>" />
+            <?php showError($this->errors['teilnehmer_intern']); ?>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="sprache">Sprache</label>
+        <div class="controls">
+            <select id="sprache" name="sprache">
+                <option value="">bitte ausw&auml;hlen</option>
+                <option value="de"<?php if($this->entity['sprache'] == "de"): ?> selected="selected"<?php endif; ?>>deutsch</option>
+                <option value="en"<?php if($this->entity['sprache'] == "en"): ?> selected="selected"<?php endif; ?>>englisch</option>
+            </select>
+            <?php showError($this->errors['sprache']); ?>
         </div>
     </div>
 
@@ -137,26 +159,22 @@
     </div>
 
     <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="zahlweise">Zahlweise</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="zahlweise" name="zahlweise" placeholder="Kreditkarte (K)" value="<?php if($this->entity): echo $this->entity['zahlweise']; endif; ?>" />
-            <?php showError($this->errors['zahlweise']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="teilnehmer_intern">intern</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="teilnehmer_intern" name="teilnehmer_intern" placeholder="1" value="<?php if($this->entity): echo $this->entity['teilnehmer_intern']; endif; ?>" />
-            <?php showError($this->errors['teilnehmer_intern']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
         <label id="buchungskreis_label" class="control-label" for="betrag">Betrag</label>
         <div class="controls">
             <input class="input-medium" type="text" id="betrag" name="betrag" placeholder="22,22" value="<?php if($this->entity): echo $this->entity['betrag']; endif; ?>" />
             <?php showError($this->errors['betrag']); ?>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label id="buchungskreis_label" class="control-label" for="zahlweise">Zahlweise</label>
+        <div class="controls">
+            <select id="zahlweise" name="zahlweise">
+                <option value="">bitte ausw&auml;hlen</option>
+                <option value="K"<?php if($this->entity['zahlweise'] == "K"): ?> selected="selected"<?php endif; ?>>Kreditkarte</option>
+                <option value="U"<?php if($this->entity['zahlweise'] == "U"): ?> selected="selected"<?php endif; ?>>&Uuml;berweisung</option>
+            </select>
+            <?php showError($this->errors['zahlweise']); ?>
         </div>
     </div>
 

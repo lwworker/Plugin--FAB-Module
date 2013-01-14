@@ -21,8 +21,8 @@ class participantList extends fabView
         $this->aggregate->renderView($this->view);
         $this->view->addUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showAddParticipantForm", "eventId"=>$this->domainEvent->getParameterByKey('eventId')));
         $this->view->backUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventListForResponsible"));
-        $this->view->uploadUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showUploadCSVForm", "eventId" => $this->domainEvent->getParameterByKey('eventId')));
-        $this->view->downloadUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showDownloadCSVPage", "eventId" => $this->domainEvent->getParameterByKey('eventId')));
+        $this->view->uploadUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showUploadCsvForm", "eventId" => $this->domainEvent->getParameterByKey('eventId')));
+        $this->view->downloadUrl = lw_page::getInstance()->getUrl(array("cmd"=>"downloadCsv", "eventId" => $this->domainEvent->getParameterByKey('eventId')));
         $this->view->replacementUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showReplacementForm", "id" => $this->domainEvent->getParameterByKey('eventId')));
         $this->view->detailsUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventDetails", "id" => $this->domainEvent->getParameterByKey('eventId')));
         return $this->view->render();

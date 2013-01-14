@@ -7,6 +7,7 @@ use \Fab\Domain\Participant\Object\participantData as participantData;
 use \Fab\Domain\Participant\Object\participant as participant;
 use \Fab\Domain\Participant\View\participantList as participantListView;
 use \Fab\Domain\Participant\View\participantForm as participantFormView;
+use \Fab\Domain\Participant\View\participantCsvDownload as participantCsvDownloadView;
 use \Fab\Domain\Participant\Specification\isValid as isValid;
 use \LWddd\Controller as dddController;
 use \Fab\Library\fabDIC as DIC;
@@ -26,6 +27,13 @@ class Controller extends dddController
         $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByEventId($this->domainEvent->getParameterByKey('eventId'));
         $listView = new participantListView($this->domainEvent, $aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
+    }
+    
+    public function downloadCsvAction()
+    {
+        $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByEventId($this->domainEvent->getParameterByKey('eventId'));
+        $csvView = new participantCsvDownloadView($this->domainEvent, $aggregate);        
+        die($csvView->render());
     }
     
     public function showAddParticipantFormAction($errors = false)
