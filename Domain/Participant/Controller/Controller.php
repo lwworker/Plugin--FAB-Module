@@ -24,7 +24,7 @@ class Controller extends dddController
     public function showParticipantListAction()
     {
         $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByEventId($this->domainEvent->getParameterByKey('eventId'));
-        $listView = new participantListView($aggregate);        
+        $listView = new participantListView($this->domainEvent, $aggregate);        
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     
@@ -43,7 +43,6 @@ class Controller extends dddController
     public function showEditParticipantFormAction($errors = false)
     {
         if ($errors) {
-            $formView->setErrors($errors);
             $entity = participantFactory::getInstance()->buildNewParticipantFromValueObject($this->domainEvent->getDataValueObject());
         }
         else {

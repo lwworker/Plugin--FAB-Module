@@ -161,14 +161,15 @@ class isValid extends fabValidation
         $zipcheck = new \Fab\Services\Zipcheck\zipcheck();
         if($this->landValidate($this->array["land"])) {
             $ok = $zipcheck->check(strtoupper($this->array["land"]), $value);
-            $this->addError("plz", 33, array("errormsg" => "PLZ passt nicht zum Land"));
             if($ok === 1) {
                 return true;
             }
             else {
+                $this->addError("plz", 33, array("errormsg" => "PLZ passt nicht zum Land"));
                 return false;
             }
         }
+        return true;
     }
 
     public function ortValidate($value)

@@ -65,7 +65,7 @@ class participantForm extends fabView
         }
         $this->entity->renderView($this->view);
         $this->renderCountryOptions($this->entity->getValueByKey('v_land'));
-        $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantList", "id"=>$this->eventId));
+        $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantList", "eventId"=>$this->eventId));
         return $this->view->render();
     }
 }
