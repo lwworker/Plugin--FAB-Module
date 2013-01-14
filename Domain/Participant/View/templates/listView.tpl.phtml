@@ -3,7 +3,7 @@
     <a href="<?php echo $this->backUrl; ?>">zur&uuml;ck</a> | 
     <a href="<?php echo $this->addUrl; ?>">Teilnehmer hinzuf&uuml;gen</a> | 
     <a href="<?php echo $this->uploadUrl; ?>">Teilnehmer CSV hochladen</a> | 
-    <a href="<?php echo $this->downloadUrl; ?>">Teilnehmer CSV herunterladen</a> | 
+    <a href="<?php echo $this->downloadUrl; ?>" target="_blank">Teilnehmer CSV herunterladen</a> | 
     <a href="<?php echo $this->detailsUrl; ?>">Tagungsdetails</a> | 
     <a href="<?php echo $this->replacementUrl; ?>">Stellvertreter festlegen</a>
 </div>
@@ -36,7 +36,7 @@
             ?></td>
             <td><?php echo $entity->getValueByKey('id')+400000; ?></td>
             <td><?php echo $entity->getValueByKey('nachname').' '.$entity->getValueByKey('vorname'); ?></td>
-            <td><?php echo $entity->getValueByKey('unternehmen'); ?></td>
+            <td><?php echo $entity->getValueByKey('unternehmenshortcut'); ?></td>
             <td><?php echo $entity->getValueByKey('zahlweise'); ?></td>
             <td><?php echo $entity->getValueByKey('betrag'); ?></td>
             <td><?php

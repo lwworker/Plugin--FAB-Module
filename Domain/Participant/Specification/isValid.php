@@ -18,17 +18,15 @@ class isValid extends fabValidation
                 "vorname",
                 "institut",
                 "unternehmen",
+                "unternehmenshortcut",
                 "strasse",
                 "plz",
                 "ort",
                 "land",
                 "mail",
-                "veranstaltung",
                 "ust_id_nr",
                 "zahlweise",
-                "refernznr",
                 "teilnehmer_intern",
-                "auftragsnr",
                 "betrag",
                 "first_date",
                 "last_date");        
@@ -149,6 +147,11 @@ class isValid extends fabValidation
     public function unternehmenValidate($value)
     {
         return $this->defaultValidation("unternehmen", $value, 35);
+    }
+    
+    public function unternehmenShortcutValidate($value)
+    {
+        return $this->defaultValidation("unternehmenshortcut", $value, 10);
     }
     
     public function straßeValidate($value)
