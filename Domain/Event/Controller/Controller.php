@@ -100,37 +100,32 @@ class Controller extends \LWddd\Controller
     
     protected function saveEvent($id=false)
     {
-        $PostValueObjectFiltered = $this->dic->getEventFilter()->filter($this->domainEvent->getPostValueObject());
-        $EventValidationSevice = $this->dic->getEventValidationObject(); 
-        $EventValidationSevice->setValues($PostValueObjectFiltered->getValues());
-        $valid = $EventValidationSevice->validate();
-        if ($valid)
-        {
+        $DataValueObjectFiltered = $this->dic->getEventFilter()->filter($this->domainEvent->getDataValueObject());
+        if (!$id) {
+            $entity = eventFactory::getInstance()->buildNewEventFromValueObject($DataValueObjectFiltered);
+        }
+        else {
+            $entity = $this->dic->getEventRepository()->getEventObjectById($id);
+            $entity->setDataValueObject($DataValueObjectFiltered);
+        }
+        $isValidSpecification = isValid::getInstance();
+        if ($isValidSpecification->isSatisfiedBy($entity)) {
             try {
-                $EventDataValueObject = new eventData($PostValueObjectFiltered->getValues());
-            }
-            catch (Exception $e) {
-                die("error: ".$e->getMessage());
-            }
-            $entity = new event($id);
-            $entity->setDataValueObject($EventDataValueObject);
-            try {
-                $result = $entity->save();
+                $result = $this->dic->getEventRepository()->saveEvent($entity);
                 if ($result > 0) {
                     return true;
                 }
             }
-            catch (Exception $e)
-            {
-                die($e->getMessage());
+            catch (Exception $e) {
+                throw new Exception($e->getMessage());
             }
         }
         else {
             if ($id > 0) {
-                $this->showEditFormAction($EventValidationSevice->getErrors());
+                $this->showEditEventFormAction($isValidSpecification->getErrors());
             }
             else {
-                $this->showAddFormAction($EventValidationSevice->getErrors());
+                $this->showAddEventFormAction($isValidSpecification->getErrors());
             }
         }
     }
