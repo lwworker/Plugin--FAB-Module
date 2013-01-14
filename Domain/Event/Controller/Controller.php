@@ -61,7 +61,6 @@ class Controller extends \LWddd\Controller
     public function showEditFormAction($errors=false)
     {
         if ($errors) {
-            $formView->setErrors($errors);
             $entity = eventFactory::getInstance()->buildNewEventFromValueObject($this->domainEvent->getDataValueObject());
         }
         else {

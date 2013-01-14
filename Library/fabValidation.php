@@ -138,7 +138,9 @@ class fabValidation
         if($required === true) {
             $bool = $this->requiredValidation($key, $value);
         }
-        $bool = $this->maxLengthValidation($key, $value, $length);
+        if (!$this->maxLengthValidation($key, $value, $length)) {
+            $bool = false;
+        }
         
         if($bool == false) {
             return false;
