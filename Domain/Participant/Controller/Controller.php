@@ -7,6 +7,7 @@ use \Fab\Domain\Participant\Object\participantData as participantData;
 use \Fab\Domain\Participant\Object\participant as participant;
 use \Fab\Domain\Participant\View\participantList as participantListView;
 use \Fab\Domain\Participant\View\participantForm as participantFormView;
+use \Fab\Domain\Participant\View\participantCsvUploadForm as participantCsvUploadFormView;
 use \Fab\Domain\Participant\View\participantCsvDownload as participantCsvDownloadView;
 use \Fab\Domain\Participant\Specification\isValid as isValid;
 use \Fab\Domain\Participant\Specification\isDeletable as isDeletable;
@@ -46,6 +47,34 @@ class Controller extends dddController
         $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByEventId($this->domainEvent->getParameterByKey('eventId'));
         $csvView = new participantCsvDownloadView($this->domainEvent, $aggregate);        
         die($csvView->render());
+    }
+    
+    public function showUploadCsvFormAction($errors = false)
+    {
+        $formView = new participantCsvUploadFormView($this->domainEvent);
+        if ($errors) {
+            $formView->setErrors($errors);
+        }
+        $this->response->addOutputByName('FabOutput', $formView->render());
+    }
+    
+    public function saveCsvAction()
+    {
+        $csvFile = \lw_registry::getInstance()->getEntry('request')->getFileData('csv');
+        $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByCsvFile($csvFile['tmp_name']);
+        $isValidSpecification = isValid::getInstance();
+        foreach($aggregate as $entity) {
+            $i++;
+            if (!$isValidSpecification->isSatisfiedBy($entity)) {        
+                $invalid[$i] = array("entity"=>$entity, "errors"=> $isValidSpecification->getErrors());
+            }
+        }
+        if (count($invalid)>0) {
+            $this->showUploadCsvFormAction($invalid);
+        }
+        else {
+            $this->dic->getParticipantRepository()->saveCsvData($this->domainEvent->getParameterByKey('eventId'), $aggregate);
+        }
     }
     
     public function showAddParticipantFormAction($errors = false)

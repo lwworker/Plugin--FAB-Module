@@ -88,7 +88,7 @@ class isValid extends fabValidation
             return true;
         }
         else {
-            if(ctype_digit($value)) {
+            if(is_numeric($value)) {
                 return true;
             }
             else {

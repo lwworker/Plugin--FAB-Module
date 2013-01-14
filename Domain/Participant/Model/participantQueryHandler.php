@@ -8,6 +8,7 @@ class participantQueryHandler extends fabQueryHandler
     public function __construct($db)
     {
         parent::__construct($db);
+        $this->table = "fab_teilnehmer";
     }
     
     /**
@@ -33,5 +34,16 @@ class participantQueryHandler extends fabQueryHandler
     public function loadParticipantById($id)
     {
         return $this->baseGetEntryById($id, "fab_teilnehmer");
+    }
+    
+    public function checkParticipantByEventIdAndFirstnameAndLastnameAndEmail($eventId, $firstname, $lastname, $email) 
+    {
+        $sql = "SELECT id FROM ".$this->table." WHERE event_id = '".intval($eventId)."' AND vorname = '".$this->db->quote(trim($firstname))."' AND nachname = '".$this->db->quote(trim($lastname))."' AND mail = '".$this->db->quote(trim($email))."'";
+        //die($sql);
+        $result = $this->db->select1($sql);
+        if ($result['id'] > 0) {
+            return true;
+        }
+        return false;
     }
 }
