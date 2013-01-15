@@ -1,0 +1,296 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+    text-align:center;
+    background-color:#c6d2c8;
+    margin:0;
+    padding:0;
+}
+a img {
+    border:none;
+}
+#container_header {
+    border-top:4px solid #005b82;
+    background-color:#ffffff;
+}
+#header {
+    width:980px;
+    margin:0 auto;
+    height:148px;
+    position:relative;
+    text-align:left;
+}
+#header a {
+    text-decoration:none;
+    color:#005b82;
+}
+#topnavi {
+    position:absolute;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size:11px;
+    top:12px;
+    left:2px;
+}
+#topnavi a {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size:11px;
+    padding:0 3px;
+}
+#topnavi a:hover {
+    text-decoration:underline;
+}
+#topnavi a.inactive {
+    color:#000000;
+}
+#topnavi a.inactive:hover {
+    text-decoration:none;
+    cursor:text;
+}
+#mainnavi {
+    position:absolute;
+    bottom:0px;
+    left:10px;
+}
+#mainnavi a {
+    display:inline-block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size:12px;
+    font-weight:bold;
+    padding:13px 12px 11px 12px;
+    margin-right:24px;
+}
+#mainnavi a:hover {
+    background-color:#669db4;
+    color:#ffffff;
+}
+#logo_fzj {
+    position:absolute;
+    top:12px;
+    right:0px;
+}
+
+#footer {
+    width:980px;
+    margin:20px auto 0;
+    height:103px;
+    background-color:#345475;
+    position:relative;
+    text-align:left;
+}
+#footernavi {
+    position:absolute;
+    top:7px;
+    left:20px;
+}
+#footernavi a {
+    text-decoration:none;
+    color:#ECECEC;
+    font-family: 'Arial Narrow',Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    margin-right:16px;
+}
+#footernavi a:hover {
+    text-decoration:underline;
+}
+#logo_helmholtz {
+    position:absolute;
+    top:2px;
+    right:20px;
+}
+
+#container_maincontent {
+    width:980px;
+    margin:49px auto 0 auto;
+    background-color:#ffffff;
+    position:relative;
+    text-align:left;
+}
+#maincontent {
+    font-family:arial,helvetica,sans-serif;
+    font-size:12px;
+	padding:40px 0;
+}
+#form-header {
+	width:100%;
+	height:auto;
+	position:relative;
+}
+h1 {
+	color:#005B82;
+    font-family: 'Arial Narrow',Arial,sans serif;
+    text-transform: uppercase;
+	font-size:30px;
+	line-height:30px;
+    margin-bottom: 20px;
+}
+h2 {
+	color:#444444;
+    font-family: 'Arial Narrow',Arial,sans serif;
+    font-size:18px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+h3.alert-heading {
+    font-family: 'Arial Narrow',Arial,sans serif;
+    font-size:16px;
+	line-height:20px;
+	margin:0;
+	padding:0;
+}
+.icon_help {
+  display: inline-block;
+  width: 20px;
+  height: 30px;
+  margin: 0 0 0 3px;
+  *margin-right: .3em;
+  line-height: 20px;
+  vertical-align: middle;
+  background:url("../img/help-20-gray.png") center left no-repeat;
+  cursor:pointer;
+}
+a.icon_help:hover {
+  background:url("../img/help-20.png") center left no-repeat;
+}
+.icon_edit {
+  display:block;
+  height: auto;
+  padding-left:25px;
+  line-height: 20px;
+  vertical-align: middle;
+  background:url("../img/edit-20-gray.png") top left no-repeat;
+  cursor:pointer;
+}
+a.icon_edit:hover {
+  background:url("../img/edit-20.png") top left no-repeat;
+}
+.alert {
+    padding:8px;
+}
+.alert-block {
+	width:202px;
+	margin:2px 0 0 0;
+  	padding:10px;
+}
+.btn-icon {
+	line-height:30px;
+	text-transform:uppercase;
+	font-weight:bold;
+	padding:9px 12px;
+}
+.btn img {
+	vertical-align:middle;
+}
+.btn-blue {
+	padding-left:20px;
+	padding-right:20px;
+	line-height:30px;
+	text-transform:uppercase;
+	font-weight:bold; 
+	color:#c4dcf3;
+	background-image: linear-gradient(to bottom, #598dc2, #345475);    
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+	background-color: #598dc2;
+	*background-color: #598dc2;
+	background-image: -moz-linear-gradient(top, #598dc2, #345475);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#598dc2), to(#345475));
+	background-image: -webkit-linear-gradient(top, #598dc2, #345475);
+	background-image: -o-linear-gradient(top, #598dc2, #345475);
+	background-image: linear-gradient(to bottom, #598dc2, #345475);
+	background-repeat: repeat-x;
+	border: 1px solid #bbbbbb;
+	*border: 0;
+	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	border-bottom-color: #a2a2a2;
+	-webkit-border-radius: 4px;
+	 -moz-border-radius: 4px;
+		  border-radius: 4px;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff598dc2', endColorstr='#ff345475', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+	*zoom: 1;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+	 -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+		  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.btn-blue:hover {
+	color:#c4dcf3;
+	background-color:#355576;
+	text-decoration: none;
+	background-position: 0 -15px;
+	-webkit-transition: background-position 0.1s linear;
+	 -moz-transition: background-position 0.1s linear;
+	   -o-transition: background-position 0.1s linear;
+		  transition: background-position 0.1s linear;
+}
+.btn-blue img {
+	position:relative;
+	top:-2px;
+	margin-right:10px;
+}
+.page-error {
+	display:inline-block;
+    background-color: #F2DEDE;
+    border-color: #EED3D7;
+    color: #B94A48;
+	width:100px;
+	height:22px;
+	line-height:24px;
+	margin:0;
+	text-align:center;
+	vertical-align:middle;
+}
+.input-100 { 
+	width:117px;
+}
+.input-120 {
+	width:138px;
+}
+.input-180 {
+	width:183px;
+}
+.control-bar {
+	position:absolute;
+	bottom:0;
+	right:0;
+}
+.user-bar {
+	position:absolute;
+	top:-30px;
+	right:0;
+}
+.alert p{
+	font-size:14px;
+	margin:0;
+}
+#tagung_name {
+	width:280px;
+}
+.user {
+	display:block;
+	height:26px;
+	line-height:26px;
+	padding:0 15px 0 0;
+	color:#fff;
+	background-color:#C6D2C8;
+	float:left;
+}
+.user img {
+	vertical-align:top;
+}
+.logout  {
+	width:46px;
+	height:26px;
+	background:url("../img/logout-user.png") top left no-repeat;
+	margin-left:1px;
+	float:left;
+	display: block;
+}
+.logout:hover {
+	background-position:bottom left;
+}
+.half {
+	width:50%; 
+}
+.right {float:right;}
+.left {float:left;}
