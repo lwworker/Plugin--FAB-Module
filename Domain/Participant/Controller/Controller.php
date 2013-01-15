@@ -66,7 +66,7 @@ class Controller extends dddController
             return;
         }
         $this->dic->getParticipantRepository()->saveCsvData($this->domainEvent->getParameterByKey('eventId'), $prepare->getAggregate());
-        $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
+        $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId'), 'response'=>1));
     }
     
     public function showAddParticipantFormAction($errors = false)
@@ -101,7 +101,7 @@ class Controller extends dddController
     {
         try {
             $result = $this->dic->getParticipantRepository()->saveParticipant($this->domainEvent->getParameterByKey('eventId'), false, $this->domainEvent->getDataValueObject());
-            $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
+            $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId'), 'response'=>1));
         }
         catch (validationErrorsException $e) {
             $this->showAddParticipantFormAction($e->getErrors());
@@ -112,7 +112,7 @@ class Controller extends dddController
     {
         try {
             $result = $this->dic->getParticipantRepository()->saveParticipant($this->domainEvent->getParameterByKey('eventId'), $this->domainEvent->getId(), $this->domainEvent->getDataValueObject());
-            $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
+            $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId'), 'response'=>1));
         }
         catch (validationErrorsException $e) {
             $this->showAddParticipantFormAction($e->getErrors());

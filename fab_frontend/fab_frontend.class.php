@@ -15,6 +15,10 @@ class fab_frontend extends lw_plugin
     
     public function buildPageOutput()
     {
+        if ($this->request->getInt("saved")==1) {
+            $this->response->addHeaderItems('js', 'alert("saved"); location.href=location.href.replace(/&?saved=1/i, "");');
+        }
+        
         include_once(dirname(__FILE__).'/../Services/Autoloader/fabAutoloader.php');
         $autoloader = new Fab\Service\Autoloader\fabAutoloader();
         $autoloader->setConfig($this->config);
