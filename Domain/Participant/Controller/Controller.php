@@ -65,12 +65,16 @@ class Controller extends dddController
         $isValidSpecification = isValid::getInstance();
         foreach($aggregate as $entity) {
             $i++;
-            if (!$isValidSpecification->isSatisfiedBy($entity)) {        
+            if (!$isValidSpecification->isSatisfiedBy($entity)) {
                 $invalid[$i] = array("entity"=>$entity, "errors"=> $isValidSpecification->getErrors());
+            }
+            elseif ($this->dic->getEventRepository()->getEventIdByEventKey($entity->getValueByKey('v_schluessel')) !== $this->domainEvent->getParameterByKey('eventId')) {
+                $invalid[$i] = array("entity"=>$entity, "errors"=> 'wrong Event!');
             }
         }
         if (count($invalid)>0) {
             $this->showUploadCsvFormAction($invalid);
+            return;
         }
         else {
             $this->dic->getParticipantRepository()->saveCsvData($this->domainEvent->getParameterByKey('eventId'), $aggregate);

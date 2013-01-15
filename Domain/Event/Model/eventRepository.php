@@ -110,4 +110,9 @@ class eventRepository extends fabRepository
             throw new Exception('Delete not allowed, because Participant was already submitted to SAP!');
         }
     }
+    
+    public function getEventIdByEventKey($key)
+    {
+         return $this->getQueryHandler()->getEventIdByEventKey($key);
+    }
 }

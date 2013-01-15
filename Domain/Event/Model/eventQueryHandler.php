@@ -12,6 +12,14 @@ class eventQueryHandler extends fabQueryHandler
         parent::__construct($db);
     }
     
+    public function getEventIdByEventKey($key)
+    {
+        $this->db->setStatement("SELECT id FROM t:fab_tagungen WHERE v_schluessel = :key ");
+        $this->db->bindParameter("key", "s", $key);
+        $result = $this->db->pselect1();
+        return $result['id'];
+    }
+    
     /**
      * Returns a list all saved events with all atributes in defined order
      * @return array
