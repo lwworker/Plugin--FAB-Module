@@ -3,196 +3,268 @@
     function showError($error)
     {
         if($error): ?>
-        <div>
+        <div class="alert alert-block alert-error">
             <?php foreach($error as $errorcode => $array): ?>
-            <span class="label label-important">Fehler!</span> <?php echo $errorcode." (".$array['options']['errormsg'].")"; ?><br/>
+            <h3 class="alert-heading">Fehler!</h3><p><?php echo $errorcode." (".$array['options']['errormsg'].")"; ?></p>
             <?php endforeach; ?>
         </div>
         <?php endif;
     }
 
 ?>
-
-<h2>
-    Tagung
-    <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
-    <div class="pull-right">
-        <p><a href="<?php echo $this->deleteUrl; ?>" class="btn btn-small btn-warning" onClick="return confirm('wirklich entfernen?');">l&ouml;schen</a></p>
+<script type="text/javascript">
+$(function () { 
+	$(".icon_help").popover({placement:'right', trigger:'hover'}); 
+});  
+</script>
+<div class="span12">
+	<div id="form-header">
+    	<div class="half">
+			<h1>Teilnehmer</h1>
+            <p>Einleitungstext... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>	
+        </div>	
+        <div class="control-bar">
+        <!-- back button -->
+       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
+        <!-- delete button -->    
+        <?php if ($this->type == "edit"): ?>
+            <a class="btn btn-icon" href="<?php echo $this->deleteUrl; ?>" onClick="return confirm('wirklich entfernen?');">
+            <img src="[CONFIG:url_client]assets/img/garbage.png"></a>			        
+        <?php endif; ?>
+        <!-- submit button -->
+        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</a>
+        <?php if(is_array($this->errors)): ?>
+            <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+        <?php endif; ?>
+        </div>
+        <div class="user-bar">
+            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
+        </div>
     </div>
-    <?php endif; ?>
-</h2>
-<div class="well well-small">
-    <a href="<?php echo $this->backurl; ?>">zur&uuml;ck</a>
-</div>
-<div class="well well-small">
-    Einleitungstext...
+    <div class="clearfix"></div>
+    <hr /> 
+    <br />
 </div>
 <form action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal">
-    <?php if(is_array($this->errors)): ?>
-    <div class="alert alert-error">Es gibt Fehler!</div>
-    <?php endif; ?>
+	<div class="span12">
+    	<h2>Unternehmensdetails</h2>
+        <hr />
+    </div>
+    <div class="light-gray-block">
+    	<div class="half left">    
+            <div class="control-group">
+                <label id="unternehmenshortcut_label" class="control-label" for="unternehmenshortcut">Unternehmensk&uuml;rzel</label>
+                <div class="controls">
+                    <input class="" type="text" id="unternehmenshortcut" name="unternehmenshortcut" placeholder="FZJ" value="<?php if($this->entity): echo $this->entity['unternehmenshortcut']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Unternehmensk&uuml;rzel" data-content="Texte fehlen!" ></a>    
+                    <?php showError($this->errors['unternehmenshortcut']); ?>
+                </div>
+            </div>
     
-    <div class="control-group">
-        <label id="unternehmenshortcut_label" class="control-label" for="unternehmenshortcut">Unternehmensk&uuml;rzel</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="unternehmenshortcut" name="unternehmenshortcut" placeholder="FZJ" value="<?php if($this->entity): echo $this->entity['unternehmenshortcut']; endif; ?>" />
-            <?php showError($this->errors['unternehmenshortcut']); ?>
-        </div>
-    </div>
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="institut">Institut</label>
+                <div class="controls">
+                    <input class="" type="text" id="institut" name="institut" placeholder="IBG" value="<?php if($this->entity): echo $this->entity['institut']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Institut" data-content="Texte fehlen!" ></a>    
+                    <?php showError($this->errors['institut']); ?>
+                </div>
+            </div>
     
-    <div class="control-group">
-        <label id="unternehmen_label" class="control-label" for="unternehmen">Unternehmen</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="unternehmen" name="unternehmen" placeholder="Forschungszentrum Jülich" value="<?php if($this->entity): echo $this->entity['unternehmen']; endif; ?>" />
-            <?php showError($this->errors['unternehmen']); ?>
-        </div>
-    </div>
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="plz">Postleitzahl</label>
+                <div class="controls">
+                    <input class="" type="text" id="plz" name="plz" placeholder="43435" value="<?php if($this->entity): echo $this->entity['plz']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Postleitzahl" data-content="Texte fehlen!" ></a>   
+                    <?php showError($this->errors['plz']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="land">Land</label>
+                <div class="controls">
+                    <select id="land" name="land">
+                        <?php echo $this->countryOptions; ?>
+                    </select>
+                    <a class="icon_help" rel="popover" title="Land" data-content="Der 2-stellige Länderschlüssel wird im SAP-System auf Gültigkeit überprüft.  Falls der Länderschlüssel nicht gültig ist, wird die Buchung abgelehnt. Wenn keine anderen Eingaben erfolgen, ist das Feld im SAP-System mit „DE“ vorbesetzt." ></a>   
+                    <?php showError($this->errors['land']); ?>
+                </div>
+            </div> 
+            
+    	</div>
+		
+    	<div class="half left">
+            <div class="control-group">
+                <label id="unternehmen_label" class="control-label" for="unternehmen">Unternehmen</label>
+                <div class="controls">
+                    <input class="" type="text" id="unternehmen" name="unternehmen" placeholder="Forschungszentrum Jülich" value="<?php if($this->entity): echo $this->entity['unternehmen']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Unternehmen" data-content="Texte fehlen!" ></a>   
+                    <?php showError($this->errors['unternehmen']); ?>
+                </div>
+            </div>
     
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="institut">Institut</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="institut" name="institut" placeholder="IBG" value="<?php if($this->entity): echo $this->entity['institut']; endif; ?>" />
-            <?php showError($this->errors['institut']); ?>
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="strasse">Strasse/Postfach</label>
+                <div class="controls">
+                    <input class="" type="text" id="strasse" name="strasse" placeholder="Musterstrasse" value="<?php if($this->entity): echo $this->entity['strasse']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Strasse/Postfach" data-content="Texte fehlen!" ></a>   
+                    <?php showError($this->errors['strasse']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="ort">Ort</label>
+                <div class="controls">
+                    <input class="" type="text" id="ort" name="ort" placeholder="Jülich" value="<?php if($this->entity): echo $this->entity['ort']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Ort" data-content="Texte fehlen!" ></a>   
+                    <?php showError($this->errors['ort']); ?>
+                </div>
+            </div>
+          
         </div>
+    </div>  
+	<div class="span12">
+    	<h2>Teilnehmerdetails</h2>
+        <hr />
     </div>
+    <div class="light-gray-block">
+    	<div class="half left"> 
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="anrede">Anrede</label>
+                <div class="controls">
+                    <input class="" type="text" id="anrede" name="anrede" placeholder="Frau" value="<?php if($this->entity): echo $this->entity['anrede']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Anrede" data-content="Texte fehlen!" ></a>   
+                    <?php showError($this->errors['anrede']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="vorname">Vorname</label>
+                <div class="controls">
+                    <input class="" type="text" id="vorname" name="vorname" placeholder="Vorname" value="<?php if($this->entity): echo $this->entity['vorname']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Vorname" data-content="Falls kein  Titel vorhanden ist,  werden Vor- und Nachname im SAP-Feld ‚Name1’ gespeichert, ansonsten im SAP-Feld ‚Name2’." ></a>   
+                    <?php showError($this->errors['vorname']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="mail">E-Mail</label>
+                <div class="controls">
+                    <input class="" type="text" id="mail" name="mail" placeholder="name@domain.de" value="<?php if($this->entity): echo $this->entity['mail']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="E-Mail" data-content="Falls keine Email-Adresse vorhanden ist, wird der Übergabesatz auf eine postalisch vollständige Adresse geprüft. (Land, Ort, PLZ, und Straße müssen vorhanden sein.)" ></a>   
+                    <?php showError($this->errors['mail']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="sprache">Sprache</label>
+                <div class="controls">
+                    <select id="sprache" name="sprache">
+                        <option value="">bitte ausw&auml;hlen</option>
+                        <option value="de"<?php if($this->entity['sprache'] == "de"): ?> selected="selected"<?php endif; ?>>deutsch</option>
+                        <option value="en"<?php if($this->entity['sprache'] == "en"): ?> selected="selected"<?php endif; ?>>englisch</option>
+                    </select>
+                    <a class="icon_help" rel="popover" title="Sprache" data-content="Der Sprachschlüssel wird vom Teilnehmer bei der Anmeldung eingestellt. Erlaubt sind „DE“ und „EN“. Im SAP-System steuert der Schlüssel, ob mit dem Geschäftspartner in deutsch oder englisch korrespondiert wird, zum Beispiel beim Mahnen. Wenn keine anderen Eingaben gemacht werden, wird im SAP-System automatisch „DE“ verwendet." ></a>   
+                    <?php showError($this->errors['sprache']); ?>
+                </div>
+            </div>
+        
+        </div>
+    	<div class="half left"> 
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="titel">Titel</label>
+                <div class="controls">
+                    <input class="" type="text" id="titel" name="titel" placeholder="Dr." value="<?php if($this->entity): echo $this->entity['titel']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Titel" data-content="Falls vorhanden, wird der Titel im SAP-Feld ‚Name1’ gespeichert." ></a>   
+                    <?php showError($this->errors['titel']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="nachname">Nachname</label>
+                <div class="controls">
+                    <input class="" type="text" id="nachname" name="nachname" placeholder="Nachname" value="<?php if($this->entity): echo $this->entity['nachname']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Nachname" data-content="Falls kein  Titel vorhanden ist,  werden Vor- und Nachname im SAP-Feld ‚Name1’ gespeichert, ansonsten im SAP-Feld ‚Name2’." ></a>   
+                    <?php showError($this->errors['nachname']); ?>
+                </div>
+            </div>
     
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="strasse">Strasse/Postfach</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="strasse" name="strasse" placeholder="Musterstrasse" value="<?php if($this->entity): echo $this->entity['strasse']; endif; ?>" />
-            <?php showError($this->errors['strasse']); ?>
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="teilnehmer_intern">interner Teilnehmer</label>
+                <div class="controls">
+                    <p><input type="checkbox" id="teilnehmer_intern" name="teilnehmer_intern" value="1" <?php if($this->entity['teilnehmer_intern'] == 1): ?> checked="checked"<?php endif; ?> />
+                    <a class="icon_help" rel="popover" title="interner Teilnehmer" data-content="Das Feld ist mit einem beliebigen Kennzeichen gefüllt, wenn es sich bei dem Teilnehmer um einen FZJ-Mitarbeiter handelt." ></a>   
+                    <?php showError($this->errors['teilnehmer_intern']); ?></p>
+                </div>
+            </div>
+        
         </div>
+        
+    </div> 
+	<div class="span12">
+    	<h2>Finanzdaten</h2>
+        <hr />
     </div>
-    
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="plz">Postleitzahl</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="plz" name="plz" placeholder="43435" value="<?php if($this->entity): echo $this->entity['plz']; endif; ?>" />
-            <?php showError($this->errors['plz']); ?>
-        </div>
-    </div>
+    <div class="light-gray-block">
+    	<div class="half left"> 
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="ust_id_nr">Umsatzsteuer ID Nr</label>
+                <div class="controls">
+                    <input class="" type="text" id="ust_id_nr" name="ust_id_nr" placeholder="238746932564" value="<?php if($this->entity): echo $this->entity['ust_id_nr']; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Umsatzsteuer ID Nr" data-content="Die Umsatzsteuer-Identifikationsnummer muss vom Teilnehmer bei der Anmeldung eingegeben werden, wenn er zwecks Vorsteuerabzug  eine von F unterschriebene Rechnung per Postversand wünscht." ></a>   
+                    <?php showError($this->errors['ust_id_nr']); ?>
+                </div>
+            </div>
 
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="ort">Ort</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="ort" name="ort" placeholder="Jülich" value="<?php if($this->entity): echo $this->entity['ort']; endif; ?>" />
-            <?php showError($this->errors['ort']); ?>
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="zahlweise">Zahlweise</label>
+                <div class="controls">
+                    <select id="zahlweise" name="zahlweise">
+                        <option value="">bitte ausw&auml;hlen</option>
+                        <option value="K"<?php if($this->entity['zahlweise'] == "K"): ?> selected="selected"<?php endif; ?>>Kreditkarte</option>
+                        <option value="U"<?php if($this->entity['zahlweise'] == "U"): ?> selected="selected"<?php endif; ?>>&Uuml;berweisung</option>
+                    </select>
+                    <a class="icon_help" rel="popover" title="Zahlweise" data-content="Dabei sind folgende Kennzeichen gültig: ‚B’ für Barzahlung, K’ für Kreditkartenzahlung, ‚U’ für Überweisung." ></a>   
+                    <?php showError($this->errors['zahlweise']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;sel</label>
+                <div class="controls">
+                    <p><?php echo $this->veranstaltungsSchluessel; ?>
+                    <a class="icon_help" rel="popover" title="Veranstaltungsschl&uuml;sel" data-content="Im Rahmen der Vereinbarung der betriebswirtschaftlichen Daten zur Tagung  mit F, wird auch ein zwar beliebiger aber einmaliger 8-stelliger Veranstaltungsschlüssel festgelegt, der mit den betriebswirtschaftlichen Daten durch F  in der SAP-Tabelle ZFI_TAGUNGEN eingestellt wird. Alle im Rahmen dieser Tagung übermittelten Übergabesätze müssen mit diesem Veranstaltungsschlüssel versehen werden, damit die Verbuchung im SAP-System erfolgen kann.  Durch diesen Schlüssel soll das SAP-System vor unerwünschten Zugriffen über die externe WEB- Oberfläche geschützt werden." ></a></p> 
+                </div>
+            </div>
+        
+        </div>
+    	<div class="half left"> 
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="betrag">Betrag</label>
+                <div class="controls">
+                    <input class="" type="text" id="betrag" name="betrag" placeholder="<?php echo $this->baseCost; ?>" value="<?php if($this->entity): echo $this->entity['betrag']; else: echo $this->baseCost; endif; ?>" />
+                    <a class="icon_help" rel="popover" title="Betrag" data-content="Hier wird der Bruttobetrag mit 2 Nachkommastellen und beliebiger weiterer Interpunktion erwartet. ( Was später noch relevant werden könnte: Minuszeichen werden als führende ‚-‚ erwartet und ziehen die Verbuchung einer Gutschrift nach sich.)" ></a>   
+                    <?php showError($this->errors['betrag']); ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label id="buchungskreis_label" class="control-label" for="auftragsnummer">Auftragsnummer</label>
+                <div class="controls">
+                    <p><?php echo $this->auftragsnummer; ?>
+                    <a class="icon_help" rel="popover" title="Auftragsnummer" data-content="Die Nummer des CO- Innenauftrags bzw. des Projekts,  das für die Veranstaltung angelegt wurde, muss mit übergeben werden, damit vom SAP-Übernahmeprogramm geprüft werden kann, ob es sich um einen gültigen Übergabesatz handelt." ></a></p>   
+                </div>
+            </div>
+        
         </div>
     </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="land">Land</label>
-        <div class="controls">
-            <select id="land" name="land">
-                <?php echo $this->countryOptions; ?>
-            </select>
-            <?php showError($this->errors['land']); ?>
-        </div>
-    </div>    
-    
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="anrede">Anrede</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="anrede" name="anrede" placeholder="Frau" value="<?php if($this->entity): echo $this->entity['anrede']; endif; ?>" />
-            <?php showError($this->errors['anrede']); ?>
+    <div class="span12">
+    	<div class="half left">
+            <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
+            <?php if(is_array($this->errors)): ?>
+            <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+            <?php endif; ?>
         </div>
     </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="titel">Titel</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="titel" name="titel" placeholder="Dr." value="<?php if($this->entity): echo $this->entity['titel']; endif; ?>" />
-            <?php showError($this->errors['titel']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="vorname">Vorname</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="vorname" name="vorname" placeholder="Vorname" value="<?php if($this->entity): echo $this->entity['vorname']; endif; ?>" />
-            <?php showError($this->errors['vorname']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="nachname">Nachname</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="nachname" name="nachname" placeholder="Nachname" value="<?php if($this->entity): echo $this->entity['nachname']; endif; ?>" />
-            <?php showError($this->errors['nachname']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="mail">E-Mail</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="mail" name="mail" placeholder="name@domain.de" value="<?php if($this->entity): echo $this->entity['mail']; endif; ?>" />
-            <?php showError($this->errors['mail']); ?>
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="teilnehmer_intern">interner Teilnehmer</label>
-        <div class="controls">
-            <input type="checkbox" id="teilnehmer_intern" name="teilnehmer_intern" value="1" <?php if($this->entity['teilnehmer_intern'] == 1): ?> checked="checked"<?php endif; ?>" />
-            <?php showError($this->errors['teilnehmer_intern']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="sprache">Sprache</label>
-        <div class="controls">
-            <select id="sprache" name="sprache">
-                <option value="">bitte ausw&auml;hlen</option>
-                <option value="de"<?php if($this->entity['sprache'] == "de"): ?> selected="selected"<?php endif; ?>>deutsch</option>
-                <option value="en"<?php if($this->entity['sprache'] == "en"): ?> selected="selected"<?php endif; ?>>englisch</option>
-            </select>
-            <?php showError($this->errors['sprache']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="ust_id_nr">Umsatzsteuer ID Nr</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="ust_id_nr" name="ust_id_nr" placeholder="238746932564" value="<?php if($this->entity): echo $this->entity['ust_id_nr']; endif; ?>" />
-            <?php showError($this->errors['ust_id_nr']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="betrag">Betrag</label>
-        <div class="controls">
-            <input class="input-medium" type="text" id="betrag" name="betrag" placeholder="<?php echo $this->baseCost; ?>" value="<?php if($this->entity): echo $this->entity['betrag']; else: echo $this->baseCost; endif; ?>" />
-            <?php showError($this->errors['betrag']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="zahlweise">Zahlweise</label>
-        <div class="controls">
-            <select id="zahlweise" name="zahlweise">
-                <option value="">bitte ausw&auml;hlen</option>
-                <option value="K"<?php if($this->entity['zahlweise'] == "K"): ?> selected="selected"<?php endif; ?>>Kreditkarte</option>
-                <option value="U"<?php if($this->entity['zahlweise'] == "U"): ?> selected="selected"<?php endif; ?>>&Uuml;berweisung</option>
-            </select>
-            <?php showError($this->errors['zahlweise']); ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="auftragsnummer">Auftragsnummer</label>
-        <div class="controls">
-            <?php echo $this->auftragsnummer; ?>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label id="buchungskreis_label" class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;sel</label>
-        <div class="controls">
-            <?php echo $this->veranstaltungsSchluessel; ?>
-        </div>
-    </div>
-
-    
-    <button type="submit" class="btn">Submit</button>
-
 </form>
+<div class="clearfix"></div>
