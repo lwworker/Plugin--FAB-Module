@@ -91,10 +91,19 @@ class eventRepository extends fabRepository
         return $id;
     }
     
-    public function deleteParticipantById($id)
+    public function setParticipantRepository($repository)
     {
-        $participant = $this->getParticipantObjectById($id);
-        if (isDeletable::getInstance()->isSatisfiedBy($participant)) {
+        $this->participantRepository = $repository;
+    }
+    
+    public function deleteEventById($id)
+    {
+        $event = $this->getEventObjectById($id);
+        if (isDeletable::getInstance()->isSatisfiedBy($event)) {
+            $ok = $this->participantRepository->deleteAllParticipantsByEventIdAndOverrideIsDeletableSpecification($id);
+            if (!$ok) {
+                throw new Exception('Delete not allowed, because Participant was already submitted to SAP!');
+            }
             return $this->getCommandHandler()->deleteEntityById($id);
         }
         else {

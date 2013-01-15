@@ -14,7 +14,7 @@ class event extends Entity
         $this->dic = new DIC();
     }
 
-    public function isDeleteable()
+    public function isDeleteable_del()
     {
         if ($this->getValueByKey('anmeldefrist_beginn') < date("Ymd") && $this->getValueByKey('anmeldefrist_ende') > date("Ymd")) {
             return false;
@@ -22,7 +22,7 @@ class event extends Entity
         return true;
     }
     
-    public function delete()
+    public function delete_del()
     {
         if ($this->isDeleteable()) {
             return $this->dic->getEventCommandHandler()->deleteEvent($this);
@@ -32,7 +32,7 @@ class event extends Entity
         }
     }
 
-    public function save()
+    public function save_del()
     {
         if ($this->id > 0 ) {
             $result = $this->dic->getEventCommandHandler()->saveEntity($this->id, $this->valueObject);
@@ -44,7 +44,7 @@ class event extends Entity
         return $this->finishSaveResult($result);
     }
     
-    public function load()
+    public function load_del()
     {
         echo "<pre>";
         debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);

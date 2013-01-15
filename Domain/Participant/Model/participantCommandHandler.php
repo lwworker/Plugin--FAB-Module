@@ -76,6 +76,13 @@ class participantCommandHandler extends fabCommandHandler
         return $this->basePdbquery();
     }
     
+    public function deleteAllParticipantsByEventId($eventId)
+    {
+        $this->db->setStatement("DELETE FROM t:".$this->table." WHERE event_id = :id ");
+        $this->db->bindParameter("id", "i", $eventId);
+        return $this->db->pdbquery();
+    }
+    
     /**
      * The existance of fab_teilnehmer will be checked and created if the table is missing
      * @return boolean

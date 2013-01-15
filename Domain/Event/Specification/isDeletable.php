@@ -1,7 +1,7 @@
 <?php
 
-namespace Fab\Domain\Participant\Specification;
-use \Fab\Domain\Participant\Object\participant as participant;
+namespace Fab\Domain\Event\Specification;
+use \Fab\Domain\Event\Object\event as event;
 
 class isDeletable 
 {
@@ -14,8 +14,11 @@ class isDeletable
         return new isDeletable();
     }
     
-    public function isSatisfiedBy(participant $participant)
+    public function isSatisfiedBy(event $event)
     {
-        return true;
+        if ($event->getValueByKey('anmeldefrist_beginn') > date("Ymd") || $event->getValueByKey('anmeldefrist_ende') < date("Ymd")) {
+            return true;
+        }
+        return false;
     }
 }

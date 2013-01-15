@@ -85,6 +85,11 @@ class participantRepository extends fabRepository
         return $id;
     }
     
+    public function deleteAllParticipantsByEventIdAndOverrideIsDeletableSpecification($eventId)
+    {
+        return $this->getCommandHandler()->deleteAllParticipantsByEventId($eventId);
+    }
+    
     public function deleteParticipantById($id)
     {
         $participant = $this->getParticipantObjectById($id);
