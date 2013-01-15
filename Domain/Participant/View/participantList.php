@@ -23,7 +23,7 @@ class participantList extends fabView
         $this->view->backUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventListForResponsible"));
         $this->view->uploadUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showUploadCsvForm", "eventId" => $this->domainEvent->getParameterByKey('eventId')));
         $this->view->downloadUrl = lw_page::getInstance()->getUrl(array("cmd"=>"downloadCsv", "eventId" => $this->domainEvent->getParameterByKey('eventId')));
-        $this->view->replacementUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showReplacementForm", "id" => $this->domainEvent->getParameterByKey('eventId')));
+        $this->view->editReplacementUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showReplacementForm", "id" => $this->domainEvent->getParameterByKey('eventId')));
         $this->view->detailsUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventDetails", "id" => $this->domainEvent->getParameterByKey('eventId')));
         return $this->view->render();
     }

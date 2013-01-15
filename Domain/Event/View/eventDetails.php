@@ -26,6 +26,8 @@ class eventDetails extends fabView
         $this->view->editReplacementUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showReplacementForm", "id" =>  $this->domainEvent->getId()));
         $config = $this->dic->getConfiguration();
         $this->view->mailDomain = $config['fab']['defaultMailDomain'];
+        $this->view->backUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventListForResponsible"));
+        $this->view->participantlistUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showParticipantList", "eventId"=>$this->domainEvent->getId()));
         return $this->view->render();
     }
 }

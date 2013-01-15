@@ -30,7 +30,7 @@ class replacementForm extends fabView
             $this->domainEvent->getEntity()->renderView($this->view);
         }
         
-        $this->view->backurl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventDetails", "id"=>$this->domainEvent->getId()));
+        $this->view->backUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventDetails", "id"=>$this->domainEvent->getId()));
         $config = $this->dic->getConfiguration();
         $this->view->mailDomain = $config['fab']['defaultMailDomain'];
         return $this->view->render();
