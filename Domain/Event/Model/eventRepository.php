@@ -5,6 +5,7 @@ use \Fab\Library\fabRepository as fabRepository;
 use \Fab\Domain\Event\Object\event as event;
 use \LWddd\ValueObject as ValueObject;
 use \Fab\Domain\Event\Specification\isDeletable as isDeletable;
+use \Fab\Domain\Event\Specification\isValid as isValid;
 
 class eventRepository extends fabRepository
 {
@@ -64,31 +65,53 @@ class eventRepository extends fabRepository
         return $this->buildEventObjectByArray($data);
     }
     
-    public function saveEvent(event $event)
+    protected function prepareObjectToSave($id, $dataObject) 
     {
-        if ($event->getId() > 0 ) {
-            $result = $this->getCommandHandler()->saveEntity($event->getId(), $event->getValues());
-            $id = $event->getId();
+        $DataValueObjectFiltered = $this->dic->getEventFilter()->filter($dataObject);
+        if (!$id) {
+            $entity = eventFactory::getInstance()->buildNewEventFromValueObject($DataValueObjectFiltered);
         }
         else {
-            $result = $this->getCommandHandler()->addEntity($event->getValues());
-            $id = $result;
+            $entity = $this->dic->getEventRepository()->getEventObjectById($id);
+            $entity->setDataValueObject($DataValueObjectFiltered);
         }
-        if ($result) {
-            $event->setLoaded();
-            $event->unsetDirty();
-        }
-        else {
-            if ($id > 0 ) {
-                $event->setLoaded();
+        return $entity;
+    }
+    
+    public function saveEvent($id, $dataObject)
+    {
+        $entity = $this->prepareObjectToSave($id, $dataObject);
+        $isValidSpecification = isValid::getInstance();
+        if ($isValidSpecification->isSatisfiedBy($entity)) {
+            if ($entity->getId() > 0 ) {
+                $result = $this->getCommandHandler()->saveEntity($entity->getId(), $entity->getValues());
+                $id = $entity->getId();
             }
             else {
-                $event->unsetLoaded();
+                $result = $this->getCommandHandler()->addEntity($entity->getValues());
+                $id = $result;
             }
-            $event->setDirty();
-            throw new Exception('An DB Error occured saving the Entity');
+            if ($result) {
+                $entity->setLoaded();
+                $entity->unsetDirty();
+            }
+            else {
+                if ($id > 0 ) {
+                    $entity->setLoaded();
+                }
+                else {
+                    $entity->unsetLoaded();
+                }
+                $entity->setDirty();
+                throw new Exception('An DB Error occured saving the Entity');
+            }
+            return $id;
         }
-        return $id;
+        else {
+            $exception = new \Fab\Domain\Event\Specification\validationErrorsException('Error');
+            $exception->setErrors($isValidSpecification->getErrors());
+            throw $exception;
+        }
     }
     
     public function setParticipantRepository($repository)

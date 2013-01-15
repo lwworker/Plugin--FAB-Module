@@ -9,7 +9,7 @@ use \Fab\Domain\Event\View\eventList as eventListView;
 use \Fab\Domain\Event\View\eventForm as eventFormView;
 use \Fab\Domain\Event\Object\event as event;
 use \Fab\Domain\Event\Object\eventData as eventData;
-use \Fab\Domain\Event\Specification\isValid as isValid;
+use \Fab\Domain\Event\Specification\validationErrorsException as validationErrorsException;
 use \Fab\Domain\Event\Model\eventFactory as eventFactory;
 use \Fab\Library\fabDIC as DIC;
 use \lw_response as lwResponse;
@@ -52,9 +52,7 @@ class Controller extends \LWddd\Controller
         $entity = eventFactory::getInstance()->buildNewEventFromValueObject($this->domainEvent->getDataValueObject());
         $this->domainEvent->setEntity($entity);
         $formView = new eventFormView($this->domainEvent);
-        if ($errors) {
-            $formView->setErrors($errors);
-        }
+        $formView->setErrors($errors);
         $this->response->addOutputByName('FabOutput', $formView->render());        
     }
     
@@ -68,26 +66,30 @@ class Controller extends \LWddd\Controller
         }
         $this->domainEvent->setEntity($entity);
         $formView = new eventFormView($this->domainEvent);
-        if ($errors) {
-            $formView->setErrors($errors);
-        }
+        $formView->setErrors($errors);
         $this->response->addOutputByName('FabOutput', $formView->render());        
     }
     
     public function saveEventAction()
     {
-        $ok = $this->saveEvent($this->domainEvent->getId());
-        if ($ok) {
+        try {
+            $result = $this->dic->getEventRepository()->saveEvent($this->domainEvent->getId(), $this->domainEvent->getDataValueObject());
             $this->response->setReloadCmd('showList');
         }
+        catch (validationErrorsException $e) {
+            $this->showEditFormAction($e->getErrors());
+        }        
     }
     
     public function addEventAction()
     {
-        $ok = $this->saveEvent();
-        if ($ok) {
+        try {
+            $result = $this->dic->getEventRepository()->saveEvent(false, $this->domainEvent->getDataValueObject());
             $this->response->setReloadCmd('showList');
         }
+        catch (validationErrorsException $e) {
+            $this->showAddFormAction($e->getErrors());
+        }        
     }
     
     public function deleteEventAction()
@@ -101,37 +103,5 @@ class Controller extends \LWddd\Controller
             throw new \Exception($e->getMessage());
         }        
         $this->response->setReloadCmd('showList');
-    }
-    
-    protected function saveEvent($id=false)
-    {
-        $DataValueObjectFiltered = $this->dic->getEventFilter()->filter($this->domainEvent->getDataValueObject());
-        if (!$id) {
-            $entity = eventFactory::getInstance()->buildNewEventFromValueObject($DataValueObjectFiltered);
-        }
-        else {
-            $entity = $this->dic->getEventRepository()->getEventObjectById($id);
-            $entity->setDataValueObject($DataValueObjectFiltered);
-        }
-        $isValidSpecification = isValid::getInstance();
-        if ($isValidSpecification->isSatisfiedBy($entity)) {
-            try {
-                $result = $this->dic->getEventRepository()->saveEvent($entity);
-                if ($result > 0) {
-                    return true;
-                }
-            }
-            catch (Exception $e) {
-                throw new Exception($e->getMessage());
-            }
-        }
-        else {
-            if ($id > 0) {
-                $this->showEditFormAction($isValidSpecification->getErrors());
-            }
-            else {
-                $this->showAddFormAction($isValidSpecification->getErrors());
-            }
-        }
     }
 }

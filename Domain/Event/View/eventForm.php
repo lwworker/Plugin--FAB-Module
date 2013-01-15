@@ -17,7 +17,7 @@ class eventForm extends fabView
         $this->view = new lw_view(dirname(__FILE__).'/templates/formView.tpl.phtml');
     }
     
-    public function setErrors($errors)
+    public function setErrors($errors=false)
     {
         $this->view->errors = $errors;
     }
