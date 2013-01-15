@@ -1,0 +1,2 @@
+This is a copy of the Bootstrap Project (https://github.com/twitter/bootstrap)
+with some small changes in the CSS.
