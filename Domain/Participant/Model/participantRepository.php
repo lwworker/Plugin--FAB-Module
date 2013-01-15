@@ -58,42 +58,6 @@ class participantRepository extends fabRepository
         return new \LWddd\EntityAggregate($entities);
     }
     
-    public function getParticipantsAggregateByCsvFile($csvFile)
-    {
-        if (($handle = fopen($csvFile, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 2000, ";", '"')) !== FALSE) {
-                if ($data[0]>400000) {
-                    $array['id'] = intval($data[0]-400000);
-                    $array['unternehmenshortcut'] = $data[1];
-                    $array['unternehmen'] = $data[2];
-                    $array['institut'] = $data[3];
-                    $array['strasse'] = $data[4];
-                    $array['plz'] = $data[5];
-                    $array['ort'] = $data[6];
-                    $array['land'] = $data[7];
-                    $array['anrede'] = $data[8];
-                    $array['titel'] = $data[9];
-                    $array['vorname'] = $data[10];
-                    $array['nachname'] = $data[11];
-                    $array['mail'] = $data[12];
-                    $array['teilnehmer_intern'] = $data[13];
-                    $array['sprache'] = $data[14];
-                    $array['ust_id_nr'] = $data[15];
-                    $array['betrag'] = $data[16];
-                    $array['zahlweise'] = $data[17];
-                    $array['auftragsnr'] = $data[18];
-                    $array['v_schluessel'] = $data[19];
-                    $entities[] =  $this->buildParticipantObjectByArray($array, true);
-                }
-            }
-            fclose($handle);
-            return new \LWddd\EntityAggregate($entities);
-        }
-        else {
-            throw new \Exception("Could'nt open CSV File!");
-        }
-    }
-    
     public function saveParticipant($eventId, participant $participant)
     {
         if ($participant->getId() > 0 ) {
@@ -131,17 +95,59 @@ class participantRepository extends fabRepository
             throw new Exception('Delete not allowed, because Participant was already submitted to SAP!');
         }
     }
+
+    public function getParticipantsAggregateByCsvFile($csvFile)
+    {
+        if (($handle = fopen($csvFile, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 2000, ";", '"')) !== FALSE) {
+                if ($data[0]>400000) {
+                    $array['id'] = intval($data[0]-400000);
+                }
+                else {
+                    $array['id'] = false;
+                }
+                $array['unternehmenshortcut'] = $data[1];
+                $array['unternehmen'] = $data[2];
+                $array['institut'] = $data[3];
+                $array['strasse'] = $data[4];
+                $array['plz'] = $data[5];
+                $array['ort'] = $data[6];
+                $array['land'] = $data[7];
+                $array['anrede'] = $data[8];
+                $array['titel'] = $data[9];
+                $array['vorname'] = $data[10];
+                $array['nachname'] = $data[11];
+                $array['mail'] = $data[12];
+                $array['teilnehmer_intern'] = $data[13];
+                $array['sprache'] = $data[14];
+                $array['ust_id_nr'] = $data[15];
+                $array['betrag'] = $data[16];
+                $array['zahlweise'] = $data[17];
+                $array['auftragsnr'] = $data[18];
+                $array['v_schluessel'] = $data[19];
+                $entities[] =  $this->buildParticipantObjectByArray($array, true);
+            }
+            fclose($handle);
+            return new \LWddd\EntityAggregate($entities);
+        }
+        else {
+            throw new \Exception("Could'nt open CSV File!");
+        }
+    }    
     
     public function saveCsvData($eventId, $aggregate)
     {
         foreach($aggregate as $entity) {
-            if ($this->getQueryHandler()->checkParticipantByEventIdAndFirstnameAndLastnameAndEmail($eventId, $entity->getValueByKey('vorname'), $entity->getValueByKey('nachname'), $entity->getValueByKey('mail'))) {
-                echo $entity->getValueByKey('mail')." exists!<br/>";
+            $id = $this->getQueryHandler()->getParticipantIdByEventIdAndFirstnameAndLastnameAndEmail($eventId, $entity->getValueByKey('vorname'), $entity->getValueByKey('nachname'), $entity->getValueByKey('mail'));
+            if ($id>0) {
+                $ok = $this->getCommandHandler()->saveEntity($id, $entity->getValues());
             }
             else {
-                echo $entity->getValueByKey('mail')." doesn't exist!<br/>";
+                $ok = $this->getCommandHandler()->addEntity($eventId, $entity->getValues());
+            }
+            if (!$ok) {
+                throw new \Exception("Error saving CSV data for ".$entity->getValueByKey("mail"));
             }
         }
-        exit();
     }
 }
