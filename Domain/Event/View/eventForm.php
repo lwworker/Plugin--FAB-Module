@@ -6,6 +6,7 @@ use \lw_view as lw_view;
 use \lw_page as lw_page;
 use \Fab\Library\fabView as fabView;
 use \Fab\Library\fabDIC as DIC;
+use \Fab\Domain\Event\Specification\isDeletable as isDeletable;
 
 class eventForm extends fabView
 {
@@ -37,7 +38,8 @@ class eventForm extends fabView
         else {
             $this->view->actionUrl = lw_page::getInstance()->getUrl(array("cmd"=>"saveEvent", "id" => $this->domainEvent->getId()));
             $this->view->type = "edit";
-            if ($this->domainEvent->getEntity()->isDeleteable()) {
+            
+            if (isDeletable::getInstance()->isSatisfiedBy($this->domainEvent->getEntity())) {
                 $this->view->deleteAllowed = true;
                 $this->view->deleteUrl = lw_page::getInstance()->getUrl(array("cmd"=>"deleteEvent","id"=>$this->domainEvent->getId()));
             }

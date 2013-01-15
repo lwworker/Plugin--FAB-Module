@@ -27,7 +27,7 @@ $(function () {
         <!-- back button -->
        	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
         <!-- delete button -->    
-        <?php if ($this->type == "edit"): ?>
+        <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
             <a class="btn btn-icon" href="<?php echo $this->deleteUrl; ?>" onClick="return confirm('wirklich entfernen?');">
             <img src="[CONFIG:url_client]assets/img/garbage.png"></a>			        
         <?php endif; ?>

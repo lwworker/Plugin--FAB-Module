@@ -92,17 +92,15 @@ class Controller extends \LWddd\Controller
     
     public function deleteEventAction()
     {
-        if (!$this->domainEvent->hasEntity()) {
-            $this->domainEvent->setEntity(eventFactory::buildEventByEventId($this->domainEvent->getId()));
+        try {
+            $repository = $this->dic->getEventRepository();
+            $repository->setParticipantRepository($this->dic->getParticipantRepository());
+            $ok = $repository->deleteEventById($this->domainEvent->getId());
         }
-        $entity = $this->domainEvent->getEntity();
-        if ($entity->isDeleteable()) {
-            $entity->delete();
-            $this->response->setReloadCmd('showList');
-        }
-        else {
-            throw new Exception('delete not possible');
-        }
+        catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }        
+        $this->response->setReloadCmd('showList');
     }
     
     protected function saveEvent($id=false)

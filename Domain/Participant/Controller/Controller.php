@@ -75,6 +75,7 @@ class Controller extends dddController
         else {
             $this->dic->getParticipantRepository()->saveCsvData($this->domainEvent->getParameterByKey('eventId'), $aggregate);
         }
+        $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
     }
     
     public function showAddParticipantFormAction($errors = false)
