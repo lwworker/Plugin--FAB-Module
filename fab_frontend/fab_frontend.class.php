@@ -35,12 +35,7 @@ class fab_frontend extends lw_plugin
         }
         $controller->setSession(new \Fab\Library\fabSession());
         
-        try {
-            $response = $controller->execute($cmd, $this->request);
-        }
-        catch(Exception $e) {
-            die($e->getMessage());
-        }            
+        $response = $controller->execute($cmd, $this->request);
         
         if ($response->hasReloadCommand()) {
             $url = lw_page::getInstance()->getUrl($response->getReloadCommandWithParameters());

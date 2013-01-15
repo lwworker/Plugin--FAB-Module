@@ -1,16 +1,13 @@
 <?php
 
 namespace Fab\Domain\Participant\Controller;
-use \Fab\Domain\Participant\Object\participantAggregateFactory as participantAggregateFactory;
 use \Fab\Domain\Participant\Model\participantFactory as participantFactory;
-use \Fab\Domain\Participant\Object\participantData as participantData;
-use \Fab\Domain\Participant\Object\participant as participant;
 use \Fab\Domain\Participant\View\participantList as participantListView;
 use \Fab\Domain\Participant\View\participantForm as participantFormView;
 use \Fab\Domain\Participant\View\participantCsvUploadForm as participantCsvUploadFormView;
 use \Fab\Domain\Participant\View\participantCsvDownload as participantCsvDownloadView;
-use \Fab\Domain\Participant\Specification\isValid as isValid;
-use \Fab\Domain\Participant\Specification\isDeletable as isDeletable;
+use \Fab\Domain\Participant\Service\prepareCsvUpload as prepareCsvUpload;
+use \Fab\Domain\Participant\Specification\validationErrorsException as validationErrorsException;
 use \LWddd\Controller as dddController;
 use \Fab\Library\fabDIC as DIC;
 use \lw_response as lwResponse;
@@ -62,25 +59,13 @@ class Controller extends dddController
     
     public function saveCsvAction()
     {
-        $csvFile = \lw_registry::getInstance()->getEntry('request')->getFileData('csv');
-        $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByCsvFile($csvFile['tmp_name']);
-        $isValidSpecification = isValid::getInstance();
-        foreach($aggregate as $entity) {
-            $i++;
-            if (!$isValidSpecification->isSatisfiedBy($entity)) {
-                $invalid[$i] = array("entity"=>$entity, "errors"=> $isValidSpecification->getErrors());
-            }
-            elseif ($this->dic->getEventRepository()->getEventIdByEventKey($entity->getValueByKey('v_schluessel')) !== $this->domainEvent->getParameterByKey('eventId')) {
-                $invalid[$i] = array("entity"=>$entity, "errors"=> 'wrong Event!');
-            }
-        }
-        if (count($invalid)>0) {
-            $this->showUploadCsvFormAction($invalid);
+        $prepare = new prepareCsvUpload($this->domainEvent);
+        $prepare->prepare();
+        if ($prepare->isInvalid()) {
+            $this->showUploadCsvFormAction($prepare->getInvalid());
             return;
         }
-        else {
-            $this->dic->getParticipantRepository()->saveCsvData($this->domainEvent->getParameterByKey('eventId'), $aggregate);
-        }
+        $this->dic->getParticipantRepository()->saveCsvData($this->domainEvent->getParameterByKey('eventId'), $prepare->getAggregate());
         $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
     }
     
@@ -114,49 +99,23 @@ class Controller extends dddController
     
     public function addParticipantAction()
     {
-        $ok = $this->saveParticipant();
-        if ($ok) {
+        try {
+            $result = $this->dic->getParticipantRepository()->saveParticipant($this->domainEvent->getParameterByKey('eventId'), false, $this->domainEvent->getDataValueObject());
             $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
         }
+        catch (validationErrorsException $e) {
+            $this->showAddParticipantFormAction($e->getErrors());
+        }         
     }    
     
     public function saveParticipantAction()
     {
-        $ok = $this->saveParticipant($this->domainEvent->getId());
-        if ($ok) {
+        try {
+            $result = $this->dic->getParticipantRepository()->saveParticipant($this->domainEvent->getParameterByKey('eventId'), $this->domainEvent->getId(), $this->domainEvent->getDataValueObject());
             $this->response->setReloadCmd('showParticipantList', array('eventId'=>$this->domainEvent->getParameterByKey('eventId')));
         }
-    }
-    
-    protected function saveParticipant($id=false)
-    {
-        $DataValueObjectFiltered = $this->dic->getParticipantFilter()->filter($this->domainEvent->getDataValueObject());
-        if (!$id) {
-            $entity = participantFactory::getInstance()->buildNewParticipantFromValueObject($DataValueObjectFiltered);
-        }
-        else {
-            $entity = $this->dic->getParticipantRepository()->getParticipantObjectById($id);
-            $entity->setDataValueObject($DataValueObjectFiltered);
-        }
-        $isValidSpecification = isValid::getInstance();
-        if ($isValidSpecification->isSatisfiedBy($entity)) {
-            try {
-                $result = $this->dic->getParticipantRepository()->saveParticipant($this->domainEvent->getParameterByKey('eventId'), $entity);
-                if ($result > 0) {
-                    return true;
-                }
-            }
-            catch (Exception $e) {
-                throw new Exception($e->getMessage());
-            }
-        }
-        else {
-            if ($id > 0) {
-                $this->showEditParticipantFormAction($isValidSpecification->getErrors());
-            }
-            else {
-                $this->showAddParticipantFormAction($isValidSpecification->getErrors());
-            }
-        }
+        catch (validationErrorsException $e) {
+            $this->showAddParticipantFormAction($e->getErrors());
+        }         
     }
 }

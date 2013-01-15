@@ -5,12 +5,16 @@ use \Fab\Library\fabRepository as fabRepository;
 use \Fab\Domain\Participant\Object\participant as participant;
 use \LWddd\ValueObject as ValueObject;
 use \Fab\Domain\Participant\Specification\isDeletable as isDeletable;
+use \Fab\Domain\Participant\Model\participantFactory as participantFactory;
+use \Fab\Domain\Participant\Specification\isValid as isValid;
+use \Fab\Library\fabDIC as DIC;
 
 class participantRepository extends fabRepository
 {
     public function __construct()
     {
         parent::__construct();
+        $this->dic = new DIC();
     }
     
     protected function getCommandHandler()
@@ -58,31 +62,53 @@ class participantRepository extends fabRepository
         return new \LWddd\EntityAggregate($entities);
     }
     
-    public function saveParticipant($eventId, participant $participant)
+    protected function prepareObjectToSave($id, $dataObject) 
     {
-        if ($participant->getId() > 0 ) {
-            $result = $this->getCommandHandler()->saveEntity($participant->getId(), $participant->getValues());
-            $id = $participant->getId();
+        $DataValueObjectFiltered = $this->dic->getParticipantFilter()->filter($dataObject);
+        if (!$id) {
+            $entity = participantFactory::getInstance()->buildNewParticipantFromValueObject($DataValueObjectFiltered);
         }
         else {
-            $result = $this->getCommandHandler()->addEntity($eventId, $participant->getValues());
-            $id = $result;
+            $entity = $this->getParticipantObjectById($id);
+            $entity->setDataValueObject($DataValueObjectFiltered);
         }
-        if ($result) {
-            $participant->setLoaded();
-            $participant->unsetDirty();
-        }
-        else {
-            if ($id > 0 ) {
-                $participant->setLoaded();
+        return $entity;
+    }    
+    
+    public function saveParticipant($eventId, $id, $dataObject)
+    {
+        $entity = $this->prepareObjectToSave($id, $dataObject);
+        $isValidSpecification = isValid::getInstance();
+        if ($isValidSpecification->isSatisfiedBy($entity)) {
+            if ($entity->getId() > 0 ) {
+                $result = $this->getCommandHandler()->saveEntity($entity->getId(), $entity->getValues());
+                $id = $entity->getId();
             }
             else {
-                $participant->unsetLoaded();
+                $result = $this->getCommandHandler()->addEntity($eventId, $entity->getValues());
+                $id = $result;
             }
-            $participant->setDirty();
-            throw new Exception('An DB Error occured saving the Entity');
+            if ($result) {
+                $entity->setLoaded();
+                $entity->unsetDirty();
+            }
+            else {
+                if ($id > 0 ) {
+                    $entity->setLoaded();
+                }
+                else {
+                    $entity->unsetLoaded();
+                }
+                $entity->setDirty();
+                throw new Exception('An DB Error occured saving the Entity');
+            }
+            return $id;
         }
-        return $id;
+        else {
+            $exception = new \Fab\Domain\Participant\Specification\validationErrorsException('Error');
+            $exception->setErrors($isValidSpecification->getErrors());
+            throw $exception;
+        }        
     }
     
     public function deleteAllParticipantsByEventIdAndOverrideIsDeletableSpecification($eventId)
