@@ -39,6 +39,8 @@ class Controller extends dddController
     {
         $aggregate = $this->dic->getParticipantRepository()->getParticipantsAggregateByEventId($this->domainEvent->getParameterByKey('eventId'));
         $listView = new participantListView($this->domainEvent, $aggregate);        
+        $listView->setLwResponseObject($this->dic->getLwResponse());
+        $listView->setLwConfiguration($this->dic->getConfiguration());
         $this->response->addOutputByName('FabOutput', $listView->render());
     }
     

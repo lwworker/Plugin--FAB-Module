@@ -1,3 +1,15 @@
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+        
+    oTable = $('#teilnehmertabelle').dataTable({
+        "bJQueryUI": true, 
+        "sPaginationType": "full_numbers", 
+        "aoColumns": [ null, null, null, null, null,null, { "bSortable": false } ],
+        "bStateSave": true 
+    });
+});
+</script>
+
 <div class="span12">
 	<div id="form-header">
         <div class="half">	
@@ -28,7 +40,7 @@
     <br />
 </div>
 <div class="span12">
-    <table class="table">
+    <table class="table" id="teilnehmertabelle">
         <thead>
             <tr>
                 <th>&uuml;bertragen</th>

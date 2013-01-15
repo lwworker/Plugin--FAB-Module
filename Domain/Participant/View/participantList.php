@@ -16,8 +16,24 @@ class participantList extends fabView
         $this->domainEvent = $domainEvent;
     }
     
+    public function setLwResponseObject($response)
+    {
+        $this->lwResponse = $response;
+    }
+    
+    public function setLwConfiguration($config)
+    {
+        $this->lwConfig = $config;
+    }
+    
     public function render()
     {
+        $this->lwResponse->addHeaderItems('cssfile', $this->lwConfig["url"]["media"].'jquery/datatables/media/css/demo_page.css');
+        $this->lwResponse->addHeaderItems('cssfile', $this->lwConfig["url"]["media"].'jquery/datatables/media/css/header.css');
+        $this->lwResponse->addHeaderItems('cssfile', $this->lwConfig["url"]["media"].'jquery/datatables/media/css/demo_table_jui.css');
+        $this->lwResponse->addHeaderItems('jsfile', $this->lwConfig["url"]["media"].'jquery/datatables/media/js/jquery.dataTables.min.js');
+        $this->lwResponse->usejQueryUI();
+        
         $this->aggregate->renderView($this->view);
         $this->view->addUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showAddParticipantForm", "eventId"=>$this->domainEvent->getParameterByKey('eventId')));
         $this->view->backUrl = lw_page::getInstance()->getUrl(array("cmd"=>"showEventListForResponsible"));

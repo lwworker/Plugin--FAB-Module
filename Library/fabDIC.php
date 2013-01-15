@@ -119,4 +119,9 @@ class fabDIC
     {
         return \lw_registry::getInstance()->getEntry("config");
     }
+    
+    public function getLwResponse()
+    {
+        return \lw_registry::getInstance()->getEntry("response");
+    }
 }
