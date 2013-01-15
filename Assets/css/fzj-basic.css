@@ -298,8 +298,34 @@ a.icon_edit:hover {
 .controls p {
 	margin-top:6px;
 }
-.half {
-	width:50%; 
+.input-append .delete-file {
+	margin-left:3px;
+	-webkit-border-radius:4px !important;
+	 -moz-border-radius:4px !important;
+		  border-radius:4px !important;
 }
+.light-gray-block {
+	float:left;
+	width:100%;
+	min-height:1px;
+	padding-top:20px;
+	background:url("../img/light-gray.png") repeat-y;
+	background-position:20px 0px;
+	margin-bottom:20px;
+}
+.light-gray-block-table {
+	float:left;
+	width:100%;
+	min-height:1px;
+	padding:20px 0;
+	background:url("../img/light-gray.png") repeat-y;
+	background-position:20px 0px;
+	margin-bottom:20px;
+}
+.table-cell {
+	width:200px; 
+	padding:5px 0 5px 40px; 
+}
+.half {width:50%;}
 .right {float:right;}
 .left {float:left;}
