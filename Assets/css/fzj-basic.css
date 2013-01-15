@@ -138,19 +138,25 @@ h3.alert-heading {
 	margin:0;
 	padding:0;
 }
+input[type="radio"], input[type="checkbox"] {
+    margin:0;    
+	vertical-align:middle;
+	height: 20px;
+    line-height: 20px;
+}
 .icon_help {
   display: inline-block;
   width: 20px;
-  height: 30px;
+  height: 20px;
   margin: 0 0 0 3px;
   *margin-right: .3em;
   line-height: 20px;
   vertical-align: middle;
-  background:url("../img/help-20-gray.png") center left no-repeat;
+  background:url("../img/help.png") top left no-repeat;
   cursor:pointer;
 }
 a.icon_help:hover {
-  background:url("../img/help-20.png") center left no-repeat;
+	background-position:bottom left;
 }
 .icon_edit {
   display:block;
@@ -158,11 +164,11 @@ a.icon_help:hover {
   padding-left:25px;
   line-height: 20px;
   vertical-align: middle;
-  background:url("../img/edit-20-gray.png") top left no-repeat;
+  background:url("../img/edit.png") top left no-repeat;
   cursor:pointer;
 }
 a.icon_edit:hover {
-  background:url("../img/edit-20.png") top left no-repeat;
+  background-position:bottom left;
 }
 .alert {
     padding:8px;
@@ -274,6 +280,7 @@ a.icon_edit:hover {
 	color:#fff;
 	background-color:#C6D2C8;
 	float:left;
+	font-weight:bold;
 }
 .user img {
 	vertical-align:top;
@@ -289,8 +296,37 @@ a.icon_edit:hover {
 .logout:hover {
 	background-position:bottom left;
 }
-.half {
-	width:50%; 
+.controls p {
+	margin-top:6px;
 }
+.input-append .delete-file {
+	margin-left:3px;
+	-webkit-border-radius:4px !important;
+	 -moz-border-radius:4px !important;
+		  border-radius:4px !important;
+}
+.light-gray-block {
+	float:left;
+	width:100%;
+	min-height:1px;
+	padding-top:20px;
+	background:url("../img/light-gray.png") repeat-y;
+	background-position:20px 0px;
+	margin-bottom:20px;
+}
+.light-gray-block-table {
+	float:left;
+	width:100%;
+	min-height:1px;
+	padding:20px 0;
+	background:url("../img/light-gray.png") repeat-y;
+	background-position:20px 0px;
+	margin-bottom:20px;
+}
+.table-cell {
+	width:200px; 
+	padding:5px 0 5px 40px; 
+}
+.half {width:50%;}
 .right {float:right;}
 .left {float:left;}

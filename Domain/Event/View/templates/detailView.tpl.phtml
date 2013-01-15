@@ -8,7 +8,7 @@
         <!-- back button -->
         <a class="btn btn-icon" id="back" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a> 
         <a class="btn btn-icon btn-adjusted" href="<?php echo $this->editReplacementUrl; ?>"><img src="[CONFIG:url_client]assets/img/stellvertreter.png"></a> 
-        <a class="btn btn-icon btn-adjusted" href="<?php echo $this->participantlistUrl; ?>"><img src="[CONFIG:url_client]assets/img/teilnehmer-liste.png"></a> 
+        <a class="btn btn-icon btn-adjusted" href="<?php echo $this->participantlistUrl; ?>"><img src="[CONFIG:url_client]assets/img/teilnehmer-liste.png"></a>
         </div>   
         <div class="user-bar">
             <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
@@ -19,69 +19,157 @@
     <hr />
     <br />
 </div>
-
 <div class="span12">
-    <dl class="dl-horizontal">
-        <dt>Buchungskreis</dt>
-        <dd><?php echo $this->entity['buchungskreis']; ?></dd>
-
-        <dt>Veranstaltungsschl&uuml;ssel</dt>
-        <dd><?php echo $this->entity['v_schluessel']; ?></dd>
-
-        <dt>Auftrags-/Projektnummer</dt>
-        <dd><?php echo $this->entity['auftragsnr']; ?></dd>
-
-        <dt>Bezeichnung</dt>
-        <dd><?php echo $this->entity['bezeichnung']; ?></dd>
-
-        <dt>Veranstaltungsland</dt>
-        <dd><?php echo $this->entity['v_land']; ?></dd>
-
-        <dt>Veranstaltungsort</dt>
-        <dd><?php echo $this->entity['v_ort']; ?></dd>
-
-        <dt>Beginn der Anmeldefrist</dt>
-        <dd><?php echo $this->entity['anmeldefrist_beginn']; ?></dd>
-
-        <dt>Ende der Anmeldefrist</dt>
-        <dd><?php echo $this->entity['anmeldefrist_ende']; ?></dd>
-
-        <dt>Beginn der Veranstaltung</dt>
-        <dd><?php echo $this->entity['v_beginn']; ?></dd>
-
-        <dt>Ende der Veranstaltung</dt>
-        <dd><?php echo $this->entity['v_ende']; ?></dd>
-
-        <dt>CPD Debitorkonto</dt>
-        <dd><?php echo $this->entity['cpd_konto']; ?></dd>
-
-        <dt>Erl&ouml;skonto</dt>
-        <dd><?php echo $this->entity['erloeskonto']; ?></dd>
-
-        <dt>Steuerkennzeichen</dt>
-        <dd><?php echo $this->entity['steuerkennzeichen']; ?></dd>
-
-        <dt>Steuersatz</dt>
-        <dd><?php echo $this->entity['steuersatz']; ?></dd>
-
-        <dt>Ansprechpartner im Institut</dt>
-        <dd><?php echo $this->entity['ansprechpartner']; ?></dd>
-
-        <dt>Telefon des AP</dt>
-        <dd><?php echo $this->entity['ansprechpartner_tel']; ?></dd>
-
-        <dt>Organisationseinheit des veranstaltenden Instituts</dt>
-        <dd><?php echo $this->entity['organisationseinheit']; ?></dd>
-
-        <dt>Email des AP</dt>
-        <dd><?php echo $this->entity['ansprechpartner_mail']; ?><?php echo $this->mailDomain; ?></dd>
-
-        <dt>Standardbetrag</dt>
-        <dd><?php echo $this->entity['standardbetrag']; ?></dd>
-
-        <dt>E-Mail des Stellvertreters</dt>
-        <dd><?php echo $this->entity['stellvertreter_mail']; ?><?php echo $this->mailDomain; ?></dd>
-
-    </dl>
+    <h2>Tagungsdetails</h2>
+    <hr />
 </div>
+<div class="light-gray-block-table">
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Buchungskreis:</strong></td>
+                    <td><?php echo $this->entity['buchungskreis']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Auftrags-/Projektnummer:</strong></td>
+                    <td><?php echo $this->entity['auftragsnr']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Veranstaltungsland:</strong></td>
+                    <td><?php echo $this->entity['v_land']; ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Veranstaltungsschl&uuml;ssel:</strong></td>
+                    <td><?php echo $this->entity['v_schluessel']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Bezeichnung:</strong></td>
+                    <td><?php echo $this->entity['bezeichnung']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Veranstaltungsort:</strong></td>
+                    <td><?php echo $this->entity['v_ort']; ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+<div class="span12">
+    <h2>Tagungsdaten</h2>
+    <hr />
+</div>
+<div class="light-gray-block-table">
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Beginn der Anmeldefrist:</strong></td>
+                    <td><?php echo $this->entity['anmeldefrist_beginn']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Beginn der Veranstaltung:</strong></td>
+                    <td><?php echo $this->entity['v_beginn']; ?></td>
+                </tr>
+            </tbody>
+        </table>           
+    </div>
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Ende der Anmeldefrist:</strong></td>
+                    <td><?php echo $this->entity['anmeldefrist_ende']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Ende der Veranstaltung:</strong></td>
+                    <td><?php echo $this->entity['v_ende']; ?></td>
+                </tr>
+            </tbody>
+        </table>  
+    </div>
+</div>
+<div class="span12">
+    <h2>Finanzdaten</h2>
+    <hr />
+</div>
+<div class="light-gray-block-table">
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>CPD Debitorkonto:</strong></td>
+                    <td><?php echo $this->entity['cpd_konto']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Steuerkennzeichen:</strong></td>
+                    <td><?php echo $this->entity['steuerkennzeichen']; ?></td>
+                </tr>
+            </tbody>
+        </table>    
+    </div>
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Erl&ouml;skonto:</strong></td>
+                    <td><?php echo $this->entity['erloeskonto']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Steuersatz:</strong></td>
+                    <td><?php echo $this->entity['steuersatz']; ?></td>
+                </tr>
+            </tbody>
+        </table>   
+    </div>
+</div>
+<div class="span12">
+    <h2>Ansprechpartner</h2>
+    <hr />
+</div>
+<div class="light-gray-block-table">
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Ansprechpartner im Institut:</strong></td>
+                    <td><?php echo $this->entity['ansprechpartner']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Organisationseinheit des veranstaltenden Instituts:</strong></td>
+                    <td><?php echo $this->entity['organisationseinheit']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Standardbetrag:</strong></td>
+                    <td><?php echo $this->entity['standardbetrag']; ?></td>
+                </tr>
+            </tbody>
+        </table>       
+    </div>
+    <div class="half left">
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="table-cell"><strong>Telefon des AP:</strong></td>
+                    <td><?php echo $this->entity['ansprechpartner_tel']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>Email des AP:</strong></td>
+                    <td><?php echo $this->entity['ansprechpartner_mail']; ?></td>
+                </tr>
+                <tr>
+                    <td class="table-cell"><strong>E-Mail des Stellvertreters:</strong></td>
+                    <td><?php echo $this->entity['stellvertreter_mail']; ?></td>
+                </tr>
+            </tbody>
+        </table>      
+    </div>
+</div>        
 <div class="clearfix"></div>

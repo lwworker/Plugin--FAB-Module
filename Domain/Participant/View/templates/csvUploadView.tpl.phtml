@@ -1,47 +1,52 @@
-<?php
-
-    function showError($error)
-    {
-        if($error): ?>
-        <div>
-            <?php foreach($error as $errorcode => $array): ?>
-            <span class="label label-important">Fehler!</span> <?php echo $errorcode." (".$array['options']['errormsg'].")"; ?><br/>
-            <?php endforeach; ?>
+<div class="span12">
+	<div id="form-header">
+        <div class="half">	
+        	<h1>CSV Upload</h1>
+            <p>Einleitungstext... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  </p>	
+        </div>	
+        <div class="control-bar">
+        <!-- back button -->
+       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
+        <!-- submit button -->
+        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</a>
+        <?php if(is_array($this->errors)): ?>
+            <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+        <?php endif; ?>
         </div>
-        <?php endif;
-    }
-
-?>
-
-<h2>
-    CSV Upload
-</h2>
-<div class="well well-small">
-    <a href="<?php echo $this->backurl; ?>">zur&uuml;ck</a>
-</div>
-<div class="well well-small">
-    Einleitungstext...
-</div>
-<form action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
-    <?php if(is_array($this->errors)): ?>
-    <div class="alert alert-error">
-        <p>Es gibt Fehler!</p>
-        <ul>
-            <?php foreach($this->errors as $row => $invalid): ?>
-            <li>Zeile <?php echo $row; ?>: <?php print_r($invalid['errors']); ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-    <?php endif; ?>
-    
-    <div class="control-group">
-        <label id="csv_label" class="control-label" for="csv">CSV Datei</label>
-        <div class="controls">
-            <input class="input-medium" type="file" id="csv" name="csv" />
-            <?php showError($this->errors['unternehmenshortcut']); ?>
+        <div class="user-bar">
+            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
         </div>
     </div>
-    
-    <button type="submit" class="btn">Submit</button>
-
-</form>
+    <div class="clearfix"></div>
+    <hr /> 
+    <br />
+</div>
+<div class="span12">
+    <form id="form" action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <?php if(is_array($this->errors)): ?>
+        <div class="alert alert-error">
+            <p>Es gibt Fehler!</p>
+            <ul>
+                <?php foreach($this->errors as $row => $invalid): ?>
+                <li>Zeile <?php echo $row; ?>: <?php print_r($invalid['errors']); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+                
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="input-append">
+                <div class="uneditable-input span3">
+                	<i class="icon-file fileupload-exists"></i> 
+                    <span class="fileupload-preview"></span>
+                </div>
+                <span class="btn btn-file"><span class="fileupload-new">Datei suchen</span>
+                <span class="fileupload-exists">&Auml;ndern</span><input class="" type="file" id="csv" name="csv" /></span>
+                <a href="#" class="btn fileupload-exists delete-file" data-dismiss="fileupload">L&ouml;schen</a>
+            </div>
+        </div>
+        
+    </form>
+</div>
+<div class="clearfix"></div>
