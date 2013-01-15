@@ -1,13 +1,29 @@
-<h2>
-    Stellvertreter
-</h2>
-<div class="well well-small">
-    <a href="<?php echo $this->backurl; ?>">zur&uuml;ck</a>
+<div class="span12">
+	<div id="form-header">
+        <div class="half">	
+        	<h1>Stellvertreter</h1>
+            <p>Einleitungstext... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  </p>	
+        </div>	
+        <div class="control-bar">
+        <!-- back button -->
+       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
+        <!-- submit button -->
+        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</a>
+        <?php if(is_array($this->errors)): ?>
+            <div class="alert page-error"><b>Es gibt Fehler!</b></div>
+        <?php endif; ?>
+        </div>
+        <div class="user-bar">
+            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <hr /> 
+    <br />
 </div>
-<div class="well well-small">
-    Einleitungstext...
-</div>
-<form action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal">
+<div class="span12">
+<form id="form" action="<?php echo $this->actionUrl; ?>" method="post" class="form-horizontal">
     <?php if(is_array($this->errors)): ?>
     <div class="alert alert-error">Es gibt Fehler!</div>
     <?php endif; ?>
@@ -30,7 +46,6 @@
                 
         </div>
     </div>
-
-    <button type="submit" class="btn">Submit</button>
-
 </form>
+</div>
+<div class="clearfix"></div>

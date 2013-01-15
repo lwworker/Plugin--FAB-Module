@@ -25,10 +25,10 @@ $(function () {
         </div>	
         <div class="control-bar">
         <!-- back button -->
-        <a class="btn btn-icon" id="back" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>       
+       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
         <!-- delete button -->    
         <?php if ($this->type == "edit"): ?>
-            <a href="<?php echo $this->deleteUrl; ?>" class="btn btn-icon" onClick="return confirm('wirklich entfernen?');">
+            <a class="btn btn-icon" href="<?php echo $this->deleteUrl; ?>" onClick="return confirm('wirklich entfernen?');">
             <img src="[CONFIG:url_client]assets/img/garbage.png"></a>			        
         <?php endif; ?>
         <!-- submit button -->
@@ -36,6 +36,10 @@ $(function () {
         <?php if(is_array($this->errors)): ?>
             <div class="alert page-error"><b>Es gibt Fehler!</b></div>
         <?php endif; ?>
+        </div>
+        <div class="user-bar">
+            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
         </div>
     </div>
     <div class="clearfix"></div>
