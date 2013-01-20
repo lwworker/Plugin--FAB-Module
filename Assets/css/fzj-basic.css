@@ -327,6 +327,14 @@ a.icon_edit:hover {
 	width:200px; 
 	padding:5px 0 5px 40px; 
 }
+.dataTable {
+  	margin-bottom: 0;
+}
+#teilnehmertabelle_wrapper input, #teilnehmertabelle_wrapper select, #teilnehmertabelle_wrapper label {
+	margin-bottom: 0;
+	font-size:12px;
+	height:auto;
+}
 .half {width:50%;}
 .right {float:right;}
 .left {float:left;}

@@ -1,13 +1,11 @@
 <script type="text/javascript" language="javascript">
-$(document).ready(function() {
-        
+$(document).ready(function() {   
     oTable = $('#teilnehmertabelle').dataTable({
-        "bJQueryUI": true, 
-        "sPaginationType": "full_numbers", 
+        "bJQueryUI": true,
+        "sPaginationType": "full_numbers",
         "aoColumns": [ null, null, null, null, null,null, { "bSortable": false } ],
-        "bStateSave": true 
+        "bStateSave": true
     });
-    
     <?php if ($this->response == '1'): ?>
         var data = $('<div class="success message">Es wurde erfolgreich gespeichert</div>');
     <?php  elseif ($this->response == '2'): ?>
