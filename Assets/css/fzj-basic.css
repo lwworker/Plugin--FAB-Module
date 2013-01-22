@@ -246,6 +246,9 @@ a.icon_edit:hover {
 	text-align:center;
 	vertical-align:middle;
 }
+label, input {
+    font-size: 12px;
+}
 .input-100 { 
 	width:117px;
 }

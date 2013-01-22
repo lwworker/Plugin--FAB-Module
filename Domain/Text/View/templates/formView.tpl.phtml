@@ -32,7 +32,7 @@
     <div class="control-group">
         <label id="buchungskreis_label" class="control-label" for="buchungskreis">Buchungskreis</label>
         <div class="controls">
-            <input class="input-mini" type="text" id="buchungskreis" name="buchungskreis" placeholder="0100" value="<?php if($this->entity): echo $this->entity['buchungskreis']; endif; ?>" />
+            <input class="input-mini" type="text" id="buchungskreis" name="buchungskreis" value="<?php if($this->entity): echo $this->entity['buchungskreis']; endif; ?>" />
             <?php showError($this->errors['buchungskreis']); ?>
         </div>
     </div>
@@ -40,7 +40,7 @@
     <div class="control-group">
         <label class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;ssel</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="v_schluessel" name="v_schluessel" placeholder="Veranstaltungsschl&uuml;ssel" value="<?php if($this->entity): echo $this->entity['v_schluessel']; endif; ?>" />
+            <input class="input-medium" type="text" id="v_schluessel" name="v_schluessel" value="<?php if($this->entity): echo $this->entity['v_schluessel']; endif; ?>" />
             <?php showError($this->errors['v_schluessel']); ?>
         </div>
     </div>
@@ -48,7 +48,7 @@
     <div class="control-group">
         <label class="control-label" for="auftragsnr">Auftrags-/Projektnummer</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="auftragsnr" name="auftragsnr" placeholder="Auftrags-/Projektnummer" value="<?php if($this->entity): echo $this->entity['auftragsnr']; endif; ?>" />
+            <input class="input-medium" type="text" id="auftragsnr" name="auftragsnr" value="<?php if($this->entity): echo $this->entity['auftragsnr']; endif; ?>" />
             <?php showError($this->errors['auftragsnr']); ?>
         </div>
     </div>
@@ -56,7 +56,7 @@
     <div class="control-group">
         <label class="control-label" for="bezeichnung">Bezeichnung</label>
         <div class="controls">
-            <input class="input-xxlarge" type="text" id="bezeichnung" name="bezeichnung" placeholder="Bezeichnung" value="<?php if($this->entity): echo $this->entity['bezeichnung']; endif; ?>" />
+            <input class="input-xxlarge" type="text" id="bezeichnung" name="bezeichnung" value="<?php if($this->entity): echo $this->entity['bezeichnung']; endif; ?>" />
             <?php showError($this->errors['bezeichnung']); ?>
         </div>
     </div>
@@ -64,7 +64,7 @@
     <div class="control-group">
         <label class="control-label" for="v_land">Veranstaltungsland</label>
         <div class="controls">
-            <input class="input-mini" type="text" id="v_land" name="v_land" placeholder="Veranstaltungsland" value="<?php if($this->entity): echo $this->entity['v_land']; endif; ?>" />
+            <input class="input-mini" type="text" id="v_land" name="v_land" value="<?php if($this->entity): echo $this->entity['v_land']; endif; ?>" />
             <?php showError($this->errors['v_land']); ?>
         </div>
     </div>
@@ -72,7 +72,7 @@
     <div class="control-group">
         <label class="control-label" for="v_ort">Veranstaltungsort</label>
         <div class="controls">
-            <input class="input-xlarge" type="text" id="v_ort" name="v_ort" placeholder="Veranstaltungsort" value="<?php if($this->entity): echo $this->entity['v_ort']; endif; ?>" />
+            <input class="input-xlarge" type="text" id="v_ort" name="v_ort" value="<?php if($this->entity): echo $this->entity['v_ort']; endif; ?>" />
             <?php showError($this->errors['v_ort']); ?>
         </div>
     </div>
@@ -80,7 +80,7 @@
     <div class="control-group">
         <label class="control-label" for="anmeldefrist_beginn">Beginn der Anmeldefrist</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="anmeldefrist_beginn" name="anmeldefrist_beginn" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['anmeldefrist_beginn']; endif; ?>" />
+            <input class="input-medium" type="text" id="anmeldefrist_beginn" name="anmeldefrist_beginn" value="<?php if($this->entity): echo $this->entity['anmeldefrist_beginn']; endif; ?>" />
             <?php showError($this->errors['anmeldefrist_beginn']); ?>
         </div>
     </div>
@@ -88,7 +88,7 @@
     <div class="control-group">
         <label class="control-label" for="anmeldefrist_ende">Ende der Anmeldefrist</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="anmeldefrist_ende" name="anmeldefrist_ende" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['anmeldefrist_ende']; endif; ?>" />
+            <input class="input-medium" type="text" id="anmeldefrist_ende" name="anmeldefrist_ende" value="<?php if($this->entity): echo $this->entity['anmeldefrist_ende']; endif; ?>" />
             <?php showError($this->errors['anmeldefrist_ende']); ?>
         </div>
     </div>
@@ -96,7 +96,7 @@
     <div class="control-group">
         <label class="control-label" for="v_beginn">Beginn der Veranstaltung</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="v_beginn" name="v_beginn" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['v_beginn']; endif; ?>" />
+            <input class="input-medium" type="text" id="v_beginn" name="v_beginn" value="<?php if($this->entity): echo $this->entity['v_beginn']; endif; ?>" />
             <?php showError($this->errors['v_beginn']); ?>
         </div>
     </div>
@@ -104,7 +104,7 @@
     <div class="control-group">
         <label class="control-label" for="v_ende">Ende der Veranstaltung</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="v_ende" name="v_ende" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['v_ende']; endif; ?>" />
+            <input class="input-medium" type="text" id="v_ende" name="v_ende" value="<?php if($this->entity): echo $this->entity['v_ende']; endif; ?>" />
             <?php showError($this->errors['v_ende']); ?>
         </div>
     </div>
@@ -112,7 +112,7 @@
     <div class="control-group">
         <label class="control-label" for="cpd_konto">CPD Debitorkonto</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="cpd_konto" name="cpd_konto" placeholder="CPD Debitorkonto" value="<?php if($this->entity): echo $this->entity['cpd_konto']; endif; ?>" />
+            <input class="input-medium" type="text" id="cpd_konto" name="cpd_konto" value="<?php if($this->entity): echo $this->entity['cpd_konto']; endif; ?>" />
             <?php showError($this->errors['cpd_konto']); ?>
         </div>
     </div>
@@ -120,7 +120,7 @@
     <div class="control-group">
         <label class="control-label" for="erloeskonto">Erl&ouml;skonto</label>
         <div class="controls">
-            <input class="input-medium" type="text" id="erloeskonto" name="erloeskonto" placeholder="Erl&ouml;skonto" value="<?php if($this->entity): echo $this->entity['erloeskonto']; endif; ?>" />
+            <input class="input-medium" type="text" id="erloeskonto" name="erloeskonto" value="<?php if($this->entity): echo $this->entity['erloeskonto']; endif; ?>" />
             <?php showError($this->errors['erloeskonto']); ?>
         </div>
     </div>
@@ -128,7 +128,7 @@
     <div class="control-group">
         <label class="control-label" for="steuerkennzeichen">Steuerkennzeichen</label>
         <div class="controls">
-            <input class="input-mini" type="text" id="steuerkennzeichen" name="steuerkennzeichen" placeholder="Steuerkennzeichen" value="<?php if($this->entity): echo $this->entity['steuerkennzeichen']; endif; ?>" />
+            <input class="input-mini" type="text" id="steuerkennzeichen" name="steuerkennzeichen" value="<?php if($this->entity): echo $this->entity['steuerkennzeichen']; endif; ?>" />
             <?php showError($this->errors['steuerkennzeichen']); ?>
         </div>
     </div>
@@ -136,7 +136,7 @@
     <div class="control-group">
         <label class="control-label" for="steuersatz">Steuersatz</label>
         <div class="controls">
-            <input class="input-mini" type="text" id="steuersatz" name="steuersatz" placeholder="Steuersatz" value="<?php if($this->entity): echo $this->entity['steuersatz']; endif; ?>" />
+            <input class="input-mini" type="text" id="steuersatz" name="steuersatz" value="<?php if($this->entity): echo $this->entity['steuersatz']; endif; ?>" />
             <?php showError($this->errors['steuersatz']); ?>
         </div>
     </div>
@@ -144,7 +144,7 @@
     <div class="control-group">
         <label class="control-label" for="ansprechpartner">Ansprechpartner im Institut</label>
         <div class="controls">
-            <input class="input-xlarge" type="text" id="ansprechpartner" name="ansprechpartner" placeholder="Vorname Nachname" value="<?php if($this->entity): echo $this->entity['ansprechpartner']; endif; ?>" />
+            <input class="input-xlarge" type="text" id="ansprechpartner" name="ansprechpartner" value="<?php if($this->entity): echo $this->entity['ansprechpartner']; endif; ?>" />
             <?php showError($this->errors['ansprechpartner']); ?>
         </div>
     </div>
@@ -154,7 +154,7 @@
         <div class="controls">
             <div class="input-prepend">
                 <span class="add-on">02461 61 - </span>
-                <input class="input-xlarge" type="text" id="ansprechpartner_tel" name="ansprechpartner_tel" placeholder="nnnn" value="<?php if($this->entity): echo $this->entity['ansprechpartner_tel']; endif; ?>" />
+                <input class="input-xlarge" type="text" id="ansprechpartner_tel" name="ansprechpartner_tel" value="<?php if($this->entity): echo $this->entity['ansprechpartner_tel']; endif; ?>" />
             </div>
             <?php showError($this->errors['ansprechpartner_tel']); ?>
         </div>
@@ -163,7 +163,7 @@
     <div class="control-group">
         <label class="control-label" for="organisationseinheit">Organisationseinheit des veranstaltenden Instituts</label>
         <div class="controls">
-            <input class="input-large" type="text" id="organisationseinheit" name="organisationseinheit" placeholder="Institut XY" value="<?php if($this->entity): echo $this->entity['organisationseinheit']; endif; ?>" />
+            <input class="input-large" type="text" id="organisationseinheit" name="organisationseinheit" value="<?php if($this->entity): echo $this->entity['organisationseinheit']; endif; ?>" />
             <?php showError($this->errors['organisationseinheit']); ?>
         </div>
     </div>
@@ -172,7 +172,7 @@
         <label class="control-label" for="ansprechpartner_mail">Email des AP</label>
         <div class="controls">
             <div class="input-append">
-                <input class="input-large" type="text" id="ansprechpartner_mail" name="ansprechpartner_mail" placeholder="a.name" value="<?php if($this->entity): echo $this->entity['ansprechpartner_mail']; endif; ?>" />
+                <input class="input-large" type="text" id="ansprechpartner_mail" name="ansprechpartner_mail" value="<?php if($this->entity): echo $this->entity['ansprechpartner_mail']; endif; ?>" />
                 <span class="add-on">@fz-juelich.de</span>
             </div>
             <?php showError($this->errors['ansprechpartner_mail']); ?>
@@ -183,7 +183,7 @@
         <label class="control-label" for="standardbetrag">Standardbetrag</label>
         <div class="controls">
             <div class="input-append">
-                <input class="input-medium" type="text" id="standardbetrag" name="standardbetrag" placeholder="nn.nn" value="<?php if($this->entity): echo $this->entity['standardbetrag']; endif; ?>" />
+                <input class="input-medium" type="text" id="standardbetrag" name="standardbetrag" value="<?php if($this->entity): echo $this->entity['standardbetrag']; endif; ?>" />
                 <span class="add-on">&euro;</span>
             </div>
             <?php showError($this->errors['standardbetrag']); ?>

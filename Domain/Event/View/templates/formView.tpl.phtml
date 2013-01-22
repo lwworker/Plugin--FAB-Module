@@ -14,7 +14,7 @@
 ?>
 <script type="text/javascript">
 	$(function () { 
-		$(".icon_help").popover({placement:'right', trigger:'hover'}); 
+		$(".icon_help").popover({animation:false, placement:'right', trigger:'hover'}); 
 	}); 
 </script>
 <div class="span12">
@@ -25,20 +25,20 @@
         </div>	
         <div class="control-bar">
         <!-- back button -->
-       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
+       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/back.png"></a>         
         <!-- delete button -->    
         <?php if ($this->type == "edit" && $this->deleteAllowed == true): ?>
             <a class="btn btn-icon" href="<?php echo $this->deleteUrl; ?>" onClick="return confirm('wirklich entfernen?');">
-            <img src="[CONFIG:url_client]assets/img/garbage.png"></a>			        
+            <img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/garbage.png"></a>			        
         <?php endif; ?>
         <!-- submit button -->
-        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</a>
+        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/submit.png">Submit</a>
         <?php if(is_array($this->errors)): ?>
             <div class="alert page-error"><b>Es gibt Fehler!</b></div>
         <?php endif; ?>
         </div>
         <div class="user-bar">
-            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <span class="user"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
             <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <div class="control-group span6">
                 <label id="buchungskreis_label" class="control-label" for="buchungskreis">Buchungskreis</label>
                 <div class="controls">
-                    <input type="text" id="buchungskreis" name="buchungskreis" placeholder="0100" maxlength="4" value="<?php if($this->entity): echo $this->entity['buchungskreis']; endif; ?>" />
+                    <input type="text" id="buchungskreis" name="buchungskreis" maxlength="4" value="<?php if($this->entity): echo $this->entity['buchungskreis']; endif; ?>" />
                      <a class="icon_help" rel="popover" title="Buchungskreis" data-content="Der Buchungskreis ist in der SAP-Welt eine selbstständig bilanzierende Einheit. Im FZJ ist das zur Zeit der Buchungskreis „0100“." ></a>      
                      <?php showError($this->errors['buchungskreis']); ?>
                 </div>
@@ -65,7 +65,7 @@
             <div class="control-group span6">
                 <label class="control-label" for="auftragsnr">Auftrags-/Projektnummer</label>
                 <div class="controls">
-                    <input  type="text" id="auftragsnr" name="auftragsnr" placeholder="Auftrags-/Projektnummer" value="<?php if($this->entity): echo $this->entity['auftragsnr']; endif; ?>" />
+                    <input  type="text" id="auftragsnr" name="auftragsnr" value="<?php if($this->entity): echo $this->entity['auftragsnr']; endif; ?>" />
                     <a class="icon_help" rel="popover" title="Auftrags-/Projektnummer" data-content="Das ist die Nummer des CO- Innenauftrags oder des Projektes auf den oder das die Ausgangsrechnungen im SAP-System kontiert werden. 12 Zeichen stehen für die Erfassung zur Verfügung. CO-Auftragsnummern müssen mit führenden Nullen erfasst werden." ></a> 
                     <?php showError($this->errors['auftragsnr']); ?>
                 </div>
@@ -90,7 +90,7 @@
             <div class="control-group span6">
                 <label class="control-label" for="v_schluessel">Veranstaltungsschl&uuml;ssel</label>
                 <div class="controls">
-                    <input  type="text" id="v_schluessel" name="v_schluessel" placeholder="Veranstaltungsschl&uuml;ssel" value="<?php if($this->entity): echo $this->entity['v_schluessel']; endif; ?>" />
+                    <input  type="text" id="v_schluessel" name="v_schluessel" value="<?php if($this->entity): echo $this->entity['v_schluessel']; endif; ?>" />
                     <a class="icon_help" rel="popover" title="Veranstaltungsschl&uuml;ssel" data-content="Im Rahmen der Vereinbarung der betriebswirtschaftlichen Daten zur Tagung zwischen dem Institut und der Finanzbuchhaltung, wird auch ein zwar beliebiger aber einmaliger 8-stelliger Tagungs- oder Veranstaltungsschlüssel festgelegt. Alle im Rahmen dieser Tagung übermittelten Übergabesätze müssen mit diesem Veranstaltungsschlüssel versehen werden, damit die Verbuchung im SAP-System erfolgen kann. Durch diesen Schlüssel soll das SAP-System vor unerwünschten Zugriffen über die externe WEB- Oberfläche geschützt werden." ></a>  
                     <?php showError($this->errors['v_schluessel']); ?>
                 </div>
@@ -99,7 +99,7 @@
             <div class="control-group span6">
                 <label class="control-label" for="bezeichnung">Bezeichnung</label>
                 <div class="controls">
-                    <input  type="text" id="bezeichnung" name="bezeichnung" placeholder="Bezeichnung" value="<?php if($this->entity): echo $this->entity['bezeichnung']; endif; ?>" />
+                    <input  type="text" id="bezeichnung" name="bezeichnung" value="<?php if($this->entity): echo $this->entity['bezeichnung']; endif; ?>" />
                     <a class="icon_help" rel="popover" title="Bezeichnung" data-content="Hier wird die Bezeichnung bzw. der Titel der Veranstaltung erfasst. Die Bezeichnung wird im Betreff der EMAIL und im Rechnungsformular, das an den Teilnehmer versendet wird, ausgegeben." ></a> 
                     <?php showError($this->errors['bezeichnung']); ?>
                 </div>
@@ -108,7 +108,7 @@
             <div class="control-group span6">
                 <label class="control-label" for="v_ort">Veranstaltungsort</label>
                 <div class="controls">
-                    <input  type="text" id="v_ort" name="v_ort" placeholder="Veranstaltungsort" value="<?php if($this->entity): echo $this->entity['v_ort']; endif; ?>" />
+                    <input  type="text" id="v_ort" name="v_ort" value="<?php if($this->entity): echo $this->entity['v_ort']; endif; ?>" />
                     <a class="icon_help" rel="popover" title="Veranstaltungsort" data-content="Für die Erfassung stehen maximal 35 Zeichen zur Verfügung." ></a> 
                     <?php showError($this->errors['v_ort']); ?>
                 </div>
@@ -125,7 +125,7 @@
         <div class="control-group span6">
             <label class="control-label" for="anmeldefrist_beginn">Beginn der Anmeldefrist</label>
             <div class="controls">
-                <input  type="text" id="anmeldefrist_beginn" name="anmeldefrist_beginn" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['anmeldefrist_beginn']; endif; ?>" />
+                <input  type="text" id="anmeldefrist_beginn" name="anmeldefrist_beginn" value="<?php if($this->entity): echo $this->entity['anmeldefrist_beginn']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Beginn der Anmeldefrist" data-content="Nur innerhalb der Anmeldefrist eingehende Teilnehmerdaten werden vom Schnittstellenprogramm akzeptiert und weiter verarbeitet. Das Datum muss in der Form „tt.mm.jjjj“ eingegeben werden. Der Beginn der Anmeldefrist darf nicht später als das Ende der Anmeldefrist liegen." ></a> 
                 <?php showError($this->errors['anmeldefrist_beginn']); ?>
             </div>
@@ -134,7 +134,7 @@
         <div class="control-group span6">
             <label class="control-label" for="v_beginn">Beginn der Veranstaltung</label>
             <div class="controls">
-                <input  type="text" id="v_beginn" name="v_beginn" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['v_beginn']; endif; ?>" />
+                <input  type="text" id="v_beginn" name="v_beginn" value="<?php if($this->entity): echo $this->entity['v_beginn']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Beginn der Veranstaltung" data-content="Der Wert muss in der Form „tt.mm.jjjj“ eingegeben werden. 
     Der Zeitraum der Tagungs-Durchführung wird auf dem Rechnungsformular ausgedruckt." ></a> 
                 <?php showError($this->errors['v_beginn']); ?>
@@ -147,7 +147,7 @@
         <div class="control-group span6">
             <label class="control-label" for="anmeldefrist_ende">Ende der Anmeldefrist</label>
             <div class="controls">
-                <input  type="text" id="anmeldefrist_ende" name="anmeldefrist_ende" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['anmeldefrist_ende']; endif; ?>" />
+                <input  type="text" id="anmeldefrist_ende" name="anmeldefrist_ende" value="<?php if($this->entity): echo $this->entity['anmeldefrist_ende']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Ende der Anmeldefrist" data-content="Nur innerhalb der Anmeldefrist eingehende Teilnehmerdaten werden vom Schnittstellenprogramm akzeptiert und weiter verarbeitet." ></a> 
                 <?php showError($this->errors['anmeldefrist_ende']); ?>
             </div>
@@ -156,7 +156,7 @@
         <div class="control-group span6">
             <label class="control-label" for="v_ende">Ende der Veranstaltung</label>
             <div class="controls">
-                <input  type="text" id="v_ende" name="v_ende" placeholder="dd.mm.jjjj" value="<?php if($this->entity): echo $this->entity['v_ende']; endif; ?>" />
+                <input  type="text" id="v_ende" name="v_ende" value="<?php if($this->entity): echo $this->entity['v_ende']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Ende der Veranstaltung" data-content="Der Wert muss in der Form „tt.mm.jjjj“ eingegeben werden. 
     Der Zeitraum der Tagungs-Durchführung wird auf dem Rechnungsformular ausgedruckt." ></a> 
                 <?php showError($this->errors['v_ende']); ?>
@@ -174,7 +174,7 @@
         <div class="control-group span6">
             <label class="control-label" for="cpd_konto">CPD Debitorkonto</label>
             <div class="controls">
-                <input  type="text" id="cpd_konto" name="cpd_konto" placeholder="CPD Debitorkonto" value="<?php if($this->entity): echo $this->entity['cpd_konto']; endif; ?>" />
+                <input  type="text" id="cpd_konto" name="cpd_konto" value="<?php if($this->entity): echo $this->entity['cpd_konto']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="CPD Debitorkonto" data-content="Pro Veranstaltung wird jeweils ein eigenes CPD-Debitor-Konto im SAP-System angelegt, auf dem die Rechnungsausgänge verbucht werden. Die Kontonummer wird als „Kundennummer“ auf dem Rechnungsformular ausgedruckt." ></a> 
                 <?php showError($this->errors['cpd_konto']); ?>
             </div>
@@ -183,7 +183,7 @@
         <div class="control-group span6">
             <label class="control-label" for="steuerkennzeichen">Steuerkennzeichen</label>
             <div class="controls">
-                <input  type="text" id="steuerkennzeichen" name="steuerkennzeichen" placeholder="Steuerkennzeichen" value="<?php if($this->entity): echo $this->entity['steuerkennzeichen']; endif; ?>" />
+                <input  type="text" id="steuerkennzeichen" name="steuerkennzeichen" value="<?php if($this->entity): echo $this->entity['steuerkennzeichen']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Steuerkennzeichen" data-content="Auf Basis dieses Steuerkennzeichens wird im SAP-System der Steuerbetrag im Rahmen der Verbuchung berechnet." ></a> 
                 <?php showError($this->errors['steuerkennzeichen']); ?>
             </div>
@@ -194,7 +194,7 @@
         <div class="control-group span6">
             <label class="control-label" for="erloeskonto">Erl&ouml;skonto</label>
             <div class="controls">
-                <input  type="text" id="erloeskonto" name="erloeskonto" placeholder="Erl&ouml;skonto" value="<?php if($this->entity): echo $this->entity['erloeskonto']; endif; ?>" />
+                <input  type="text" id="erloeskonto" name="erloeskonto" value="<?php if($this->entity): echo $this->entity['erloeskonto']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Erl&ouml;skonto" data-content="Die Gegenbuchung zur Forderung wird auf diesem Erlöskonto im SAP-System durchgeführt." ></a> 
                 <?php showError($this->errors['erloeskonto']); ?>
             </div>
@@ -203,7 +203,7 @@
         <div class="control-group span6">
             <label class="control-label" for="steuersatz">Steuersatz</label>
             <div class="controls">
-                <input  type="text" id="steuersatz" name="steuersatz" placeholder="Steuersatz" value="<?php if($this->entity): echo $this->entity['steuersatz']; endif; ?>" />
+                <input  type="text" id="steuersatz" name="steuersatz" value="<?php if($this->entity): echo $this->entity['steuersatz']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Steuersatz" data-content="Mit dem Steuerkennzeichen verbunden ist ein bestimmter Prozentsatz, der hier hinterlegt wird.
     Der Steuersatz wird im Rechnungsformular ausgewiesen." ></a> 
                 <?php showError($this->errors['steuersatz']); ?>
@@ -221,7 +221,7 @@
         <div class="control-group span6">
             <label class="control-label" for="ansprechpartner">Ansprechpartner im Institut</label>
             <div class="controls">
-                <input  type="text" id="ansprechpartner" name="ansprechpartner" placeholder="Vorname Nachname" value="<?php if($this->entity): echo $this->entity['ansprechpartner']; endif; ?>" />
+                <input  type="text" id="ansprechpartner" name="ansprechpartner" value="<?php if($this->entity): echo $this->entity['ansprechpartner']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Ansprechpartner im Institut" data-content="Der Name des Ansprechpartners im Institut, des Tagungsverantwortlichen, wird hier erfasst. Der Name wird auf dem Rechnungsformular ausgegeben." ></a> 
                 <?php showError($this->errors['ansprechpartner']); ?>
             </div>
@@ -230,7 +230,7 @@
         <div class="control-group span6">
             <label class="control-label" for="organisationseinheit">Organisationseinheit des veranstaltenden Instituts</label>
             <div class="controls">
-                <input  type="text" id="organisationseinheit" name="organisationseinheit" placeholder="Institut XY" value="<?php if($this->entity): echo $this->entity['organisationseinheit']; endif; ?>" />
+                <input  type="text" id="organisationseinheit" name="organisationseinheit" value="<?php if($this->entity): echo $this->entity['organisationseinheit']; endif; ?>" />
                 <a class="icon_help" rel="popover" title="Organisationseinheit des veranstaltenden Instituts" data-content="Die Institutsbezeichnung des veranstaltenden Instituts wird hier erfasst." ></a> 
                 <?php showError($this->errors['organisationseinheit']); ?>
             </div>
@@ -240,7 +240,7 @@
             <label class="control-label" for="standardbetrag">Standardbetrag</label>
             <div class="controls">
                 <div class="input-append">
-                    <input class="input-180" type="text" id="standardbetrag" name="standardbetrag" placeholder="nn.nn" value="<?php if($this->entity): echo $this->entity['standardbetrag']; endif; ?>" />
+                    <input class="input-180" type="text" id="standardbetrag" name="standardbetrag" value="<?php if($this->entity): echo $this->entity['standardbetrag']; endif; ?>" />
                     <span class="add-on">&euro;</span>
                 </div>
                 <a class="icon_help" rel="popover" title="Standardbetrag" data-content="Dieser Betrag wird nur im WEB-Vorsystem zur Tagung erfasst. Es können  maximal 13 Vor- und 2 Nachkommastellen mit Dezimalkomma eingegeben werden. Der Wert wird bei der Teilnehmererfassung vorgeschlagen und kann überschrieben werden." ></a> 
@@ -255,7 +255,7 @@
             <div class="controls">
                 <div class="input-prepend">
                     <span class="add-on">02461 61 - </span>
-                    <input class="input-120" type="text" id="ansprechpartner_tel" name="ansprechpartner_tel" placeholder="nnnn" value="<?php if($this->entity): echo $this->entity['ansprechpartner_tel']; endif; ?>" />
+                    <input class="input-120" type="text" id="ansprechpartner_tel" name="ansprechpartner_tel" value="<?php if($this->entity): echo $this->entity['ansprechpartner_tel']; endif; ?>" />
                 </div>
                 <a class="icon_help" rel="popover" title="Telefon des AP" data-content="Die Telefonnummer des Ansprechpartners im Institut (Tagungsverantwortlichen) wird für Rückfragen auf dem Rechnungsformular ausgedruckt."></a> 
                 <?php showError($this->errors['ansprechpartner_tel']); ?>
@@ -266,7 +266,7 @@
             <label class="control-label" for="ansprechpartner_mail">Email des AP</label>
             <div class="controls">
                 <div class="input-append">
-                    <input class="input-100" type="text" id="ansprechpartner_mail" name="ansprechpartner_mail" placeholder="a.name" value="<?php if($this->entity): echo $this->entity['ansprechpartner_mail']; endif; ?>" />
+                    <input class="input-100" type="text" id="ansprechpartner_mail" name="ansprechpartner_mail" value="<?php if($this->entity): echo $this->entity['ansprechpartner_mail']; endif; ?>" />
                     <span class="add-on">@fz-juelich.de</span>
                 </div>
                 <a class="icon_help" rel="popover" title="Email des AP" data-content="Die Email-Adresse des Ansprechpartners im Institut (Tagungsverantwortlichen) wird hier erfasst. Im WEB-Vorsystem wird nur der Namensteil (ohne @fz-juelich.de) erfasst.  Hier wird die erfasste Adresse gegen das FZJ-LDAP-System auf Vorhandensein geprüft. Die Email-Adresse des Ansprechpartners im Institut wird für Rückfragen auf dem Rechnungsformular ausgedruckt." ></a>
@@ -278,7 +278,7 @@
     </div>
     <div class="span12">
     	<div class="half left">
-            <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</button>
+            <button type="submit" class="btn btn-blue"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/submit.png">Submit</button>
             <?php if(is_array($this->errors)): ?>
             <div class="alert page-error"><b>Es gibt Fehler!</b></div>
             <?php endif; ?>

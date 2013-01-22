@@ -6,11 +6,11 @@ class fab_frontend extends lw_plugin
     public function __construct()
     {
         lw_plugin::__construct();
-        $this->response->addHeaderItems('cssfile', $this->config['url']['client'].'assets/css/bootstrap.css');
-        $this->response->addHeaderItems('cssfile', $this->config['url']['client'].'assets/css/bootstrap-fileupload.min.css');
-        $this->response->addHeaderItems('jsfile', $this->config['url']['client'].'assets/js/jquery-1.8.3.min.js');
-        $this->response->addHeaderItems('jsfile', $this->config['url']['client'].'assets/js/bootstrap.min.js'); 
-        $this->response->addHeaderItems('jsfile', $this->config['url']['client'].'assets/js/bootstrap-fileupload.min.js');
+        $this->response->addHeaderItems('cssfile', $this->config['url']['media'].'bootstrap/css/bootstrap.css');
+        $this->response->addHeaderItems('cssfile', $this->config['url']['resource'].'projects/abbrechnungsmodul/Assets/css/bootstrap-fileupload.min.css');
+        $this->response->addHeaderItems('jsfile', $this->config['url']['media'].'jquery/jquery-1.9.0.min.js');
+        $this->response->addHeaderItems('jsfile', $this->config['url']['media'].'bootstrap/js/bootstrap.min.js'); 
+        $this->response->addHeaderItems('jsfile', $this->config['url']['resource'].'projects/abbrechnungsmodul/Assets/js/bootstrap-fileupload.min.js');
     }
     
     public function buildPageOutput()

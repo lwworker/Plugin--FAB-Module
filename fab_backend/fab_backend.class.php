@@ -5,10 +5,10 @@ class fab_backend extends lw_plugin
 
     public function __construct()
     {
-        lw_plugin::__construct();
-        $this->response->addHeaderItems('cssfile', $this->config['url']['client'].'assets/css/bootstrap.css');
-        $this->response->addHeaderItems('jsfile', $this->config['url']['client'].'assets/js/jquery-1.8.3.min.js');
-        $this->response->addHeaderItems('jsfile', $this->config['url']['client'].'assets/js/bootstrap.min.js');
+        lw_plugin::__construct();		
+        $this->response->addHeaderItems('cssfile', $this->config['url']['media'].'bootstrap/css/bootstrap.css');
+        $this->response->addHeaderItems('jsfile', $this->config['url']['media'].'jquery/jquery-1.9.0.min.js');
+        $this->response->addHeaderItems('jsfile', $this->config['url']['media'].'bootstrap/js/bootstrap.min.js'); 
     }
     
     public function buildPageOutput()

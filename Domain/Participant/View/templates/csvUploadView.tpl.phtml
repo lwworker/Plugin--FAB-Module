@@ -6,15 +6,15 @@
         </div>	
         <div class="control-bar">
         <!-- back button -->
-       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_client]assets/img/back.png"></a>         
+       	<a class="btn btn-icon" href="<?php echo $this->backUrl; ?>"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/back.png"></a>         
         <!-- submit button -->
-        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_client]assets/img/submit.png">Submit</a>
+        <a class="btn btn-blue" onclick="$('form').submit();"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/submit.png">Submit</a>
         <?php if(is_array($this->errors)): ?>
             <div class="alert page-error"><b>Es gibt Fehler!</b></div>
         <?php endif; ?>
         </div>
         <div class="user-bar">
-            <span class="user"><img src="[CONFIG:url_client]assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
+            <span class="user"><img src="[CONFIG:url_resource]projects/abbrechnungsmodul/Assets/img/login-user.png">&nbsp;&nbsp;<?php echo $this->sessionmail; ?></span>
             <a href="<?php echo $this->logoutUrl; ?>" class="logout"></a>
         </div>
     </div>
